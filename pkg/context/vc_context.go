@@ -15,6 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
 	pkglog "github.com/vmware-tanzu/vm-operator/pkg/log"
+	pkgnil "github.com/vmware-tanzu/vm-operator/pkg/util/nil"
 )
 
 type intRecIDContextKey uint8
@@ -64,7 +65,7 @@ func WithVCOpID(ctx context.Context, obj client.Object, operation string) contex
 
 	elems := make([]string, 0, 4)
 	elems = append(elems, "vmoperator")
-	if obj != nil {
+	if obj != nil && !pkgnil.IsNil(obj) {
 		elems = append(elems, obj.GetName())
 	}
 	elems = append(elems, operation, recID)
