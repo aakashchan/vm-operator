@@ -461,10 +461,19 @@ func (vs *vSphereVMProvider) PublishVirtualMachine(
 	ctx = logr.NewContext(ctx, logger)
 
 	vmCtx := pkgctx.NewVirtualMachineContext(
-		pkgctx.WithVCOpID(ctx, vm, "publishVM-"+actID),
+		pkgctx.WithVCOpID(ctx, vm, "publishVM"),
 		vm,
 	)
 	ctx = vmCtx.Context
+
+	// For CL publishing ensure the activation ID is at the end of the ID
+	// so we can correlate this underlying publish task.
+	id := ctx.Value(vimtypes.ID{})
+	if opID, ok := id.(string); ok {
+		opID += "-" + actID
+		ctx = context.WithValue(ctx, vimtypes.ID{}, opID)
+		vmCtx.Context = ctx
+	}
 
 	client, err := vs.getVcClient(ctx)
 	if err != nil {

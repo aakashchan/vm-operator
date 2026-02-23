@@ -19,14 +19,26 @@ import (
 var _ = Describe("WithVCOpID", func() {
 
 	It("nil object", func() {
-		ctx := pkgctx.WithVCOpID(context.Background(), nil, "nil")
+		ctx := pkgctx.WithVCOpID(context.Background(), nil, "nilobj")
 		recID, ok := pkgctx.InternalReconcileIDFromContext(ctx)
 		Expect(ok).To(BeTrue())
 		Expect(recID).To(Not(BeEmpty()))
 
 		id := ctx.Value(vimtypes.ID{})
 		Expect(id).ToNot(BeNil())
-		Expect(id.(string)).To(Equal("vmoperator-nil-" + recID))
+		Expect(id.(string)).To(Equal("vmoperator-nilobj-" + recID))
+	})
+
+	It("nil object vm", func() {
+		var vm *vmopv1.VirtualMachine
+		ctx := pkgctx.WithVCOpID(context.Background(), vm, "nilvm")
+		recID, ok := pkgctx.InternalReconcileIDFromContext(ctx)
+		Expect(ok).To(BeTrue())
+		Expect(recID).To(Not(BeEmpty()))
+
+		id := ctx.Value(vimtypes.ID{})
+		Expect(id).ToNot(BeNil())
+		Expect(id.(string)).To(Equal("vmoperator-nilvm-" + recID))
 	})
 
 	It("Generates internal reconcile ID", func() {
