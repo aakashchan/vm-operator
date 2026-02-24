@@ -10752,9 +10752,11 @@ spec:
                             properties:
                               fullName:
                                 description: FullName is the user's full name.
+                                minLength: 1
                                 type: string
                               orgName:
                                 description: OrgName is the name of the user's organization.
+                                minLength: 1
                                 type: string
                               productID:
                                 description: |-
