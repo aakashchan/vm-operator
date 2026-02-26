@@ -29,6 +29,9 @@ DNE = "DNE" # Does Not Exist
 
 [default]
 extend-ignore-re = [
+    # Because "importas" is an concatenation of "import as"
+    "importas",
+
     # Because we decided to call channel source a "cource"
     "[cC]ource",
     # VMIs
