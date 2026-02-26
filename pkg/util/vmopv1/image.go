@@ -21,7 +21,7 @@ import (
 
 	imgregv1a1 "github.com/vmware-tanzu/image-registry-operator-api/api/v1alpha1"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	pkgcnd "github.com/vmware-tanzu/vm-operator/pkg/conditions"
 	pkgconst "github.com/vmware-tanzu/vm-operator/pkg/constants"
 	pkgnil "github.com/vmware-tanzu/vm-operator/pkg/util/nil"

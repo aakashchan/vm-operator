@@ -180,6 +180,7 @@ nav:
     - v1alpha3: ref/api/v1alpha3.md
     - v1alpha4: ref/api/v1alpha4.md
     - v1alpha5: ref/api/v1alpha5.md
+    - v1alpha6: ref/api/v1alpha6.md
   - Configuration:
     - ref/config/README.md
     - Manager Pod: ref/config/manager.md

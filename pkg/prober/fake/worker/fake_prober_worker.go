@@ -10,7 +10,7 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	pkgcfg "github.com/vmware-tanzu/vm-operator/pkg/config"
 
 	proberctx "github.com/vmware-tanzu/vm-operator/pkg/prober/context"

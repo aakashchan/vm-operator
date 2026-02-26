@@ -7,7 +7,7 @@ package worker
 import (
 	"k8s.io/client-go/util/workqueue"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 
 	"github.com/vmware-tanzu/vm-operator/pkg/prober/context"
 	"github.com/vmware-tanzu/vm-operator/pkg/prober/probe"

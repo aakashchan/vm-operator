@@ -29,7 +29,7 @@ import (
 	pkgvol "github.com/vmware-tanzu/vm-operator/pkg/util/volumes"
 	"github.com/vmware-tanzu/vm-operator/pkg/vmconfig/crypto/internal"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 )
 
 type ptrCfgSpec = *vimtypes.VirtualMachineConfigSpec

@@ -17,8 +17,8 @@ import (
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
-	vmopv1sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha5/sysprep"
+	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
+	vmopv1sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha6/sysprep"
 	"github.com/vmware-tanzu/vm-operator/pkg/util/ptr"
 	"github.com/vmware-tanzu/vm-operator/pkg/util/sysprep"
 )

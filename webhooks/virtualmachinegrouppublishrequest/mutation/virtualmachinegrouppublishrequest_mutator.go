@@ -19,7 +19,7 @@ import (
 	ctrlmgr "sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	"github.com/vmware-tanzu/vm-operator/pkg/builder"
 	pkgctx "github.com/vmware-tanzu/vm-operator/pkg/context"
 	vmopv1util "github.com/vmware-tanzu/vm-operator/pkg/util/vmopv1"
@@ -30,7 +30,7 @@ const (
 	webHookName = "default"
 )
 
-// +kubebuilder:webhook:path=/default-mutate-vmoperator-vmware-com-v1alpha5-virtualmachinegrouppublishrequest,mutating=true,failurePolicy=fail,groups=vmoperator.vmware.com,resources=virtualmachinegrouppublishrequests,verbs=create,versions=v1alpha5,name=default.mutating.virtualmachinegrouppublishrequest.v1alpha5.vmoperator.vmware.com,sideEffects=None,admissionReviewVersions=v1;v1beta1
+// +kubebuilder:webhook:path=/default-mutate-vmoperator-vmware-com-v1alpha6-virtualmachinegrouppublishrequest,mutating=true,failurePolicy=fail,groups=vmoperator.vmware.com,resources=virtualmachinegrouppublishrequests,verbs=create,versions=v1alpha6,name=default.mutating.virtualmachinegrouppublishrequest.v1alpha6.vmoperator.vmware.com,sideEffects=None,admissionReviewVersions=v1;v1beta1
 // +kubebuilder:rbac:groups=vmoperator.vmware.com,resources=virtualmachinegrouppublishrequests,verbs=get;list;update
 // +kubebuilder:rbac:groups=imageregistry.vmware.com,resources=contentlibraries,verbs=get;list
 // +kubebuilder:rbac:groups=vmoperator.vmware.com,resources=virtualmachinegroups,verbs=get

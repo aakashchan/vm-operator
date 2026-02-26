@@ -20,7 +20,7 @@ A VirtualMachineGroup is a namespace-scoped Kubernetes resource that:
 A simple group that manages multiple VMs:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: my-application-group
@@ -40,7 +40,7 @@ spec:
 Define a startup sequence for multi-tier applications:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: three-tier-app
@@ -79,7 +79,7 @@ spec:
 VirtualMachines join a group by setting their `spec.groupName` field:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: app-server-1
@@ -170,7 +170,7 @@ When a VM belongs to a group:
 Groups can belong to other groups, creating hierarchies:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: database-tier
@@ -193,7 +193,7 @@ spec:
 ### Parent Group Example
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: parent-application-group
@@ -270,7 +270,7 @@ Each member reports these conditions:
 Manage complex applications with dependencies:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: e-commerce-platform
@@ -295,7 +295,7 @@ spec:
 Quick spin-up/down of complete dev stacks:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: dev-environment
@@ -316,7 +316,7 @@ spec:
 Coordinate failover scenarios:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: dr-site

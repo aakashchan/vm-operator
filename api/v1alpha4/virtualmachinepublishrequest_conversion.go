@@ -9,13 +9,13 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/vmware-tanzu/vm-operator/api/utilconversion"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 )
 
 // ConvertTo converts this VirtualMachinePublishRequest to the Hub version.
 func (src *VirtualMachinePublishRequest) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachinePublishRequest)
-	if err := Convert_v1alpha4_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(src, dst, nil); err != nil {
+	if err := Convert_v1alpha4_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(src, dst, nil); err != nil {
 		return err
 	}
 
@@ -32,17 +32,17 @@ func (src *VirtualMachinePublishRequest) ConvertTo(dstRaw ctrlconversion.Hub) er
 // ConvertFrom converts the hub version to this VirtualMachinePublishRequest.
 func (dst *VirtualMachinePublishRequest) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 	src := srcRaw.(*vmopv1.VirtualMachinePublishRequest)
-	if err := Convert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha4_VirtualMachinePublishRequest(src, dst, nil); err != nil {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha4_VirtualMachinePublishRequest(src, dst, nil); err != nil {
 		return err
 	}
 
 	return utilconversion.MarshalData(src, dst)
 }
 
-func Convert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha4_VirtualMachinePublishRequestSpec(
+func Convert_v1alpha6_VirtualMachinePublishRequestSpec_To_v1alpha4_VirtualMachinePublishRequestSpec(
 	in *vmopv1.VirtualMachinePublishRequestSpec, out *VirtualMachinePublishRequestSpec, s conversion.Scope) error {
 
-	if err := autoConvert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha4_VirtualMachinePublishRequestSpec(in, out, s); err != nil {
+	if err := autoConvert_v1alpha6_VirtualMachinePublishRequestSpec_To_v1alpha4_VirtualMachinePublishRequestSpec(in, out, s); err != nil {
 		return err
 	}
 

@@ -19,8 +19,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	"github.com/vmware-tanzu/vm-operator/api/v1alpha1"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
 	pkgcfg "github.com/vmware-tanzu/vm-operator/pkg/config"
 	"github.com/vmware-tanzu/vm-operator/pkg/constants"
 	"github.com/vmware-tanzu/vm-operator/pkg/constants/testlabels"

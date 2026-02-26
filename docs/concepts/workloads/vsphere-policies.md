@@ -170,7 +170,7 @@ status:
 Optional policies can be explicitly applied to a VM using the `spec.policies` field:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm

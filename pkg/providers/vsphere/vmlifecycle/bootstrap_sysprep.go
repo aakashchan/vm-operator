@@ -9,8 +9,8 @@ import (
 
 	vimtypes "github.com/vmware/govmomi/vim25/types"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	vmopv1sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha5/sysprep"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	vmopv1sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha6/sysprep"
 	pkgcfg "github.com/vmware-tanzu/vm-operator/pkg/config"
 	pkgconst "github.com/vmware-tanzu/vm-operator/pkg/constants"
 	pkgctx "github.com/vmware-tanzu/vm-operator/pkg/context"

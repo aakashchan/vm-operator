@@ -19,7 +19,7 @@ var suite = builder.NewTestSuiteForValidatingWebhookWithContext(
 	pkgcfg.NewContext(),
 	validation.AddToManager,
 	validation.NewValidator,
-	"default.validating.virtualmachine.v1alpha5.vmoperator.vmware.com")
+	"default.validating.virtualmachine.v1alpha6.vmoperator.vmware.com")
 
 func TestWebhook(t *testing.T) {
 	pkgcfg.SetContext(suite, func(config *pkgcfg.Config) {

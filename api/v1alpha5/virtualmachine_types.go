@@ -10,7 +10,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmopv1a5common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
 )
 
 const (
@@ -810,7 +810,7 @@ type VirtualMachineSpec struct {
 	// If a VM class has been modified and thus, the newly available
 	// VirtualMachineClassInstance can be specified in spec.class to
 	// trigger a resize operation.
-	Class *vmopv1common.LocalObjectRef `json:"class,omitempty"`
+	Class *vmopv1a5common.LocalObjectRef `json:"class,omitempty"`
 
 	// +optional
 
@@ -1239,7 +1239,7 @@ type VirtualMachineStatus struct {
 
 	// Class is a reference to the VirtualMachineClass resource used to deploy
 	// this VM.
-	Class *vmopv1common.LocalObjectRef `json:"class,omitempty"`
+	Class *vmopv1a5common.LocalObjectRef `json:"class,omitempty"`
 
 	// +optional
 
@@ -1366,7 +1366,6 @@ type VirtualMachineStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Namespaced,shortName=vm
-// +kubebuilder:storageversion
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Power-State",type="string",JSONPath=".status.powerState"
 // +kubebuilder:printcolumn:name="Class",type="string",priority=1,JSONPath=".spec.className"

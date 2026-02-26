@@ -18,8 +18,8 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/vmware-tanzu/vm-operator/api/utilconversion"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
 )
 
 const (
@@ -27,13 +27,13 @@ const (
 	bootDiskDeviceKey = 2000
 )
 
-func Convert_v1alpha5_PersistentVolumeClaimVolumeSource_To_v1alpha1_PersistentVolumeClaimVolumeSource(
+func Convert_v1alpha6_PersistentVolumeClaimVolumeSource_To_v1alpha1_PersistentVolumeClaimVolumeSource(
 	in *vmopv1.PersistentVolumeClaimVolumeSource, out *PersistentVolumeClaimVolumeSource, s apiconversion.Scope) error {
 
-	return autoConvert_v1alpha5_PersistentVolumeClaimVolumeSource_To_v1alpha1_PersistentVolumeClaimVolumeSource(in, out, s)
+	return autoConvert_v1alpha6_PersistentVolumeClaimVolumeSource_To_v1alpha1_PersistentVolumeClaimVolumeSource(in, out, s)
 }
 
-func Convert_v1alpha1_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(
+func Convert_v1alpha1_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(
 	in *VirtualMachineVolume, out *vmopv1.VirtualMachineVolume, s apiconversion.Scope) error {
 
 	if claim := in.PersistentVolumeClaim; claim != nil {
@@ -44,19 +44,19 @@ func Convert_v1alpha1_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(
 		if claim.InstanceVolumeClaim != nil {
 			out.PersistentVolumeClaim.InstanceVolumeClaim = &vmopv1.InstanceVolumeClaimVolumeSource{}
 
-			if err := Convert_v1alpha1_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource(
+			if err := Convert_v1alpha1_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource(
 				claim.InstanceVolumeClaim, out.PersistentVolumeClaim.InstanceVolumeClaim, s); err != nil {
 				return err
 			}
 		}
 	}
 
-	// NOTE: in.VsphereVolume is dropped in nextver. See restore_v1alpha5_VirtualMachineVolumes.
+	// NOTE: in.VsphereVolume is dropped in nextver. See restore_v1alpha6_VirtualMachineVolumes.
 
-	return autoConvert_v1alpha1_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(in, out, s)
+	return autoConvert_v1alpha1_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(in, out, s)
 }
 
-func convert_v1alpha1_VirtualMachinePowerState_To_v1alpha5_VirtualMachinePowerState(
+func convert_v1alpha1_VirtualMachinePowerState_To_v1alpha6_VirtualMachinePowerState(
 	in VirtualMachinePowerState) vmopv1.VirtualMachinePowerState {
 
 	switch in {
@@ -71,7 +71,7 @@ func convert_v1alpha1_VirtualMachinePowerState_To_v1alpha5_VirtualMachinePowerSt
 	return vmopv1.VirtualMachinePowerState(in)
 }
 
-func convert_v1alpha5_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(
+func convert_v1alpha6_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(
 	in vmopv1.VirtualMachinePowerState) VirtualMachinePowerState {
 
 	switch in {
@@ -86,7 +86,7 @@ func convert_v1alpha5_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerSt
 	return VirtualMachinePowerState(in)
 }
 
-func convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha5_VirtualMachinePowerOpMode(
+func convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha6_VirtualMachinePowerOpMode(
 	in VirtualMachinePowerOpMode) vmopv1.VirtualMachinePowerOpMode {
 
 	switch in {
@@ -101,7 +101,7 @@ func convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha5_VirtualMachinePowerO
 	return vmopv1.VirtualMachinePowerOpMode(in)
 }
 
-func convert_v1alpha5_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(
+func convert_v1alpha6_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(
 	in vmopv1.VirtualMachinePowerOpMode) VirtualMachinePowerOpMode {
 
 	switch in {
@@ -116,7 +116,7 @@ func convert_v1alpha5_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerO
 	return VirtualMachinePowerOpMode(in)
 }
 
-func convert_v1alpha5_Conditions_To_v1alpha1_Phase(
+func convert_v1alpha6_Conditions_To_v1alpha1_Phase(
 	in []metav1.Condition) VMStatusPhase {
 
 	// In practice, "Created" is the only really important value because some consumers
@@ -133,7 +133,7 @@ func convert_v1alpha5_Conditions_To_v1alpha1_Phase(
 	return Unknown
 }
 
-func Convert_v1alpha5_VirtualMachineVolume_To_v1alpha1_VirtualMachineVolume(
+func Convert_v1alpha6_VirtualMachineVolume_To_v1alpha1_VirtualMachineVolume(
 	in *vmopv1.VirtualMachineVolume, out *VirtualMachineVolume, s apiconversion.Scope) error {
 
 	if claim := in.PersistentVolumeClaim; claim != nil {
@@ -144,17 +144,17 @@ func Convert_v1alpha5_VirtualMachineVolume_To_v1alpha1_VirtualMachineVolume(
 		if claim.InstanceVolumeClaim != nil {
 			out.PersistentVolumeClaim.InstanceVolumeClaim = &InstanceVolumeClaimVolumeSource{}
 
-			if err := Convert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha1_InstanceVolumeClaimVolumeSource(
+			if err := Convert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha1_InstanceVolumeClaimVolumeSource(
 				claim.InstanceVolumeClaim, out.PersistentVolumeClaim.InstanceVolumeClaim, s); err != nil {
 				return err
 			}
 		}
 	}
 
-	return autoConvert_v1alpha5_VirtualMachineVolume_To_v1alpha1_VirtualMachineVolume(in, out, s)
+	return autoConvert_v1alpha6_VirtualMachineVolume_To_v1alpha1_VirtualMachineVolume(in, out, s)
 }
 
-func convert_v1alpha1_VmMetadata_To_v1alpha5_BootstrapSpec(
+func convert_v1alpha1_VmMetadata_To_v1alpha6_BootstrapSpec(
 	in *VirtualMachineMetadata) *vmopv1.VirtualMachineBootstrapSpec {
 
 	if in == nil || apiequality.Semantic.DeepEqual(*in, VirtualMachineMetadata{}) {
@@ -172,7 +172,7 @@ func convert_v1alpha1_VmMetadata_To_v1alpha5_BootstrapSpec(
 	case VirtualMachineMetadataExtraConfigTransport:
 		// This transport is obsolete. It should be combined with LinuxPrep but in nextver we don't
 		// allow CloudInit w/ LinuxPrep.
-		// out.LinuxPrep = &v1alpha5.VirtualMachineBootstrapLinuxPrepSpec{HardwareClockIsUTC: true}
+		// out.LinuxPrep = &v1alpha6.VirtualMachineBootstrapLinuxPrepSpec{HardwareClockIsUTC: true}
 
 		out.CloudInit = &vmopv1.VirtualMachineBootstrapCloudInitSpec{}
 		if objectName != "" {
@@ -213,7 +213,7 @@ func convert_v1alpha1_VmMetadata_To_v1alpha5_BootstrapSpec(
 	return &out
 }
 
-func convert_v1alpha5_BootstrapSpec_To_v1alpha1_VmMetadata(
+func convert_v1alpha6_BootstrapSpec_To_v1alpha1_VmMetadata(
 	in *vmopv1.VirtualMachineBootstrapSpec, annotations map[string]string) *VirtualMachineMetadata {
 
 	if in == nil || apiequality.Semantic.DeepEqual(*in, vmopv1.VirtualMachineBootstrapSpec{}) {
@@ -266,7 +266,7 @@ func convert_v1alpha5_BootstrapSpec_To_v1alpha1_VmMetadata(
 	return out
 }
 
-func convert_v1alpha1_NetworkInterface_To_v1alpha5_NetworkInterfaceSpec(
+func convert_v1alpha1_NetworkInterface_To_v1alpha6_NetworkInterfaceSpec(
 	idx int, in VirtualMachineNetworkInterface) vmopv1.VirtualMachineNetworkInterfaceSpec {
 
 	out := vmopv1.VirtualMachineNetworkInterfaceSpec{}
@@ -295,7 +295,7 @@ func convert_v1alpha1_NetworkInterface_To_v1alpha5_NetworkInterfaceSpec(
 	return out
 }
 
-func convert_v1alpha5_NetworkInterfaceSpec_To_v1alpha1_NetworkInterface(
+func convert_v1alpha6_NetworkInterfaceSpec_To_v1alpha1_NetworkInterface(
 	in vmopv1.VirtualMachineNetworkInterfaceSpec) VirtualMachineNetworkInterface {
 
 	if in.Network == nil {
@@ -320,8 +320,8 @@ func convert_v1alpha5_NetworkInterfaceSpec_To_v1alpha1_NetworkInterface(
 	return out
 }
 
-func Convert_v1alpha1_Probe_To_v1alpha5_VirtualMachineReadinessProbeSpec(in *Probe, out *vmopv1.VirtualMachineReadinessProbeSpec, s apiconversion.Scope) error {
-	probeSpec := convert_v1alpha1_Probe_To_v1alpha5_ReadinessProbeSpec(in)
+func Convert_v1alpha1_Probe_To_v1alpha6_VirtualMachineReadinessProbeSpec(in *Probe, out *vmopv1.VirtualMachineReadinessProbeSpec, s apiconversion.Scope) error {
+	probeSpec := convert_v1alpha1_Probe_To_v1alpha6_ReadinessProbeSpec(in)
 	if probeSpec != nil {
 		*out = *probeSpec
 	}
@@ -329,7 +329,7 @@ func Convert_v1alpha1_Probe_To_v1alpha5_VirtualMachineReadinessProbeSpec(in *Pro
 	return nil
 }
 
-func convert_v1alpha1_Probe_To_v1alpha5_ReadinessProbeSpec(in *Probe) *vmopv1.VirtualMachineReadinessProbeSpec {
+func convert_v1alpha1_Probe_To_v1alpha6_ReadinessProbeSpec(in *Probe) *vmopv1.VirtualMachineReadinessProbeSpec {
 
 	if in == nil || apiequality.Semantic.DeepEqual(*in, Probe{}) {
 		return nil
@@ -358,8 +358,8 @@ func convert_v1alpha1_Probe_To_v1alpha5_ReadinessProbeSpec(in *Probe) *vmopv1.Vi
 	return &out
 }
 
-func Convert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha1_Probe(in *vmopv1.VirtualMachineReadinessProbeSpec, out *Probe, s apiconversion.Scope) error {
-	probe := convert_v1alpha5_ReadinessProbeSpec_To_v1alpha1_Probe(in)
+func Convert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha1_Probe(in *vmopv1.VirtualMachineReadinessProbeSpec, out *Probe, s apiconversion.Scope) error {
+	probe := convert_v1alpha6_ReadinessProbeSpec_To_v1alpha1_Probe(in)
 	if probe != nil {
 		*out = *probe
 	}
@@ -367,7 +367,7 @@ func Convert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha1_Probe(in *vmo
 	return nil
 }
 
-func convert_v1alpha5_ReadinessProbeSpec_To_v1alpha1_Probe(in *vmopv1.VirtualMachineReadinessProbeSpec) *Probe {
+func convert_v1alpha6_ReadinessProbeSpec_To_v1alpha1_Probe(in *vmopv1.VirtualMachineReadinessProbeSpec) *Probe {
 
 	if in == nil || apiequality.Semantic.DeepEqual(*in, vmopv1.VirtualMachineReadinessProbeSpec{}) {
 		return nil
@@ -394,10 +394,10 @@ func convert_v1alpha5_ReadinessProbeSpec_To_v1alpha1_Probe(in *vmopv1.VirtualMac
 	return out
 }
 
-func convert_v1alpha1_VirtualMachineAdvancedOptions_To_v1alpha5_VirtualMachineAdvancedSpec(
+func convert_v1alpha1_VirtualMachineAdvancedOptions_To_v1alpha6_VirtualMachineAdvancedSpec(
 	in *VirtualMachineAdvancedOptions, inVolumes []VirtualMachineVolume) *vmopv1.VirtualMachineAdvancedSpec {
 
-	bootDiskCapacity := convert_v1alpha1_VsphereVolumes_To_v1alpha5_BootDiskCapacity(inVolumes)
+	bootDiskCapacity := convert_v1alpha1_VsphereVolumes_To_v1alpha6_BootDiskCapacity(inVolumes)
 
 	if (in == nil || apiequality.Semantic.DeepEqual(*in, VirtualMachineAdvancedOptions{})) && bootDiskCapacity == nil {
 		return nil
@@ -425,7 +425,7 @@ func convert_v1alpha1_VirtualMachineAdvancedOptions_To_v1alpha5_VirtualMachineAd
 	return &out
 }
 
-func convert_v1alpha1_VsphereVolumes_To_v1alpha5_BootDiskCapacity(volumes []VirtualMachineVolume) *resource.Quantity {
+func convert_v1alpha1_VsphereVolumes_To_v1alpha6_BootDiskCapacity(volumes []VirtualMachineVolume) *resource.Quantity {
 	// The v1a1 VsphereVolume was never a great API as you had to know the DeviceKey upfront; at the time our
 	// API was private - only used by CAPW - and predates the "VM Service" VMs; In nextver, we only support resizing
 	// the boot disk via an explicit field. As good as we can here, map v1a1 volume into the nextver specific field.
@@ -445,7 +445,7 @@ func convert_v1alpha1_VsphereVolumes_To_v1alpha5_BootDiskCapacity(volumes []Virt
 	return nil
 }
 
-func convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha1_VirtualMachineAdvancedOptions(
+func convert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha1_VirtualMachineAdvancedOptions(
 	in *vmopv1.VirtualMachineAdvancedSpec) *VirtualMachineAdvancedOptions {
 
 	if in == nil || apiequality.Semantic.DeepEqual(*in, vmopv1.VirtualMachineAdvancedSpec{}) {
@@ -478,7 +478,7 @@ func convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha1_VirtualMachineAdvan
 	return out
 }
 
-func convert_v1alpha5_BootDiskCapacity_To_v1alpha1_VirtualMachineVolume(capacity *resource.Quantity) *VirtualMachineVolume {
+func convert_v1alpha6_BootDiskCapacity_To_v1alpha1_VirtualMachineVolume(capacity *resource.Quantity) *VirtualMachineVolume {
 	if capacity == nil {
 		return nil
 	}
@@ -496,7 +496,7 @@ func convert_v1alpha5_BootDiskCapacity_To_v1alpha1_VirtualMachineVolume(capacity
 	}
 }
 
-func convert_v1alpha1_Network_To_v1alpha5_NetworkStatus(
+func convert_v1alpha1_Network_To_v1alpha6_NetworkStatus(
 	vmIP string, in []NetworkInterfaceStatus) *vmopv1.VirtualMachineNetworkStatus {
 
 	if vmIP == "" && len(in) == 0 {
@@ -532,7 +532,7 @@ func convert_v1alpha1_Network_To_v1alpha5_NetworkStatus(
 	return out
 }
 
-func convert_v1alpha5_NetworkStatus_To_v1alpha1_Network(
+func convert_v1alpha6_NetworkStatus_To_v1alpha1_Network(
 	in *vmopv1.VirtualMachineNetworkStatus) (string, []NetworkInterfaceStatus) {
 
 	if in == nil {
@@ -567,32 +567,32 @@ func convert_v1alpha5_NetworkStatus_To_v1alpha1_Network(
 	return vmIP, out
 }
 
-func Convert_v1alpha1_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(
+func Convert_v1alpha1_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(
 	in *VirtualMachineSpec, out *vmopv1.VirtualMachineSpec, s apiconversion.Scope) error {
 
 	// The generated auto convert will convert the power modes as-is strings which breaks things, so keep
 	// this first.
-	if err := autoConvert_v1alpha1_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(in, out, s); err != nil {
+	if err := autoConvert_v1alpha1_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(in, out, s); err != nil {
 		return err
 	}
 
-	out.PowerState = convert_v1alpha1_VirtualMachinePowerState_To_v1alpha5_VirtualMachinePowerState(in.PowerState)
-	out.PowerOffMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha5_VirtualMachinePowerOpMode(in.PowerOffMode)
-	out.SuspendMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha5_VirtualMachinePowerOpMode(in.SuspendMode)
+	out.PowerState = convert_v1alpha1_VirtualMachinePowerState_To_v1alpha6_VirtualMachinePowerState(in.PowerState)
+	out.PowerOffMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha6_VirtualMachinePowerOpMode(in.PowerOffMode)
+	out.SuspendMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha6_VirtualMachinePowerOpMode(in.SuspendMode)
 	out.NextRestartTime = in.NextRestartTime
-	out.RestartMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha5_VirtualMachinePowerOpMode(in.RestartMode)
-	out.Bootstrap = convert_v1alpha1_VmMetadata_To_v1alpha5_BootstrapSpec(in.VmMetadata)
+	out.RestartMode = convert_v1alpha1_VirtualMachinePowerOpMode_To_v1alpha6_VirtualMachinePowerOpMode(in.RestartMode)
+	out.Bootstrap = convert_v1alpha1_VmMetadata_To_v1alpha6_BootstrapSpec(in.VmMetadata)
 
 	if len(in.NetworkInterfaces) > 0 {
 		out.Network = &vmopv1.VirtualMachineNetworkSpec{}
 		for i, networkInterface := range in.NetworkInterfaces {
-			networkInterfaceSpec := convert_v1alpha1_NetworkInterface_To_v1alpha5_NetworkInterfaceSpec(i, networkInterface)
+			networkInterfaceSpec := convert_v1alpha1_NetworkInterface_To_v1alpha6_NetworkInterfaceSpec(i, networkInterface)
 			out.Network.Interfaces = append(out.Network.Interfaces, networkInterfaceSpec)
 		}
 	}
 
-	out.ReadinessProbe = convert_v1alpha1_Probe_To_v1alpha5_ReadinessProbeSpec(in.ReadinessProbe)
-	out.Advanced = convert_v1alpha1_VirtualMachineAdvancedOptions_To_v1alpha5_VirtualMachineAdvancedSpec(in.AdvancedOptions, in.Volumes)
+	out.ReadinessProbe = convert_v1alpha1_Probe_To_v1alpha6_ReadinessProbeSpec(in.ReadinessProbe)
+	out.Advanced = convert_v1alpha1_VirtualMachineAdvancedOptions_To_v1alpha6_VirtualMachineAdvancedSpec(in.AdvancedOptions, in.Volumes)
 
 	if in.ResourcePolicyName != "" {
 		if out.Reserved == nil {
@@ -607,36 +607,36 @@ func Convert_v1alpha1_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(
 	return nil
 }
 
-func Convert_v1alpha5_VirtualMachineSpec_To_v1alpha1_VirtualMachineSpec(
+func Convert_v1alpha6_VirtualMachineSpec_To_v1alpha1_VirtualMachineSpec(
 	in *vmopv1.VirtualMachineSpec, out *VirtualMachineSpec, s apiconversion.Scope) error {
 
-	if err := autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha1_VirtualMachineSpec(in, out, s); err != nil {
+	if err := autoConvert_v1alpha6_VirtualMachineSpec_To_v1alpha1_VirtualMachineSpec(in, out, s); err != nil {
 		return err
 	}
 
-	out.PowerState = convert_v1alpha5_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(in.PowerState)
-	out.PowerOffMode = convert_v1alpha5_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.PowerOffMode)
-	out.SuspendMode = convert_v1alpha5_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.SuspendMode)
+	out.PowerState = convert_v1alpha6_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(in.PowerState)
+	out.PowerOffMode = convert_v1alpha6_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.PowerOffMode)
+	out.SuspendMode = convert_v1alpha6_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.SuspendMode)
 	out.NextRestartTime = in.NextRestartTime
-	out.RestartMode = convert_v1alpha5_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.RestartMode)
+	out.RestartMode = convert_v1alpha6_VirtualMachinePowerOpMode_To_v1alpha1_VirtualMachinePowerOpMode(in.RestartMode)
 
 	if in.Network != nil {
 		out.NetworkInterfaces = make([]VirtualMachineNetworkInterface, 0, len(in.Network.Interfaces))
 		for _, networkInterfaceSpec := range in.Network.Interfaces {
-			networkInterface := convert_v1alpha5_NetworkInterfaceSpec_To_v1alpha1_NetworkInterface(networkInterfaceSpec)
+			networkInterface := convert_v1alpha6_NetworkInterfaceSpec_To_v1alpha1_NetworkInterface(networkInterfaceSpec)
 			out.NetworkInterfaces = append(out.NetworkInterfaces, networkInterface)
 		}
 	}
 
-	out.ReadinessProbe = convert_v1alpha5_ReadinessProbeSpec_To_v1alpha1_Probe(in.ReadinessProbe)
-	out.AdvancedOptions = convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha1_VirtualMachineAdvancedOptions(in.Advanced)
+	out.ReadinessProbe = convert_v1alpha6_ReadinessProbeSpec_To_v1alpha1_Probe(in.ReadinessProbe)
+	out.AdvancedOptions = convert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha1_VirtualMachineAdvancedOptions(in.Advanced)
 
 	if in.Reserved != nil {
 		out.ResourcePolicyName = in.Reserved.ResourcePolicyName
 	}
 
 	if in.Advanced != nil {
-		if bootDiskVol := convert_v1alpha5_BootDiskCapacity_To_v1alpha1_VirtualMachineVolume(in.Advanced.BootDiskCapacity); bootDiskVol != nil {
+		if bootDiskVol := convert_v1alpha6_BootDiskCapacity_To_v1alpha1_VirtualMachineVolume(in.Advanced.BootDiskCapacity); bootDiskVol != nil {
 			out.Volumes = append(out.Volumes, *bootDiskVol)
 		}
 	}
@@ -655,7 +655,7 @@ func Convert_v1alpha5_VirtualMachineSpec_To_v1alpha1_VirtualMachineSpec(
 	return nil
 }
 
-func Convert_v1alpha1_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(
+func Convert_v1alpha1_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(
 	in *VirtualMachineVolumeStatus, out *vmopv1.VirtualMachineVolumeStatus, s apiconversion.Scope) error {
 
 	out.DiskUUID = in.DiskUuid
@@ -663,26 +663,26 @@ func Convert_v1alpha1_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolum
 		out.Type = vmopv1.VolumeTypeManaged
 	}
 
-	return autoConvert_v1alpha1_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(in, out, s)
+	return autoConvert_v1alpha1_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(in, out, s)
 }
 
-func Convert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(
+func Convert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(
 	in *vmopv1.VirtualMachineVolumeStatus, out *VirtualMachineVolumeStatus, s apiconversion.Scope) error {
 
 	out.DiskUuid = in.DiskUUID
 
-	return autoConvert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(in, out, s)
+	return autoConvert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(in, out, s)
 }
 
-func Convert_v1alpha1_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(
+func Convert_v1alpha1_VirtualMachineStatus_To_v1alpha6_VirtualMachineStatus(
 	in *VirtualMachineStatus, out *vmopv1.VirtualMachineStatus, s apiconversion.Scope) error {
 
-	if err := autoConvert_v1alpha1_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(in, out, s); err != nil {
+	if err := autoConvert_v1alpha1_VirtualMachineStatus_To_v1alpha6_VirtualMachineStatus(in, out, s); err != nil {
 		return err
 	}
 
-	out.PowerState = convert_v1alpha1_VirtualMachinePowerState_To_v1alpha5_VirtualMachinePowerState(in.PowerState)
-	out.Network = convert_v1alpha1_Network_To_v1alpha5_NetworkStatus(in.VmIp, in.NetworkInterfaces)
+	out.PowerState = convert_v1alpha1_VirtualMachinePowerState_To_v1alpha6_VirtualMachinePowerState(in.PowerState)
+	out.Network = convert_v1alpha1_Network_To_v1alpha6_NetworkStatus(in.VmIp, in.NetworkInterfaces)
 	out.NodeName = in.Host
 
 	if in.HostName != "" {
@@ -697,7 +697,7 @@ func Convert_v1alpha1_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(
 	return nil
 }
 
-func translate_v1alpha5_Conditions_To_v1alpha1_Conditions(conditions []Condition) []Condition {
+func translate_v1alpha6_Conditions_To_v1alpha1_Conditions(conditions []Condition) []Condition {
 	var preReqCond, vmClassCond, vmImageCond, vmSetResourcePolicyCond, vmBootstrapCond *Condition
 
 	for i := range conditions {
@@ -779,18 +779,18 @@ func translate_v1alpha5_Conditions_To_v1alpha1_Conditions(conditions []Condition
 	return conditions
 }
 
-func Convert_v1alpha5_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(
+func Convert_v1alpha6_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(
 	in *vmopv1.VirtualMachineStatus, out *VirtualMachineStatus, s apiconversion.Scope) error {
 
-	if err := autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(in, out, s); err != nil {
+	if err := autoConvert_v1alpha6_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(in, out, s); err != nil {
 		return err
 	}
 
-	out.PowerState = convert_v1alpha5_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(in.PowerState)
-	out.Phase = convert_v1alpha5_Conditions_To_v1alpha1_Phase(in.Conditions)
-	out.VmIp, out.NetworkInterfaces = convert_v1alpha5_NetworkStatus_To_v1alpha1_Network(in.Network)
+	out.PowerState = convert_v1alpha6_VirtualMachinePowerState_To_v1alpha1_VirtualMachinePowerState(in.PowerState)
+	out.Phase = convert_v1alpha6_Conditions_To_v1alpha1_Phase(in.Conditions)
+	out.VmIp, out.NetworkInterfaces = convert_v1alpha6_NetworkStatus_To_v1alpha1_Network(in.Network)
 	out.LastRestartTime = in.LastRestartTime
-	out.Conditions = translate_v1alpha5_Conditions_To_v1alpha1_Conditions(out.Conditions)
+	out.Conditions = translate_v1alpha6_Conditions_To_v1alpha1_Conditions(out.Conditions)
 
 	out.Volumes = nil
 	for i := range in.Volumes {
@@ -798,7 +798,7 @@ func Convert_v1alpha5_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(
 
 			// Only down-convert volume statuses if the volume is managed.
 			var vol VirtualMachineVolumeStatus
-			if err := Convert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(
+			if err := Convert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha1_VirtualMachineVolumeStatus(
 				&in.Volumes[i], &vol, s); err != nil {
 				return err
 			}
@@ -818,20 +818,20 @@ func Convert_v1alpha5_VirtualMachineStatus_To_v1alpha1_VirtualMachineStatus(
 	return nil
 }
 
-func restore_v1alpha5_VirtualMachineGroupName(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineGroupName(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.GroupName = src.Spec.GroupName
 }
 
-func restore_v1alpha5_VirtualMachineCryptoSpec(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineCryptoSpec(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.Crypto = src.Spec.Crypto
 }
 
-func restore_v1alpha5_VirtualMachineImage(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineImage(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.Image = src.Spec.Image
 	dst.Spec.ImageName = src.Spec.ImageName
 }
 
-func restore_v1alpha5_VirtualMachineBootstrapSpec(
+func restore_v1alpha6_VirtualMachineBootstrapSpec(
 	dst, src *vmopv1.VirtualMachine) {
 
 	srcBootstrap := src.Spec.Bootstrap
@@ -843,7 +843,7 @@ func restore_v1alpha5_VirtualMachineBootstrapSpec(
 	dstBootstrap := dst.Spec.Bootstrap
 	if dstBootstrap == nil {
 		// v1a1 doesn't have a way to represent standalone LinuxPrep or Disabled.
-		// If we didn't do a conversion in convert_v1alpha1_VmMetadata_To_v1alpha5_BootstrapSpec()
+		// If we didn't do a conversion in convert_v1alpha1_VmMetadata_To_v1alpha6_BootstrapSpec()
 		// but we saved a LinuxPrep or Disabled in the conversion annotation, restore that here.
 		if srcBootstrap.LinuxPrep != nil || srcBootstrap.Disabled {
 			dst.Spec.Bootstrap = &vmopv1.VirtualMachineBootstrapSpec{
@@ -912,7 +912,7 @@ func restore_v1alpha5_VirtualMachineBootstrapSpec(
 	dstBootstrap.Disabled = srcBootstrap.Disabled
 }
 
-func restore_v1alpha5_VirtualMachineNetworkSpec(
+func restore_v1alpha6_VirtualMachineNetworkSpec(
 	dst, src *vmopv1.VirtualMachine) {
 
 	srcNetwork := src.Spec.Network
@@ -945,7 +945,7 @@ func restore_v1alpha5_VirtualMachineNetworkSpec(
 	dstNetwork.Interfaces = srcNetwork.Interfaces
 }
 
-func restore_v1alpha5_VirtualMachineReadinessProbeSpec(
+func restore_v1alpha6_VirtualMachineReadinessProbeSpec(
 	dst, src *vmopv1.VirtualMachine) {
 
 	if src.Spec.ReadinessProbe != nil {
@@ -956,15 +956,15 @@ func restore_v1alpha5_VirtualMachineReadinessProbeSpec(
 	}
 }
 
-func restore_v1alpha5_VirtualMachineInstanceUUID(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineInstanceUUID(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.InstanceUUID = src.Spec.InstanceUUID
 }
 
-func restore_v1alpha5_VirtualMachineBiosUUID(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineBiosUUID(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.BiosUUID = src.Spec.BiosUUID
 }
 
-func restore_v1alpha5_VirtualMachineBootstrapCloudInitInstanceID(
+func restore_v1alpha6_VirtualMachineBootstrapCloudInitInstanceID(
 	dst, src *vmopv1.VirtualMachine) {
 
 	var iid string
@@ -987,23 +987,23 @@ func restore_v1alpha5_VirtualMachineBootstrapCloudInitInstanceID(
 	dst.Spec.Bootstrap.CloudInit.InstanceID = iid
 }
 
-func restore_v1alpha5_VirtualMachineGuestID(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineGuestID(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.GuestID = src.Spec.GuestID
 }
 
-func restore_v1alpha5_VirtualMachinePromoteDisksMode(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachinePromoteDisksMode(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.PromoteDisksMode = src.Spec.PromoteDisksMode
 }
 
-func restore_v1alpha5_VirtualMachineBootOptions(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineBootOptions(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.BootOptions = src.Spec.BootOptions
 }
 
-func restore_v1alpha5_AffinitySpec(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_AffinitySpec(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.Affinity = src.Spec.Affinity
 }
 
-func restore_v1alpha5_VirtualMachineVolumes(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineVolumes(dst, src *vmopv1.VirtualMachine) {
 	srcVolMap := map[string]*vmopv1.VirtualMachineVolume{}
 	for i := range src.Spec.Volumes {
 		vol := &src.Spec.Volumes[i]
@@ -1039,7 +1039,7 @@ func restore_v1alpha5_VirtualMachineVolumes(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.Volumes = vols
 }
 
-func restore_v1alpha5_VirtualMachineHardware(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachineHardware(dst, src *vmopv1.VirtualMachine) {
 	if src.Spec.Hardware != nil {
 		dst.Spec.Hardware = src.Spec.Hardware.DeepCopy()
 	} else {
@@ -1047,7 +1047,7 @@ func restore_v1alpha5_VirtualMachineHardware(dst, src *vmopv1.VirtualMachine) {
 	}
 }
 
-func convert_v1alpha1_PreReqsReadyCondition_to_v1alpha5_Conditions(
+func convert_v1alpha1_PreReqsReadyCondition_to_v1alpha6_Conditions(
 	dst *vmopv1.VirtualMachine) []metav1.Condition {
 
 	var preReqCond, vmClassCond, vmImageCond, vmSetResourcePolicyCond, vmBootstrapCond *metav1.Condition
@@ -1185,13 +1185,13 @@ func convert_v1alpha1_PreReqsReadyCondition_to_v1alpha5_Conditions(
 	return append(dst.Status.Conditions, conditions...)
 }
 
-func Convert_v1alpha5_VirtualMachine_To_v1alpha1_VirtualMachine(in *vmopv1.VirtualMachine, out *VirtualMachine, s apiconversion.Scope) error {
-	if err := autoConvert_v1alpha5_VirtualMachine_To_v1alpha1_VirtualMachine(in, out, s); err != nil {
+func Convert_v1alpha6_VirtualMachine_To_v1alpha1_VirtualMachine(in *vmopv1.VirtualMachine, out *VirtualMachine, s apiconversion.Scope) error {
+	if err := autoConvert_v1alpha6_VirtualMachine_To_v1alpha1_VirtualMachine(in, out, s); err != nil {
 		return err
 	}
 
-	// v1alpha5 Bootstrap to v1alpha1 VMMetadata conversion also requires a specific annotation lookup
-	out.Spec.VmMetadata = convert_v1alpha5_BootstrapSpec_To_v1alpha1_VmMetadata(in.Spec.Bootstrap, in.GetAnnotations())
+	// v1alpha6 Bootstrap to v1alpha1 VMMetadata conversion also requires a specific annotation lookup
+	out.Spec.VmMetadata = convert_v1alpha6_BootstrapSpec_To_v1alpha1_VmMetadata(in.Spec.Bootstrap, in.GetAnnotations())
 	// Remove the v1a1 configmap vmMetadata annotation if present during down-conversion back to v1a1. This is only
 	// necessary for later versions that don't support configMap based bootstrap.
 	delete(out.Annotations, vmopv1.V1alpha1ConfigMapTransportAnnotation)
@@ -1212,8 +1212,8 @@ func Convert_v1alpha5_VirtualMachine_To_v1alpha1_VirtualMachine(in *vmopv1.Virtu
 	return nil
 }
 
-func Convert_v1alpha1_VirtualMachine_To_v1alpha5_VirtualMachine(in *VirtualMachine, out *vmopv1.VirtualMachine, s apiconversion.Scope) error {
-	if err := autoConvert_v1alpha1_VirtualMachine_To_v1alpha5_VirtualMachine(in, out, s); err != nil {
+func Convert_v1alpha1_VirtualMachine_To_v1alpha6_VirtualMachine(in *VirtualMachine, out *vmopv1.VirtualMachine, s apiconversion.Scope) error {
+	if err := autoConvert_v1alpha1_VirtualMachine_To_v1alpha6_VirtualMachine(in, out, s); err != nil {
 		return err
 	}
 
@@ -1271,14 +1271,14 @@ func Convert_v1alpha1_VirtualMachine_To_v1alpha5_VirtualMachine(in *VirtualMachi
 	return nil
 }
 
-func restore_v1alpha5_VirtualMachinePolicies(dst, src *vmopv1.VirtualMachine) {
+func restore_v1alpha6_VirtualMachinePolicies(dst, src *vmopv1.VirtualMachine) {
 	dst.Spec.Policies = slices.Clone(src.Spec.Policies)
 }
 
 // ConvertTo converts this VirtualMachine to the Hub version.
 func (src *VirtualMachine) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachine)
-	if err := Convert_v1alpha1_VirtualMachine_To_v1alpha5_VirtualMachine(src, dst, nil); err != nil {
+	if err := Convert_v1alpha1_VirtualMachine_To_v1alpha6_VirtualMachine(src, dst, nil); err != nil {
 		return err
 	}
 
@@ -1287,28 +1287,28 @@ func (src *VirtualMachine) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	if ok, err := utilconversion.UnmarshalData(src, restored); err != nil || !ok {
 		// If there is no nextver object to restore, this was originally a v1a1 VM
 		// Make sure the v1a1 PreReq conditions are translated over to nextver correctly
-		dst.Status.Conditions = convert_v1alpha1_PreReqsReadyCondition_to_v1alpha5_Conditions(dst)
+		dst.Status.Conditions = convert_v1alpha1_PreReqsReadyCondition_to_v1alpha6_Conditions(dst)
 		return err
 	}
 
 	// BEGIN RESTORE
 
-	restore_v1alpha5_VirtualMachineImage(dst, restored)
-	restore_v1alpha5_VirtualMachineBootstrapSpec(dst, restored)
-	restore_v1alpha5_VirtualMachineNetworkSpec(dst, restored)
-	restore_v1alpha5_VirtualMachineReadinessProbeSpec(dst, restored)
-	restore_v1alpha5_VirtualMachineBiosUUID(dst, restored)
-	restore_v1alpha5_VirtualMachineBootstrapCloudInitInstanceID(dst, restored)
-	restore_v1alpha5_VirtualMachineInstanceUUID(dst, restored)
-	restore_v1alpha5_VirtualMachineGuestID(dst, restored)
-	restore_v1alpha5_VirtualMachineCryptoSpec(dst, restored)
-	restore_v1alpha5_VirtualMachinePromoteDisksMode(dst, restored)
-	restore_v1alpha5_VirtualMachineBootOptions(dst, restored)
-	restore_v1alpha5_AffinitySpec(dst, restored)
-	restore_v1alpha5_VirtualMachineGroupName(dst, restored)
-	restore_v1alpha5_VirtualMachineVolumes(dst, restored)
-	restore_v1alpha5_VirtualMachineHardware(dst, restored)
-	restore_v1alpha5_VirtualMachinePolicies(dst, restored)
+	restore_v1alpha6_VirtualMachineImage(dst, restored)
+	restore_v1alpha6_VirtualMachineBootstrapSpec(dst, restored)
+	restore_v1alpha6_VirtualMachineNetworkSpec(dst, restored)
+	restore_v1alpha6_VirtualMachineReadinessProbeSpec(dst, restored)
+	restore_v1alpha6_VirtualMachineBiosUUID(dst, restored)
+	restore_v1alpha6_VirtualMachineBootstrapCloudInitInstanceID(dst, restored)
+	restore_v1alpha6_VirtualMachineInstanceUUID(dst, restored)
+	restore_v1alpha6_VirtualMachineGuestID(dst, restored)
+	restore_v1alpha6_VirtualMachineCryptoSpec(dst, restored)
+	restore_v1alpha6_VirtualMachinePromoteDisksMode(dst, restored)
+	restore_v1alpha6_VirtualMachineBootOptions(dst, restored)
+	restore_v1alpha6_AffinitySpec(dst, restored)
+	restore_v1alpha6_VirtualMachineGroupName(dst, restored)
+	restore_v1alpha6_VirtualMachineVolumes(dst, restored)
+	restore_v1alpha6_VirtualMachineHardware(dst, restored)
+	restore_v1alpha6_VirtualMachinePolicies(dst, restored)
 
 	// END RESTORE
 
@@ -1320,7 +1320,7 @@ func (src *VirtualMachine) ConvertTo(dstRaw ctrlconversion.Hub) error {
 // ConvertFrom converts the hub version to this VirtualMachine.
 func (dst *VirtualMachine) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 	src := srcRaw.(*vmopv1.VirtualMachine)
-	if err := Convert_v1alpha5_VirtualMachine_To_v1alpha1_VirtualMachine(src, dst, nil); err != nil {
+	if err := Convert_v1alpha6_VirtualMachine_To_v1alpha1_VirtualMachine(src, dst, nil); err != nil {
 		return err
 	}
 
@@ -1331,13 +1331,13 @@ func (dst *VirtualMachine) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 // ConvertTo converts this VirtualMachineList to the Hub version.
 func (src *VirtualMachineList) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachineList)
-	return Convert_v1alpha1_VirtualMachineList_To_v1alpha5_VirtualMachineList(src, dst, nil)
+	return Convert_v1alpha1_VirtualMachineList_To_v1alpha6_VirtualMachineList(src, dst, nil)
 }
 
 // ConvertFrom converts the hub version to this VirtualMachineList.
 func (dst *VirtualMachineList) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 	src := srcRaw.(*vmopv1.VirtualMachineList)
-	return Convert_v1alpha5_VirtualMachineList_To_v1alpha1_VirtualMachineList(src, dst, nil)
+	return Convert_v1alpha6_VirtualMachineList_To_v1alpha1_VirtualMachineList(src, dst, nil)
 }
 
 func ptrTo[T any](t T) *T {

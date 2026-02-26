@@ -10,7 +10,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	pkgcnd "github.com/vmware-tanzu/vm-operator/pkg/conditions"
 	pkgconst "github.com/vmware-tanzu/vm-operator/pkg/constants"
 )

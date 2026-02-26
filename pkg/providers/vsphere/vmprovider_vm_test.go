@@ -38,9 +38,9 @@ import (
 	"github.com/vmware/govmomi/vim25/mo"
 	vimtypes "github.com/vmware/govmomi/vim25/types"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	"github.com/vmware-tanzu/vm-operator/api/v1alpha5/cloudinit"
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	"github.com/vmware-tanzu/vm-operator/api/v1alpha6/cloudinit"
+	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
 	vspherepolv1 "github.com/vmware-tanzu/vm-operator/external/vsphere-policy/api/v1alpha1"
 	backupapi "github.com/vmware-tanzu/vm-operator/pkg/backup/api"
 	"github.com/vmware-tanzu/vm-operator/pkg/conditions"

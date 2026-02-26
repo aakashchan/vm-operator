@@ -8,7 +8,7 @@ import (
 	"context"
 	"time"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	proberctx "github.com/vmware-tanzu/vm-operator/pkg/prober/context"
 )
 

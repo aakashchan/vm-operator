@@ -20,7 +20,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	vmopv1a1 "github.com/vmware-tanzu/vm-operator/api/v1alpha1"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	"github.com/vmware-tanzu/vm-operator/controllers/virtualmachinewebconsolerequest/v1alpha1/patch"
 	pkgcfg "github.com/vmware-tanzu/vm-operator/pkg/config"
 	pkgctx "github.com/vmware-tanzu/vm-operator/pkg/context"

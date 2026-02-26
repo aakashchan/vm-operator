@@ -8,13 +8,13 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/vmware-tanzu/vm-operator/api/utilconversion"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 )
 
 // ConvertTo converts this VirtualMachineReplicaSet to the Hub version.
 func (src *VirtualMachineReplicaSet) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachineReplicaSet)
-	if err := Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(src, dst, nil); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(src, dst, nil); err != nil {
 		return err
 	}
 
@@ -32,7 +32,7 @@ func (src *VirtualMachineReplicaSet) ConvertTo(dstRaw ctrlconversion.Hub) error 
 // ConvertFrom converts the hub version to this VirtualMachineReplicaSet.
 func (dst *VirtualMachineReplicaSet) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 	src := srcRaw.(*vmopv1.VirtualMachineReplicaSet)
-	if err := Convert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(src, dst, nil); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(src, dst, nil); err != nil {
 		return err
 	}
 
@@ -43,11 +43,11 @@ func (dst *VirtualMachineReplicaSet) ConvertFrom(srcRaw ctrlconversion.Hub) erro
 // ConvertTo converts this VirtualMachineReplicaSetList to the Hub version.
 func (src *VirtualMachineReplicaSetList) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachineReplicaSetList)
-	return Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList(src, dst, nil)
+	return Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList(src, dst, nil)
 }
 
 // ConvertFrom converts the hub version to this VirtualMachineReplicaSetList.
 func (dst *VirtualMachineReplicaSetList) ConvertFrom(srcRaw ctrlconversion.Hub) error {
 	src := srcRaw.(*vmopv1.VirtualMachineReplicaSetList)
-	return Convert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(src, dst, nil)
+	return Convert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(src, dst, nil)
 }

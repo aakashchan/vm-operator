@@ -24,8 +24,8 @@ import (
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	vmopv1a1 "github.com/vmware-tanzu/vm-operator/api/v1alpha1"
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	vmopv1common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
 	spqv1 "github.com/vmware-tanzu/vm-operator/external/storage-policy-quota/api/v1alpha2"
 	topologyv1 "github.com/vmware-tanzu/vm-operator/external/tanzu-topology/api/v1alpha1"
 	cnsv1alpha1 "github.com/vmware-tanzu/vm-operator/external/vsphere-csi-driver/api/v1alpha1"

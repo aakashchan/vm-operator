@@ -17,7 +17,7 @@ import (
 	vimtypes "github.com/vmware/govmomi/vim25/types"
 	"k8s.io/apimachinery/pkg/util/sets"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	pkgctx "github.com/vmware-tanzu/vm-operator/pkg/context"
 	pkglog "github.com/vmware-tanzu/vm-operator/pkg/log"
 )
