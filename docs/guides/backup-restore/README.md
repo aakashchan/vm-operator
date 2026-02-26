@@ -565,7 +565,7 @@ After taking a backup, validate:
 - `vmoperator.vmware.com/v1alpha2`
 - `vmoperator.vmware.com/v1alpha3`
 - `vmoperator.vmware.com/v1alpha4`
-- `vmoperator.vmware.com/v1alpha5`
+- `vmoperator.vmware.com/v1alpha6`
 
 **Error**: `VCenterWcpWorkloadRegisterVMConvertUnstructuredToVMTypeFailed`
 
@@ -1430,7 +1430,7 @@ kubectl get cnsregistervolume -n <namespace> -o wide
 - `vmoperator.vmware.com/v1alpha2`
 - `vmoperator.vmware.com/v1alpha3`
 - `vmoperator.vmware.com/v1alpha4`
-- `vmoperator.vmware.com/v1alpha5`
+- `vmoperator.vmware.com/v1alpha6`
 
 ### 12.5 External Documentation
 

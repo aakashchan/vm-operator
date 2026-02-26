@@ -18,7 +18,7 @@ import (
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	vspherepolv1 "github.com/vmware-tanzu/vm-operator/external/vsphere-policy/api/v1alpha1"
 	"github.com/vmware-tanzu/vm-operator/pkg/conditions"
 	"github.com/vmware-tanzu/vm-operator/pkg/constants/testlabels"
@@ -1247,7 +1247,7 @@ var _ = Describe("PolicyEvalToVMToVMGroupMapperFunc", func() {
 			mapperFunc := vmopv1util.PolicyEvalToVMToVMGroupMapperFunc(ctx, k8sClient)
 			Expect(func() {
 				mapperFunc(ctx, wrongObj)
-			}).To(PanicWith("Expected PolicyEvaluation, but got *v1alpha5.VirtualMachine"))
+			}).To(PanicWith("Expected PolicyEvaluation, but got *v1alpha6.VirtualMachine"))
 		})
 	})
 })

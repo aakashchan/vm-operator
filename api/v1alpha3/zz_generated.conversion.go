@@ -16,14 +16,14 @@ import (
 	v1alpha3cloudinit "github.com/vmware-tanzu/vm-operator/api/v1alpha3/cloudinit"
 	v1alpha3common "github.com/vmware-tanzu/vm-operator/api/v1alpha3/common"
 	commonconversionv1alpha3 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/common/conversion/v1alpha3"
-	commonconversionv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/common/conversion/v1alpha5"
+	commonconversionv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/common/conversion/v1alpha6"
 	v1alpha3sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha3/sysprep"
 	conversionv1alpha3 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/sysprep/conversion/v1alpha3"
-	conversionv1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/sysprep/conversion/v1alpha5"
-	v1alpha5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
-	cloudinit "github.com/vmware-tanzu/vm-operator/api/v1alpha5/cloudinit"
-	common "github.com/vmware-tanzu/vm-operator/api/v1alpha5/common"
-	sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha5/sysprep"
+	conversionv1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha3/sysprep/conversion/v1alpha6"
+	v1alpha6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
+	cloudinit "github.com/vmware-tanzu/vm-operator/api/v1alpha6/cloudinit"
+	common "github.com/vmware-tanzu/vm-operator/api/v1alpha6/common"
+	sysprep "github.com/vmware-tanzu/vm-operator/api/v1alpha6/sysprep"
 	resource "k8s.io/apimachinery/pkg/api/resource"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
@@ -38,1310 +38,1310 @@ func init() {
 // RegisterConversions adds conversion functions to the given scheme.
 // Public to allow building arbitrary schemes.
 func RegisterConversions(s *runtime.Scheme) error {
-	if err := s.AddGeneratedConversionFunc((*AffinitySpec)(nil), (*v1alpha5.AffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_AffinitySpec_To_v1alpha5_AffinitySpec(a.(*AffinitySpec), b.(*v1alpha5.AffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*AffinitySpec)(nil), (*v1alpha6.AffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_AffinitySpec_To_v1alpha6_AffinitySpec(a.(*AffinitySpec), b.(*v1alpha6.AffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.AffinitySpec)(nil), (*AffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_AffinitySpec_To_v1alpha3_AffinitySpec(a.(*v1alpha5.AffinitySpec), b.(*AffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.AffinitySpec)(nil), (*AffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_AffinitySpec_To_v1alpha3_AffinitySpec(a.(*v1alpha6.AffinitySpec), b.(*AffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*ClusterVirtualMachineImage)(nil), (*v1alpha5.ClusterVirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(a.(*ClusterVirtualMachineImage), b.(*v1alpha5.ClusterVirtualMachineImage), scope)
+	if err := s.AddGeneratedConversionFunc((*ClusterVirtualMachineImage)(nil), (*v1alpha6.ClusterVirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(a.(*ClusterVirtualMachineImage), b.(*v1alpha6.ClusterVirtualMachineImage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.ClusterVirtualMachineImage)(nil), (*ClusterVirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(a.(*v1alpha5.ClusterVirtualMachineImage), b.(*ClusterVirtualMachineImage), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.ClusterVirtualMachineImage)(nil), (*ClusterVirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(a.(*v1alpha6.ClusterVirtualMachineImage), b.(*ClusterVirtualMachineImage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*ClusterVirtualMachineImageList)(nil), (*v1alpha5.ClusterVirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirtualMachineImageList(a.(*ClusterVirtualMachineImageList), b.(*v1alpha5.ClusterVirtualMachineImageList), scope)
+	if err := s.AddGeneratedConversionFunc((*ClusterVirtualMachineImageList)(nil), (*v1alpha6.ClusterVirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha6_ClusterVirtualMachineImageList(a.(*ClusterVirtualMachineImageList), b.(*v1alpha6.ClusterVirtualMachineImageList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.ClusterVirtualMachineImageList)(nil), (*ClusterVirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(a.(*v1alpha5.ClusterVirtualMachineImageList), b.(*ClusterVirtualMachineImageList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.ClusterVirtualMachineImageList)(nil), (*ClusterVirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(a.(*v1alpha6.ClusterVirtualMachineImageList), b.(*ClusterVirtualMachineImageList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*DynamicDirectPathIODevice)(nil), (*v1alpha5.DynamicDirectPathIODevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha5_DynamicDirectPathIODevice(a.(*DynamicDirectPathIODevice), b.(*v1alpha5.DynamicDirectPathIODevice), scope)
+	if err := s.AddGeneratedConversionFunc((*DynamicDirectPathIODevice)(nil), (*v1alpha6.DynamicDirectPathIODevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha6_DynamicDirectPathIODevice(a.(*DynamicDirectPathIODevice), b.(*v1alpha6.DynamicDirectPathIODevice), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.DynamicDirectPathIODevice)(nil), (*DynamicDirectPathIODevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(a.(*v1alpha5.DynamicDirectPathIODevice), b.(*DynamicDirectPathIODevice), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.DynamicDirectPathIODevice)(nil), (*DynamicDirectPathIODevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(a.(*v1alpha6.DynamicDirectPathIODevice), b.(*DynamicDirectPathIODevice), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*GroupMember)(nil), (*v1alpha5.GroupMember)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_GroupMember_To_v1alpha5_GroupMember(a.(*GroupMember), b.(*v1alpha5.GroupMember), scope)
+	if err := s.AddGeneratedConversionFunc((*GroupMember)(nil), (*v1alpha6.GroupMember)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_GroupMember_To_v1alpha6_GroupMember(a.(*GroupMember), b.(*v1alpha6.GroupMember), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.GroupMember)(nil), (*GroupMember)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_GroupMember_To_v1alpha3_GroupMember(a.(*v1alpha5.GroupMember), b.(*GroupMember), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.GroupMember)(nil), (*GroupMember)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_GroupMember_To_v1alpha3_GroupMember(a.(*v1alpha6.GroupMember), b.(*GroupMember), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*GuestHeartbeatAction)(nil), (*v1alpha5.GuestHeartbeatAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha5_GuestHeartbeatAction(a.(*GuestHeartbeatAction), b.(*v1alpha5.GuestHeartbeatAction), scope)
+	if err := s.AddGeneratedConversionFunc((*GuestHeartbeatAction)(nil), (*v1alpha6.GuestHeartbeatAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha6_GuestHeartbeatAction(a.(*GuestHeartbeatAction), b.(*v1alpha6.GuestHeartbeatAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.GuestHeartbeatAction)(nil), (*GuestHeartbeatAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(a.(*v1alpha5.GuestHeartbeatAction), b.(*GuestHeartbeatAction), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.GuestHeartbeatAction)(nil), (*GuestHeartbeatAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(a.(*v1alpha6.GuestHeartbeatAction), b.(*GuestHeartbeatAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*GuestInfoAction)(nil), (*v1alpha5.GuestInfoAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_GuestInfoAction_To_v1alpha5_GuestInfoAction(a.(*GuestInfoAction), b.(*v1alpha5.GuestInfoAction), scope)
+	if err := s.AddGeneratedConversionFunc((*GuestInfoAction)(nil), (*v1alpha6.GuestInfoAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_GuestInfoAction_To_v1alpha6_GuestInfoAction(a.(*GuestInfoAction), b.(*v1alpha6.GuestInfoAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.GuestInfoAction)(nil), (*GuestInfoAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_GuestInfoAction_To_v1alpha3_GuestInfoAction(a.(*v1alpha5.GuestInfoAction), b.(*GuestInfoAction), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.GuestInfoAction)(nil), (*GuestInfoAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_GuestInfoAction_To_v1alpha3_GuestInfoAction(a.(*v1alpha6.GuestInfoAction), b.(*GuestInfoAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*InstanceStorage)(nil), (*v1alpha5.InstanceStorage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage(a.(*InstanceStorage), b.(*v1alpha5.InstanceStorage), scope)
+	if err := s.AddGeneratedConversionFunc((*InstanceStorage)(nil), (*v1alpha6.InstanceStorage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage(a.(*InstanceStorage), b.(*v1alpha6.InstanceStorage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.InstanceStorage)(nil), (*InstanceStorage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage(a.(*v1alpha5.InstanceStorage), b.(*InstanceStorage), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.InstanceStorage)(nil), (*InstanceStorage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage(a.(*v1alpha6.InstanceStorage), b.(*InstanceStorage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*InstanceStorageVolume)(nil), (*v1alpha5.InstanceStorageVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_InstanceStorageVolume_To_v1alpha5_InstanceStorageVolume(a.(*InstanceStorageVolume), b.(*v1alpha5.InstanceStorageVolume), scope)
+	if err := s.AddGeneratedConversionFunc((*InstanceStorageVolume)(nil), (*v1alpha6.InstanceStorageVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_InstanceStorageVolume_To_v1alpha6_InstanceStorageVolume(a.(*InstanceStorageVolume), b.(*v1alpha6.InstanceStorageVolume), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.InstanceStorageVolume)(nil), (*InstanceStorageVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(a.(*v1alpha5.InstanceStorageVolume), b.(*InstanceStorageVolume), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.InstanceStorageVolume)(nil), (*InstanceStorageVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(a.(*v1alpha6.InstanceStorageVolume), b.(*InstanceStorageVolume), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*InstanceVolumeClaimVolumeSource)(nil), (*v1alpha5.InstanceVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource(a.(*InstanceVolumeClaimVolumeSource), b.(*v1alpha5.InstanceVolumeClaimVolumeSource), scope)
+	if err := s.AddGeneratedConversionFunc((*InstanceVolumeClaimVolumeSource)(nil), (*v1alpha6.InstanceVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource(a.(*InstanceVolumeClaimVolumeSource), b.(*v1alpha6.InstanceVolumeClaimVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.InstanceVolumeClaimVolumeSource)(nil), (*InstanceVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(a.(*v1alpha5.InstanceVolumeClaimVolumeSource), b.(*InstanceVolumeClaimVolumeSource), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.InstanceVolumeClaimVolumeSource)(nil), (*InstanceVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(a.(*v1alpha6.InstanceVolumeClaimVolumeSource), b.(*InstanceVolumeClaimVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*LoadBalancerIngress)(nil), (*v1alpha5.LoadBalancerIngress)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_LoadBalancerIngress_To_v1alpha5_LoadBalancerIngress(a.(*LoadBalancerIngress), b.(*v1alpha5.LoadBalancerIngress), scope)
+	if err := s.AddGeneratedConversionFunc((*LoadBalancerIngress)(nil), (*v1alpha6.LoadBalancerIngress)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_LoadBalancerIngress_To_v1alpha6_LoadBalancerIngress(a.(*LoadBalancerIngress), b.(*v1alpha6.LoadBalancerIngress), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.LoadBalancerIngress)(nil), (*LoadBalancerIngress)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(a.(*v1alpha5.LoadBalancerIngress), b.(*LoadBalancerIngress), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.LoadBalancerIngress)(nil), (*LoadBalancerIngress)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(a.(*v1alpha6.LoadBalancerIngress), b.(*LoadBalancerIngress), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*LoadBalancerStatus)(nil), (*v1alpha5.LoadBalancerStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus(a.(*LoadBalancerStatus), b.(*v1alpha5.LoadBalancerStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*LoadBalancerStatus)(nil), (*v1alpha6.LoadBalancerStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus(a.(*LoadBalancerStatus), b.(*v1alpha6.LoadBalancerStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.LoadBalancerStatus)(nil), (*LoadBalancerStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(a.(*v1alpha5.LoadBalancerStatus), b.(*LoadBalancerStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.LoadBalancerStatus)(nil), (*LoadBalancerStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(a.(*v1alpha6.LoadBalancerStatus), b.(*LoadBalancerStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*NetworkDeviceStatus)(nil), (*v1alpha5.NetworkDeviceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha5_NetworkDeviceStatus(a.(*NetworkDeviceStatus), b.(*v1alpha5.NetworkDeviceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*NetworkDeviceStatus)(nil), (*v1alpha6.NetworkDeviceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha6_NetworkDeviceStatus(a.(*NetworkDeviceStatus), b.(*v1alpha6.NetworkDeviceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.NetworkDeviceStatus)(nil), (*NetworkDeviceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(a.(*v1alpha5.NetworkDeviceStatus), b.(*NetworkDeviceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.NetworkDeviceStatus)(nil), (*NetworkDeviceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(a.(*v1alpha6.NetworkDeviceStatus), b.(*NetworkDeviceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*NetworkStatus)(nil), (*v1alpha5.NetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus(a.(*NetworkStatus), b.(*v1alpha5.NetworkStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*NetworkStatus)(nil), (*v1alpha6.NetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus(a.(*NetworkStatus), b.(*v1alpha6.NetworkStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.NetworkStatus)(nil), (*NetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus(a.(*v1alpha5.NetworkStatus), b.(*NetworkStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.NetworkStatus)(nil), (*NetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus(a.(*v1alpha6.NetworkStatus), b.(*NetworkStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*OVFProperty)(nil), (*v1alpha5.OVFProperty)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_OVFProperty_To_v1alpha5_OVFProperty(a.(*OVFProperty), b.(*v1alpha5.OVFProperty), scope)
+	if err := s.AddGeneratedConversionFunc((*OVFProperty)(nil), (*v1alpha6.OVFProperty)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_OVFProperty_To_v1alpha6_OVFProperty(a.(*OVFProperty), b.(*v1alpha6.OVFProperty), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.OVFProperty)(nil), (*OVFProperty)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_OVFProperty_To_v1alpha3_OVFProperty(a.(*v1alpha5.OVFProperty), b.(*OVFProperty), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.OVFProperty)(nil), (*OVFProperty)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_OVFProperty_To_v1alpha3_OVFProperty(a.(*v1alpha6.OVFProperty), b.(*OVFProperty), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*PersistentVolumeClaimVolumeSource)(nil), (*v1alpha5.PersistentVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource(a.(*PersistentVolumeClaimVolumeSource), b.(*v1alpha5.PersistentVolumeClaimVolumeSource), scope)
+	if err := s.AddGeneratedConversionFunc((*PersistentVolumeClaimVolumeSource)(nil), (*v1alpha6.PersistentVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource(a.(*PersistentVolumeClaimVolumeSource), b.(*v1alpha6.PersistentVolumeClaimVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*ResourcePoolSpec)(nil), (*v1alpha5.ResourcePoolSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec(a.(*ResourcePoolSpec), b.(*v1alpha5.ResourcePoolSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*ResourcePoolSpec)(nil), (*v1alpha6.ResourcePoolSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec(a.(*ResourcePoolSpec), b.(*v1alpha6.ResourcePoolSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.ResourcePoolSpec)(nil), (*ResourcePoolSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(a.(*v1alpha5.ResourcePoolSpec), b.(*ResourcePoolSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.ResourcePoolSpec)(nil), (*ResourcePoolSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(a.(*v1alpha6.ResourcePoolSpec), b.(*ResourcePoolSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*ResourcePoolStatus)(nil), (*v1alpha5.ResourcePoolStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_ResourcePoolStatus_To_v1alpha5_ResourcePoolStatus(a.(*ResourcePoolStatus), b.(*v1alpha5.ResourcePoolStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*ResourcePoolStatus)(nil), (*v1alpha6.ResourcePoolStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_ResourcePoolStatus_To_v1alpha6_ResourcePoolStatus(a.(*ResourcePoolStatus), b.(*v1alpha6.ResourcePoolStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.ResourcePoolStatus)(nil), (*ResourcePoolStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(a.(*v1alpha5.ResourcePoolStatus), b.(*ResourcePoolStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.ResourcePoolStatus)(nil), (*ResourcePoolStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(a.(*v1alpha6.ResourcePoolStatus), b.(*ResourcePoolStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*TCPSocketAction)(nil), (*v1alpha5.TCPSocketAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_TCPSocketAction_To_v1alpha5_TCPSocketAction(a.(*TCPSocketAction), b.(*v1alpha5.TCPSocketAction), scope)
+	if err := s.AddGeneratedConversionFunc((*TCPSocketAction)(nil), (*v1alpha6.TCPSocketAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_TCPSocketAction_To_v1alpha6_TCPSocketAction(a.(*TCPSocketAction), b.(*v1alpha6.TCPSocketAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.TCPSocketAction)(nil), (*TCPSocketAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_TCPSocketAction_To_v1alpha3_TCPSocketAction(a.(*v1alpha5.TCPSocketAction), b.(*TCPSocketAction), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.TCPSocketAction)(nil), (*TCPSocketAction)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_TCPSocketAction_To_v1alpha3_TCPSocketAction(a.(*v1alpha6.TCPSocketAction), b.(*TCPSocketAction), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VGPUDevice)(nil), (*v1alpha5.VGPUDevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VGPUDevice_To_v1alpha5_VGPUDevice(a.(*VGPUDevice), b.(*v1alpha5.VGPUDevice), scope)
+	if err := s.AddGeneratedConversionFunc((*VGPUDevice)(nil), (*v1alpha6.VGPUDevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VGPUDevice_To_v1alpha6_VGPUDevice(a.(*VGPUDevice), b.(*v1alpha6.VGPUDevice), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VGPUDevice)(nil), (*VGPUDevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VGPUDevice_To_v1alpha3_VGPUDevice(a.(*v1alpha5.VGPUDevice), b.(*VGPUDevice), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VGPUDevice)(nil), (*VGPUDevice)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VGPUDevice_To_v1alpha3_VGPUDevice(a.(*v1alpha6.VGPUDevice), b.(*VGPUDevice), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VMAffinitySpec)(nil), (*v1alpha5.VMAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VMAffinitySpec_To_v1alpha5_VMAffinitySpec(a.(*VMAffinitySpec), b.(*v1alpha5.VMAffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VMAffinitySpec)(nil), (*v1alpha6.VMAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VMAffinitySpec_To_v1alpha6_VMAffinitySpec(a.(*VMAffinitySpec), b.(*v1alpha6.VMAffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VMAffinitySpec)(nil), (*VMAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(a.(*v1alpha5.VMAffinitySpec), b.(*VMAffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VMAffinitySpec)(nil), (*VMAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(a.(*v1alpha6.VMAffinitySpec), b.(*VMAffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VMAffinityTerm)(nil), (*v1alpha5.VMAffinityTerm)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VMAffinityTerm_To_v1alpha5_VMAffinityTerm(a.(*VMAffinityTerm), b.(*v1alpha5.VMAffinityTerm), scope)
+	if err := s.AddGeneratedConversionFunc((*VMAffinityTerm)(nil), (*v1alpha6.VMAffinityTerm)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VMAffinityTerm_To_v1alpha6_VMAffinityTerm(a.(*VMAffinityTerm), b.(*v1alpha6.VMAffinityTerm), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VMAffinityTerm)(nil), (*VMAffinityTerm)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(a.(*v1alpha5.VMAffinityTerm), b.(*VMAffinityTerm), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VMAffinityTerm)(nil), (*VMAffinityTerm)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(a.(*v1alpha6.VMAffinityTerm), b.(*VMAffinityTerm), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VMAntiAffinitySpec)(nil), (*v1alpha5.VMAntiAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha5_VMAntiAffinitySpec(a.(*VMAntiAffinitySpec), b.(*v1alpha5.VMAntiAffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VMAntiAffinitySpec)(nil), (*v1alpha6.VMAntiAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha6_VMAntiAffinitySpec(a.(*VMAntiAffinitySpec), b.(*v1alpha6.VMAntiAffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VMAntiAffinitySpec)(nil), (*VMAntiAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(a.(*v1alpha5.VMAntiAffinitySpec), b.(*VMAntiAffinitySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VMAntiAffinitySpec)(nil), (*VMAntiAffinitySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(a.(*v1alpha6.VMAntiAffinitySpec), b.(*VMAntiAffinitySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VSphereClusterModuleStatus)(nil), (*v1alpha5.VSphereClusterModuleStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha5_VSphereClusterModuleStatus(a.(*VSphereClusterModuleStatus), b.(*v1alpha5.VSphereClusterModuleStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VSphereClusterModuleStatus)(nil), (*v1alpha6.VSphereClusterModuleStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha6_VSphereClusterModuleStatus(a.(*VSphereClusterModuleStatus), b.(*v1alpha6.VSphereClusterModuleStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VSphereClusterModuleStatus)(nil), (*VSphereClusterModuleStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(a.(*v1alpha5.VSphereClusterModuleStatus), b.(*VSphereClusterModuleStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VSphereClusterModuleStatus)(nil), (*VSphereClusterModuleStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(a.(*v1alpha6.VSphereClusterModuleStatus), b.(*VSphereClusterModuleStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualDevices)(nil), (*v1alpha5.VirtualDevices)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices(a.(*VirtualDevices), b.(*v1alpha5.VirtualDevices), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualDevices)(nil), (*v1alpha6.VirtualDevices)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices(a.(*VirtualDevices), b.(*v1alpha6.VirtualDevices), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualDevices)(nil), (*VirtualDevices)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices(a.(*v1alpha5.VirtualDevices), b.(*VirtualDevices), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualDevices)(nil), (*VirtualDevices)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices(a.(*v1alpha6.VirtualDevices), b.(*VirtualDevices), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachine)(nil), (*v1alpha5.VirtualMachine)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(a.(*VirtualMachine), b.(*v1alpha5.VirtualMachine), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachine)(nil), (*v1alpha6.VirtualMachine)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(a.(*VirtualMachine), b.(*v1alpha6.VirtualMachine), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachine)(nil), (*VirtualMachine)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(a.(*v1alpha5.VirtualMachine), b.(*VirtualMachine), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachine)(nil), (*VirtualMachine)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(a.(*v1alpha6.VirtualMachine), b.(*VirtualMachine), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineAdvancedSpec)(nil), (*v1alpha5.VirtualMachineAdvancedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha5_VirtualMachineAdvancedSpec(a.(*VirtualMachineAdvancedSpec), b.(*v1alpha5.VirtualMachineAdvancedSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineAdvancedSpec)(nil), (*v1alpha6.VirtualMachineAdvancedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha6_VirtualMachineAdvancedSpec(a.(*VirtualMachineAdvancedSpec), b.(*v1alpha6.VirtualMachineAdvancedSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineAdvancedSpec)(nil), (*VirtualMachineAdvancedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(a.(*v1alpha5.VirtualMachineAdvancedSpec), b.(*VirtualMachineAdvancedSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineAdvancedSpec)(nil), (*VirtualMachineAdvancedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(a.(*v1alpha6.VirtualMachineAdvancedSpec), b.(*VirtualMachineAdvancedSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapCloudInitSpec)(nil), (*v1alpha5.VirtualMachineBootstrapCloudInitSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec(a.(*VirtualMachineBootstrapCloudInitSpec), b.(*v1alpha5.VirtualMachineBootstrapCloudInitSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapCloudInitSpec)(nil), (*v1alpha6.VirtualMachineBootstrapCloudInitSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec(a.(*VirtualMachineBootstrapCloudInitSpec), b.(*v1alpha6.VirtualMachineBootstrapCloudInitSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapLinuxPrepSpec)(nil), (*v1alpha5.VirtualMachineBootstrapLinuxPrepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec(a.(*VirtualMachineBootstrapLinuxPrepSpec), b.(*v1alpha5.VirtualMachineBootstrapLinuxPrepSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapLinuxPrepSpec)(nil), (*v1alpha6.VirtualMachineBootstrapLinuxPrepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec(a.(*VirtualMachineBootstrapLinuxPrepSpec), b.(*v1alpha6.VirtualMachineBootstrapLinuxPrepSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapSpec)(nil), (*v1alpha5.VirtualMachineBootstrapSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(a.(*VirtualMachineBootstrapSpec), b.(*v1alpha5.VirtualMachineBootstrapSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapSpec)(nil), (*v1alpha6.VirtualMachineBootstrapSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec(a.(*VirtualMachineBootstrapSpec), b.(*v1alpha6.VirtualMachineBootstrapSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapSysprepSpec)(nil), (*v1alpha5.VirtualMachineBootstrapSysprepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec(a.(*VirtualMachineBootstrapSysprepSpec), b.(*v1alpha5.VirtualMachineBootstrapSysprepSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapSysprepSpec)(nil), (*v1alpha6.VirtualMachineBootstrapSysprepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec(a.(*VirtualMachineBootstrapSysprepSpec), b.(*v1alpha6.VirtualMachineBootstrapSysprepSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapVAppConfigSpec)(nil), (*v1alpha5.VirtualMachineBootstrapVAppConfigSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha5_VirtualMachineBootstrapVAppConfigSpec(a.(*VirtualMachineBootstrapVAppConfigSpec), b.(*v1alpha5.VirtualMachineBootstrapVAppConfigSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineBootstrapVAppConfigSpec)(nil), (*v1alpha6.VirtualMachineBootstrapVAppConfigSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha6_VirtualMachineBootstrapVAppConfigSpec(a.(*VirtualMachineBootstrapVAppConfigSpec), b.(*v1alpha6.VirtualMachineBootstrapVAppConfigSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineBootstrapVAppConfigSpec)(nil), (*VirtualMachineBootstrapVAppConfigSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(a.(*v1alpha5.VirtualMachineBootstrapVAppConfigSpec), b.(*VirtualMachineBootstrapVAppConfigSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineBootstrapVAppConfigSpec)(nil), (*VirtualMachineBootstrapVAppConfigSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(a.(*v1alpha6.VirtualMachineBootstrapVAppConfigSpec), b.(*VirtualMachineBootstrapVAppConfigSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClass)(nil), (*v1alpha5.VirtualMachineClass)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(a.(*VirtualMachineClass), b.(*v1alpha5.VirtualMachineClass), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClass)(nil), (*v1alpha6.VirtualMachineClass)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClass_To_v1alpha6_VirtualMachineClass(a.(*VirtualMachineClass), b.(*v1alpha6.VirtualMachineClass), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClass)(nil), (*VirtualMachineClass)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(a.(*v1alpha5.VirtualMachineClass), b.(*VirtualMachineClass), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClass)(nil), (*VirtualMachineClass)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(a.(*v1alpha6.VirtualMachineClass), b.(*VirtualMachineClass), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassHardware)(nil), (*v1alpha5.VirtualMachineClassHardware)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware(a.(*VirtualMachineClassHardware), b.(*v1alpha5.VirtualMachineClassHardware), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassHardware)(nil), (*v1alpha6.VirtualMachineClassHardware)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware(a.(*VirtualMachineClassHardware), b.(*v1alpha6.VirtualMachineClassHardware), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassHardware)(nil), (*VirtualMachineClassHardware)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(a.(*v1alpha5.VirtualMachineClassHardware), b.(*VirtualMachineClassHardware), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassHardware)(nil), (*VirtualMachineClassHardware)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(a.(*v1alpha6.VirtualMachineClassHardware), b.(*VirtualMachineClassHardware), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassList)(nil), (*v1alpha5.VirtualMachineClassList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassList_To_v1alpha5_VirtualMachineClassList(a.(*VirtualMachineClassList), b.(*v1alpha5.VirtualMachineClassList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassList)(nil), (*v1alpha6.VirtualMachineClassList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassList_To_v1alpha6_VirtualMachineClassList(a.(*VirtualMachineClassList), b.(*v1alpha6.VirtualMachineClassList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassList)(nil), (*VirtualMachineClassList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(a.(*v1alpha5.VirtualMachineClassList), b.(*VirtualMachineClassList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassList)(nil), (*VirtualMachineClassList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(a.(*v1alpha6.VirtualMachineClassList), b.(*VirtualMachineClassList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassPolicies)(nil), (*v1alpha5.VirtualMachineClassPolicies)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies(a.(*VirtualMachineClassPolicies), b.(*v1alpha5.VirtualMachineClassPolicies), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassPolicies)(nil), (*v1alpha6.VirtualMachineClassPolicies)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies(a.(*VirtualMachineClassPolicies), b.(*v1alpha6.VirtualMachineClassPolicies), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassPolicies)(nil), (*VirtualMachineClassPolicies)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(a.(*v1alpha5.VirtualMachineClassPolicies), b.(*VirtualMachineClassPolicies), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassPolicies)(nil), (*VirtualMachineClassPolicies)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(a.(*v1alpha6.VirtualMachineClassPolicies), b.(*VirtualMachineClassPolicies), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassResources)(nil), (*v1alpha5.VirtualMachineClassResources)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources(a.(*VirtualMachineClassResources), b.(*v1alpha5.VirtualMachineClassResources), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassResources)(nil), (*v1alpha6.VirtualMachineClassResources)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources(a.(*VirtualMachineClassResources), b.(*v1alpha6.VirtualMachineClassResources), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassResources)(nil), (*VirtualMachineClassResources)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(a.(*v1alpha5.VirtualMachineClassResources), b.(*VirtualMachineClassResources), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassResources)(nil), (*VirtualMachineClassResources)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(a.(*v1alpha6.VirtualMachineClassResources), b.(*VirtualMachineClassResources), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassSpec)(nil), (*v1alpha5.VirtualMachineClassSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec(a.(*VirtualMachineClassSpec), b.(*v1alpha5.VirtualMachineClassSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassSpec)(nil), (*v1alpha6.VirtualMachineClassSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec(a.(*VirtualMachineClassSpec), b.(*v1alpha6.VirtualMachineClassSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassSpec)(nil), (*VirtualMachineClassSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(a.(*v1alpha5.VirtualMachineClassSpec), b.(*VirtualMachineClassSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassSpec)(nil), (*VirtualMachineClassSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(a.(*v1alpha6.VirtualMachineClassSpec), b.(*VirtualMachineClassSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassStatus)(nil), (*v1alpha5.VirtualMachineClassStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus(a.(*VirtualMachineClassStatus), b.(*v1alpha5.VirtualMachineClassStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineClassStatus)(nil), (*v1alpha6.VirtualMachineClassStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus(a.(*VirtualMachineClassStatus), b.(*v1alpha6.VirtualMachineClassStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineClassStatus)(nil), (*VirtualMachineClassStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(a.(*v1alpha5.VirtualMachineClassStatus), b.(*VirtualMachineClassStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineClassStatus)(nil), (*VirtualMachineClassStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(a.(*v1alpha6.VirtualMachineClassStatus), b.(*VirtualMachineClassStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineCryptoSpec)(nil), (*v1alpha5.VirtualMachineCryptoSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec(a.(*VirtualMachineCryptoSpec), b.(*v1alpha5.VirtualMachineCryptoSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineCryptoSpec)(nil), (*v1alpha6.VirtualMachineCryptoSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec(a.(*VirtualMachineCryptoSpec), b.(*v1alpha6.VirtualMachineCryptoSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineCryptoStatus)(nil), (*v1alpha5.VirtualMachineCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus(a.(*VirtualMachineCryptoStatus), b.(*v1alpha5.VirtualMachineCryptoStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineCryptoStatus)(nil), (*v1alpha6.VirtualMachineCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus(a.(*VirtualMachineCryptoStatus), b.(*v1alpha6.VirtualMachineCryptoStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroup)(nil), (*v1alpha5.VirtualMachineGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroup_To_v1alpha5_VirtualMachineGroup(a.(*VirtualMachineGroup), b.(*v1alpha5.VirtualMachineGroup), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroup)(nil), (*v1alpha6.VirtualMachineGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroup_To_v1alpha6_VirtualMachineGroup(a.(*VirtualMachineGroup), b.(*v1alpha6.VirtualMachineGroup), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroup)(nil), (*VirtualMachineGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(a.(*v1alpha5.VirtualMachineGroup), b.(*VirtualMachineGroup), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroup)(nil), (*VirtualMachineGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(a.(*v1alpha6.VirtualMachineGroup), b.(*VirtualMachineGroup), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupBootOrderGroup)(nil), (*v1alpha5.VirtualMachineGroupBootOrderGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha5_VirtualMachineGroupBootOrderGroup(a.(*VirtualMachineGroupBootOrderGroup), b.(*v1alpha5.VirtualMachineGroupBootOrderGroup), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupBootOrderGroup)(nil), (*v1alpha6.VirtualMachineGroupBootOrderGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha6_VirtualMachineGroupBootOrderGroup(a.(*VirtualMachineGroupBootOrderGroup), b.(*v1alpha6.VirtualMachineGroupBootOrderGroup), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupBootOrderGroup)(nil), (*VirtualMachineGroupBootOrderGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(a.(*v1alpha5.VirtualMachineGroupBootOrderGroup), b.(*VirtualMachineGroupBootOrderGroup), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupBootOrderGroup)(nil), (*VirtualMachineGroupBootOrderGroup)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(a.(*v1alpha6.VirtualMachineGroupBootOrderGroup), b.(*VirtualMachineGroupBootOrderGroup), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupList)(nil), (*v1alpha5.VirtualMachineGroupList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha5_VirtualMachineGroupList(a.(*VirtualMachineGroupList), b.(*v1alpha5.VirtualMachineGroupList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupList)(nil), (*v1alpha6.VirtualMachineGroupList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha6_VirtualMachineGroupList(a.(*VirtualMachineGroupList), b.(*v1alpha6.VirtualMachineGroupList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupList)(nil), (*VirtualMachineGroupList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(a.(*v1alpha5.VirtualMachineGroupList), b.(*VirtualMachineGroupList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupList)(nil), (*VirtualMachineGroupList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(a.(*v1alpha6.VirtualMachineGroupList), b.(*VirtualMachineGroupList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupMemberStatus)(nil), (*v1alpha5.VirtualMachineGroupMemberStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha5_VirtualMachineGroupMemberStatus(a.(*VirtualMachineGroupMemberStatus), b.(*v1alpha5.VirtualMachineGroupMemberStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupMemberStatus)(nil), (*v1alpha6.VirtualMachineGroupMemberStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha6_VirtualMachineGroupMemberStatus(a.(*VirtualMachineGroupMemberStatus), b.(*v1alpha6.VirtualMachineGroupMemberStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupMemberStatus)(nil), (*VirtualMachineGroupMemberStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(a.(*v1alpha5.VirtualMachineGroupMemberStatus), b.(*VirtualMachineGroupMemberStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupMemberStatus)(nil), (*VirtualMachineGroupMemberStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(a.(*v1alpha6.VirtualMachineGroupMemberStatus), b.(*VirtualMachineGroupMemberStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupPlacementDatastoreStatus)(nil), (*v1alpha5.VirtualMachineGroupPlacementDatastoreStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus(a.(*VirtualMachineGroupPlacementDatastoreStatus), b.(*v1alpha5.VirtualMachineGroupPlacementDatastoreStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupPlacementDatastoreStatus)(nil), (*v1alpha6.VirtualMachineGroupPlacementDatastoreStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus(a.(*VirtualMachineGroupPlacementDatastoreStatus), b.(*v1alpha6.VirtualMachineGroupPlacementDatastoreStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupPlacementDatastoreStatus)(nil), (*VirtualMachineGroupPlacementDatastoreStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(a.(*v1alpha5.VirtualMachineGroupPlacementDatastoreStatus), b.(*VirtualMachineGroupPlacementDatastoreStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupPlacementDatastoreStatus)(nil), (*VirtualMachineGroupPlacementDatastoreStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(a.(*v1alpha6.VirtualMachineGroupPlacementDatastoreStatus), b.(*VirtualMachineGroupPlacementDatastoreStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupSpec)(nil), (*v1alpha5.VirtualMachineGroupSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec(a.(*VirtualMachineGroupSpec), b.(*v1alpha5.VirtualMachineGroupSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupSpec)(nil), (*v1alpha6.VirtualMachineGroupSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec(a.(*VirtualMachineGroupSpec), b.(*v1alpha6.VirtualMachineGroupSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupSpec)(nil), (*VirtualMachineGroupSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(a.(*v1alpha5.VirtualMachineGroupSpec), b.(*VirtualMachineGroupSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupSpec)(nil), (*VirtualMachineGroupSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(a.(*v1alpha6.VirtualMachineGroupSpec), b.(*VirtualMachineGroupSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupStatus)(nil), (*v1alpha5.VirtualMachineGroupStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus(a.(*VirtualMachineGroupStatus), b.(*v1alpha5.VirtualMachineGroupStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineGroupStatus)(nil), (*v1alpha6.VirtualMachineGroupStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus(a.(*VirtualMachineGroupStatus), b.(*v1alpha6.VirtualMachineGroupStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineGroupStatus)(nil), (*VirtualMachineGroupStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(a.(*v1alpha5.VirtualMachineGroupStatus), b.(*VirtualMachineGroupStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineGroupStatus)(nil), (*VirtualMachineGroupStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(a.(*v1alpha6.VirtualMachineGroupStatus), b.(*VirtualMachineGroupStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImage)(nil), (*v1alpha5.VirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(a.(*VirtualMachineImage), b.(*v1alpha5.VirtualMachineImage), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImage)(nil), (*v1alpha6.VirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(a.(*VirtualMachineImage), b.(*v1alpha6.VirtualMachineImage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImage)(nil), (*VirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(a.(*v1alpha5.VirtualMachineImage), b.(*VirtualMachineImage), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImage)(nil), (*VirtualMachineImage)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(a.(*v1alpha6.VirtualMachineImage), b.(*VirtualMachineImage), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCache)(nil), (*v1alpha5.VirtualMachineImageCache)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha5_VirtualMachineImageCache(a.(*VirtualMachineImageCache), b.(*v1alpha5.VirtualMachineImageCache), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCache)(nil), (*v1alpha6.VirtualMachineImageCache)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha6_VirtualMachineImageCache(a.(*VirtualMachineImageCache), b.(*v1alpha6.VirtualMachineImageCache), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCache)(nil), (*VirtualMachineImageCache)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(a.(*v1alpha5.VirtualMachineImageCache), b.(*VirtualMachineImageCache), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCache)(nil), (*VirtualMachineImageCache)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(a.(*v1alpha6.VirtualMachineImageCache), b.(*VirtualMachineImageCache), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheFileStatus)(nil), (*v1alpha5.VirtualMachineImageCacheFileStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha5_VirtualMachineImageCacheFileStatus(a.(*VirtualMachineImageCacheFileStatus), b.(*v1alpha5.VirtualMachineImageCacheFileStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheFileStatus)(nil), (*v1alpha6.VirtualMachineImageCacheFileStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha6_VirtualMachineImageCacheFileStatus(a.(*VirtualMachineImageCacheFileStatus), b.(*v1alpha6.VirtualMachineImageCacheFileStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheFileStatus)(nil), (*VirtualMachineImageCacheFileStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(a.(*v1alpha5.VirtualMachineImageCacheFileStatus), b.(*VirtualMachineImageCacheFileStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheFileStatus)(nil), (*VirtualMachineImageCacheFileStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(a.(*v1alpha6.VirtualMachineImageCacheFileStatus), b.(*VirtualMachineImageCacheFileStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheList)(nil), (*v1alpha5.VirtualMachineImageCacheList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha5_VirtualMachineImageCacheList(a.(*VirtualMachineImageCacheList), b.(*v1alpha5.VirtualMachineImageCacheList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheList)(nil), (*v1alpha6.VirtualMachineImageCacheList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha6_VirtualMachineImageCacheList(a.(*VirtualMachineImageCacheList), b.(*v1alpha6.VirtualMachineImageCacheList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheList)(nil), (*VirtualMachineImageCacheList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(a.(*v1alpha5.VirtualMachineImageCacheList), b.(*VirtualMachineImageCacheList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheList)(nil), (*VirtualMachineImageCacheList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(a.(*v1alpha6.VirtualMachineImageCacheList), b.(*VirtualMachineImageCacheList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheLocationSpec)(nil), (*v1alpha5.VirtualMachineImageCacheLocationSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha5_VirtualMachineImageCacheLocationSpec(a.(*VirtualMachineImageCacheLocationSpec), b.(*v1alpha5.VirtualMachineImageCacheLocationSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheLocationSpec)(nil), (*v1alpha6.VirtualMachineImageCacheLocationSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha6_VirtualMachineImageCacheLocationSpec(a.(*VirtualMachineImageCacheLocationSpec), b.(*v1alpha6.VirtualMachineImageCacheLocationSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheLocationSpec)(nil), (*VirtualMachineImageCacheLocationSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(a.(*v1alpha5.VirtualMachineImageCacheLocationSpec), b.(*VirtualMachineImageCacheLocationSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheLocationSpec)(nil), (*VirtualMachineImageCacheLocationSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(a.(*v1alpha6.VirtualMachineImageCacheLocationSpec), b.(*VirtualMachineImageCacheLocationSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheLocationStatus)(nil), (*v1alpha5.VirtualMachineImageCacheLocationStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha5_VirtualMachineImageCacheLocationStatus(a.(*VirtualMachineImageCacheLocationStatus), b.(*v1alpha5.VirtualMachineImageCacheLocationStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheLocationStatus)(nil), (*v1alpha6.VirtualMachineImageCacheLocationStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha6_VirtualMachineImageCacheLocationStatus(a.(*VirtualMachineImageCacheLocationStatus), b.(*v1alpha6.VirtualMachineImageCacheLocationStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheLocationStatus)(nil), (*VirtualMachineImageCacheLocationStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(a.(*v1alpha5.VirtualMachineImageCacheLocationStatus), b.(*VirtualMachineImageCacheLocationStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheLocationStatus)(nil), (*VirtualMachineImageCacheLocationStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(a.(*v1alpha6.VirtualMachineImageCacheLocationStatus), b.(*VirtualMachineImageCacheLocationStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheOVFStatus)(nil), (*v1alpha5.VirtualMachineImageCacheOVFStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha5_VirtualMachineImageCacheOVFStatus(a.(*VirtualMachineImageCacheOVFStatus), b.(*v1alpha5.VirtualMachineImageCacheOVFStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheOVFStatus)(nil), (*v1alpha6.VirtualMachineImageCacheOVFStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha6_VirtualMachineImageCacheOVFStatus(a.(*VirtualMachineImageCacheOVFStatus), b.(*v1alpha6.VirtualMachineImageCacheOVFStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheOVFStatus)(nil), (*VirtualMachineImageCacheOVFStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(a.(*v1alpha5.VirtualMachineImageCacheOVFStatus), b.(*VirtualMachineImageCacheOVFStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheOVFStatus)(nil), (*VirtualMachineImageCacheOVFStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(a.(*v1alpha6.VirtualMachineImageCacheOVFStatus), b.(*VirtualMachineImageCacheOVFStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheSpec)(nil), (*v1alpha5.VirtualMachineImageCacheSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec(a.(*VirtualMachineImageCacheSpec), b.(*v1alpha5.VirtualMachineImageCacheSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheSpec)(nil), (*v1alpha6.VirtualMachineImageCacheSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec(a.(*VirtualMachineImageCacheSpec), b.(*v1alpha6.VirtualMachineImageCacheSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheSpec)(nil), (*VirtualMachineImageCacheSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(a.(*v1alpha5.VirtualMachineImageCacheSpec), b.(*VirtualMachineImageCacheSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheSpec)(nil), (*VirtualMachineImageCacheSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(a.(*v1alpha6.VirtualMachineImageCacheSpec), b.(*VirtualMachineImageCacheSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheStatus)(nil), (*v1alpha5.VirtualMachineImageCacheStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus(a.(*VirtualMachineImageCacheStatus), b.(*v1alpha5.VirtualMachineImageCacheStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageCacheStatus)(nil), (*v1alpha6.VirtualMachineImageCacheStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus(a.(*VirtualMachineImageCacheStatus), b.(*v1alpha6.VirtualMachineImageCacheStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageCacheStatus)(nil), (*VirtualMachineImageCacheStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(a.(*v1alpha5.VirtualMachineImageCacheStatus), b.(*VirtualMachineImageCacheStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageCacheStatus)(nil), (*VirtualMachineImageCacheStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(a.(*v1alpha6.VirtualMachineImageCacheStatus), b.(*VirtualMachineImageCacheStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageList)(nil), (*v1alpha5.VirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImageList(a.(*VirtualMachineImageList), b.(*v1alpha5.VirtualMachineImageList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageList)(nil), (*v1alpha6.VirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageList_To_v1alpha6_VirtualMachineImageList(a.(*VirtualMachineImageList), b.(*v1alpha6.VirtualMachineImageList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageList)(nil), (*VirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(a.(*v1alpha5.VirtualMachineImageList), b.(*VirtualMachineImageList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageList)(nil), (*VirtualMachineImageList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(a.(*v1alpha6.VirtualMachineImageList), b.(*VirtualMachineImageList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageOSInfo)(nil), (*v1alpha5.VirtualMachineImageOSInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo(a.(*VirtualMachineImageOSInfo), b.(*v1alpha5.VirtualMachineImageOSInfo), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageOSInfo)(nil), (*v1alpha6.VirtualMachineImageOSInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo(a.(*VirtualMachineImageOSInfo), b.(*v1alpha6.VirtualMachineImageOSInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageOSInfo)(nil), (*VirtualMachineImageOSInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(a.(*v1alpha5.VirtualMachineImageOSInfo), b.(*VirtualMachineImageOSInfo), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageOSInfo)(nil), (*VirtualMachineImageOSInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(a.(*v1alpha6.VirtualMachineImageOSInfo), b.(*VirtualMachineImageOSInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageProductInfo)(nil), (*v1alpha5.VirtualMachineImageProductInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo(a.(*VirtualMachineImageProductInfo), b.(*v1alpha5.VirtualMachineImageProductInfo), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageProductInfo)(nil), (*v1alpha6.VirtualMachineImageProductInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo(a.(*VirtualMachineImageProductInfo), b.(*v1alpha6.VirtualMachineImageProductInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageProductInfo)(nil), (*VirtualMachineImageProductInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(a.(*v1alpha5.VirtualMachineImageProductInfo), b.(*VirtualMachineImageProductInfo), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageProductInfo)(nil), (*VirtualMachineImageProductInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(a.(*v1alpha6.VirtualMachineImageProductInfo), b.(*VirtualMachineImageProductInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageRef)(nil), (*v1alpha5.VirtualMachineImageRef)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef(a.(*VirtualMachineImageRef), b.(*v1alpha5.VirtualMachineImageRef), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageRef)(nil), (*v1alpha6.VirtualMachineImageRef)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef(a.(*VirtualMachineImageRef), b.(*v1alpha6.VirtualMachineImageRef), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageRef)(nil), (*VirtualMachineImageRef)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(a.(*v1alpha5.VirtualMachineImageRef), b.(*VirtualMachineImageRef), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageRef)(nil), (*VirtualMachineImageRef)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(a.(*v1alpha6.VirtualMachineImageRef), b.(*VirtualMachineImageRef), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageSpec)(nil), (*v1alpha5.VirtualMachineImageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(a.(*VirtualMachineImageSpec), b.(*v1alpha5.VirtualMachineImageSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageSpec)(nil), (*v1alpha6.VirtualMachineImageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(a.(*VirtualMachineImageSpec), b.(*v1alpha6.VirtualMachineImageSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageSpec)(nil), (*VirtualMachineImageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(a.(*v1alpha5.VirtualMachineImageSpec), b.(*VirtualMachineImageSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageSpec)(nil), (*VirtualMachineImageSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(a.(*v1alpha6.VirtualMachineImageSpec), b.(*VirtualMachineImageSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageStatus)(nil), (*v1alpha5.VirtualMachineImageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(a.(*VirtualMachineImageStatus), b.(*v1alpha5.VirtualMachineImageStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineImageStatus)(nil), (*v1alpha6.VirtualMachineImageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(a.(*VirtualMachineImageStatus), b.(*v1alpha6.VirtualMachineImageStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineImageStatus)(nil), (*VirtualMachineImageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(a.(*v1alpha5.VirtualMachineImageStatus), b.(*VirtualMachineImageStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineImageStatus)(nil), (*VirtualMachineImageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(a.(*v1alpha6.VirtualMachineImageStatus), b.(*VirtualMachineImageStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineList)(nil), (*v1alpha5.VirtualMachineList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList(a.(*VirtualMachineList), b.(*v1alpha5.VirtualMachineList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineList)(nil), (*v1alpha6.VirtualMachineList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineList_To_v1alpha6_VirtualMachineList(a.(*VirtualMachineList), b.(*v1alpha6.VirtualMachineList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineList)(nil), (*VirtualMachineList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList(a.(*v1alpha5.VirtualMachineList), b.(*VirtualMachineList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineList)(nil), (*VirtualMachineList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineList_To_v1alpha3_VirtualMachineList(a.(*v1alpha6.VirtualMachineList), b.(*VirtualMachineList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus(a.(*VirtualMachineNetworkConfigDHCPOptionsStatus), b.(*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus(a.(*VirtualMachineNetworkConfigDHCPOptionsStatus), b.(*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), (*VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(a.(*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus), b.(*VirtualMachineNetworkConfigDHCPOptionsStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), (*VirtualMachineNetworkConfigDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(a.(*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus), b.(*VirtualMachineNetworkConfigDHCPOptionsStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDHCPStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPStatus(a.(*VirtualMachineNetworkConfigDHCPStatus), b.(*v1alpha5.VirtualMachineNetworkConfigDHCPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDHCPStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPStatus(a.(*VirtualMachineNetworkConfigDHCPStatus), b.(*v1alpha6.VirtualMachineNetworkConfigDHCPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigDHCPStatus)(nil), (*VirtualMachineNetworkConfigDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(a.(*v1alpha5.VirtualMachineNetworkConfigDHCPStatus), b.(*VirtualMachineNetworkConfigDHCPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigDHCPStatus)(nil), (*VirtualMachineNetworkConfigDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(a.(*v1alpha6.VirtualMachineNetworkConfigDHCPStatus), b.(*VirtualMachineNetworkConfigDHCPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDNSStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_VirtualMachineNetworkConfigDNSStatus(a.(*VirtualMachineNetworkConfigDNSStatus), b.(*v1alpha5.VirtualMachineNetworkConfigDNSStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigDNSStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha6_VirtualMachineNetworkConfigDNSStatus(a.(*VirtualMachineNetworkConfigDNSStatus), b.(*v1alpha6.VirtualMachineNetworkConfigDNSStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigDNSStatus)(nil), (*VirtualMachineNetworkConfigDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(a.(*v1alpha5.VirtualMachineNetworkConfigDNSStatus), b.(*VirtualMachineNetworkConfigDNSStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigDNSStatus)(nil), (*VirtualMachineNetworkConfigDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(a.(*v1alpha6.VirtualMachineNetworkConfigDNSStatus), b.(*VirtualMachineNetworkConfigDNSStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigInterfaceIPStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus(a.(*VirtualMachineNetworkConfigInterfaceIPStatus), b.(*v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigInterfaceIPStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus(a.(*VirtualMachineNetworkConfigInterfaceIPStatus), b.(*v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus)(nil), (*VirtualMachineNetworkConfigInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(a.(*v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus), b.(*VirtualMachineNetworkConfigInterfaceIPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus)(nil), (*VirtualMachineNetworkConfigInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(a.(*v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus), b.(*VirtualMachineNetworkConfigInterfaceIPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigInterfaceStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus(a.(*VirtualMachineNetworkConfigInterfaceStatus), b.(*v1alpha5.VirtualMachineNetworkConfigInterfaceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigInterfaceStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus(a.(*VirtualMachineNetworkConfigInterfaceStatus), b.(*v1alpha6.VirtualMachineNetworkConfigInterfaceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigInterfaceStatus)(nil), (*VirtualMachineNetworkConfigInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(a.(*v1alpha5.VirtualMachineNetworkConfigInterfaceStatus), b.(*VirtualMachineNetworkConfigInterfaceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigInterfaceStatus)(nil), (*VirtualMachineNetworkConfigInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(a.(*v1alpha6.VirtualMachineNetworkConfigInterfaceStatus), b.(*VirtualMachineNetworkConfigInterfaceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigStatus)(nil), (*v1alpha5.VirtualMachineNetworkConfigStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha5_VirtualMachineNetworkConfigStatus(a.(*VirtualMachineNetworkConfigStatus), b.(*v1alpha5.VirtualMachineNetworkConfigStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkConfigStatus)(nil), (*v1alpha6.VirtualMachineNetworkConfigStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha6_VirtualMachineNetworkConfigStatus(a.(*VirtualMachineNetworkConfigStatus), b.(*v1alpha6.VirtualMachineNetworkConfigStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkConfigStatus)(nil), (*VirtualMachineNetworkConfigStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(a.(*v1alpha5.VirtualMachineNetworkConfigStatus), b.(*VirtualMachineNetworkConfigStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkConfigStatus)(nil), (*VirtualMachineNetworkConfigStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(a.(*v1alpha6.VirtualMachineNetworkConfigStatus), b.(*VirtualMachineNetworkConfigStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDHCPOptionsStatus)(nil), (*v1alpha5.VirtualMachineNetworkDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(a.(*VirtualMachineNetworkDHCPOptionsStatus), b.(*v1alpha5.VirtualMachineNetworkDHCPOptionsStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDHCPOptionsStatus)(nil), (*v1alpha6.VirtualMachineNetworkDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(a.(*VirtualMachineNetworkDHCPOptionsStatus), b.(*v1alpha6.VirtualMachineNetworkDHCPOptionsStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkDHCPOptionsStatus)(nil), (*VirtualMachineNetworkDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(a.(*v1alpha5.VirtualMachineNetworkDHCPOptionsStatus), b.(*VirtualMachineNetworkDHCPOptionsStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkDHCPOptionsStatus)(nil), (*VirtualMachineNetworkDHCPOptionsStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(a.(*v1alpha6.VirtualMachineNetworkDHCPOptionsStatus), b.(*VirtualMachineNetworkDHCPOptionsStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDHCPStatus)(nil), (*v1alpha5.VirtualMachineNetworkDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha5_VirtualMachineNetworkDHCPStatus(a.(*VirtualMachineNetworkDHCPStatus), b.(*v1alpha5.VirtualMachineNetworkDHCPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDHCPStatus)(nil), (*v1alpha6.VirtualMachineNetworkDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha6_VirtualMachineNetworkDHCPStatus(a.(*VirtualMachineNetworkDHCPStatus), b.(*v1alpha6.VirtualMachineNetworkDHCPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkDHCPStatus)(nil), (*VirtualMachineNetworkDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(a.(*v1alpha5.VirtualMachineNetworkDHCPStatus), b.(*VirtualMachineNetworkDHCPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkDHCPStatus)(nil), (*VirtualMachineNetworkDHCPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(a.(*v1alpha6.VirtualMachineNetworkDHCPStatus), b.(*VirtualMachineNetworkDHCPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDNSStatus)(nil), (*v1alpha5.VirtualMachineNetworkDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMachineNetworkDNSStatus(a.(*VirtualMachineNetworkDNSStatus), b.(*v1alpha5.VirtualMachineNetworkDNSStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkDNSStatus)(nil), (*v1alpha6.VirtualMachineNetworkDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha6_VirtualMachineNetworkDNSStatus(a.(*VirtualMachineNetworkDNSStatus), b.(*v1alpha6.VirtualMachineNetworkDNSStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkDNSStatus)(nil), (*VirtualMachineNetworkDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(a.(*v1alpha5.VirtualMachineNetworkDNSStatus), b.(*VirtualMachineNetworkDNSStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkDNSStatus)(nil), (*VirtualMachineNetworkDNSStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(a.(*v1alpha6.VirtualMachineNetworkDNSStatus), b.(*VirtualMachineNetworkDNSStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPRouteGatewayStatus)(nil), (*v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus(a.(*VirtualMachineNetworkIPRouteGatewayStatus), b.(*v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPRouteGatewayStatus)(nil), (*v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus(a.(*VirtualMachineNetworkIPRouteGatewayStatus), b.(*v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus)(nil), (*VirtualMachineNetworkIPRouteGatewayStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(a.(*v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus), b.(*VirtualMachineNetworkIPRouteGatewayStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus)(nil), (*VirtualMachineNetworkIPRouteGatewayStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(a.(*v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus), b.(*VirtualMachineNetworkIPRouteGatewayStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPRouteStatus)(nil), (*v1alpha5.VirtualMachineNetworkIPRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha5_VirtualMachineNetworkIPRouteStatus(a.(*VirtualMachineNetworkIPRouteStatus), b.(*v1alpha5.VirtualMachineNetworkIPRouteStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPRouteStatus)(nil), (*v1alpha6.VirtualMachineNetworkIPRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha6_VirtualMachineNetworkIPRouteStatus(a.(*VirtualMachineNetworkIPRouteStatus), b.(*v1alpha6.VirtualMachineNetworkIPRouteStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkIPRouteStatus)(nil), (*VirtualMachineNetworkIPRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(a.(*v1alpha5.VirtualMachineNetworkIPRouteStatus), b.(*VirtualMachineNetworkIPRouteStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkIPRouteStatus)(nil), (*VirtualMachineNetworkIPRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(a.(*v1alpha6.VirtualMachineNetworkIPRouteStatus), b.(*VirtualMachineNetworkIPRouteStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPStackStatus)(nil), (*v1alpha5.VirtualMachineNetworkIPStackStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha5_VirtualMachineNetworkIPStackStatus(a.(*VirtualMachineNetworkIPStackStatus), b.(*v1alpha5.VirtualMachineNetworkIPStackStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkIPStackStatus)(nil), (*v1alpha6.VirtualMachineNetworkIPStackStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha6_VirtualMachineNetworkIPStackStatus(a.(*VirtualMachineNetworkIPStackStatus), b.(*v1alpha6.VirtualMachineNetworkIPStackStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkIPStackStatus)(nil), (*VirtualMachineNetworkIPStackStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(a.(*v1alpha5.VirtualMachineNetworkIPStackStatus), b.(*VirtualMachineNetworkIPStackStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkIPStackStatus)(nil), (*VirtualMachineNetworkIPStackStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(a.(*v1alpha6.VirtualMachineNetworkIPStackStatus), b.(*VirtualMachineNetworkIPStackStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceIPAddrStatus)(nil), (*v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus(a.(*VirtualMachineNetworkInterfaceIPAddrStatus), b.(*v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceIPAddrStatus)(nil), (*v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus(a.(*VirtualMachineNetworkInterfaceIPAddrStatus), b.(*v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus)(nil), (*VirtualMachineNetworkInterfaceIPAddrStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(a.(*v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus), b.(*VirtualMachineNetworkInterfaceIPAddrStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus)(nil), (*VirtualMachineNetworkInterfaceIPAddrStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(a.(*v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus), b.(*VirtualMachineNetworkInterfaceIPAddrStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceIPStatus)(nil), (*v1alpha5.VirtualMachineNetworkInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPStatus(a.(*VirtualMachineNetworkInterfaceIPStatus), b.(*v1alpha5.VirtualMachineNetworkInterfaceIPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceIPStatus)(nil), (*v1alpha6.VirtualMachineNetworkInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPStatus(a.(*VirtualMachineNetworkInterfaceIPStatus), b.(*v1alpha6.VirtualMachineNetworkInterfaceIPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkInterfaceIPStatus)(nil), (*VirtualMachineNetworkInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(a.(*v1alpha5.VirtualMachineNetworkInterfaceIPStatus), b.(*VirtualMachineNetworkInterfaceIPStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkInterfaceIPStatus)(nil), (*VirtualMachineNetworkInterfaceIPStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(a.(*v1alpha6.VirtualMachineNetworkInterfaceIPStatus), b.(*VirtualMachineNetworkInterfaceIPStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceSpec)(nil), (*v1alpha5.VirtualMachineNetworkInterfaceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_VirtualMachineNetworkInterfaceSpec(a.(*VirtualMachineNetworkInterfaceSpec), b.(*v1alpha5.VirtualMachineNetworkInterfaceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceSpec)(nil), (*v1alpha6.VirtualMachineNetworkInterfaceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha6_VirtualMachineNetworkInterfaceSpec(a.(*VirtualMachineNetworkInterfaceSpec), b.(*v1alpha6.VirtualMachineNetworkInterfaceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkInterfaceSpec)(nil), (*VirtualMachineNetworkInterfaceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(a.(*v1alpha5.VirtualMachineNetworkInterfaceSpec), b.(*VirtualMachineNetworkInterfaceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkInterfaceSpec)(nil), (*VirtualMachineNetworkInterfaceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(a.(*v1alpha6.VirtualMachineNetworkInterfaceSpec), b.(*VirtualMachineNetworkInterfaceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceStatus)(nil), (*v1alpha5.VirtualMachineNetworkInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha5_VirtualMachineNetworkInterfaceStatus(a.(*VirtualMachineNetworkInterfaceStatus), b.(*v1alpha5.VirtualMachineNetworkInterfaceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkInterfaceStatus)(nil), (*v1alpha6.VirtualMachineNetworkInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha6_VirtualMachineNetworkInterfaceStatus(a.(*VirtualMachineNetworkInterfaceStatus), b.(*v1alpha6.VirtualMachineNetworkInterfaceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkInterfaceStatus)(nil), (*VirtualMachineNetworkInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(a.(*v1alpha5.VirtualMachineNetworkInterfaceStatus), b.(*VirtualMachineNetworkInterfaceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkInterfaceStatus)(nil), (*VirtualMachineNetworkInterfaceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(a.(*v1alpha6.VirtualMachineNetworkInterfaceStatus), b.(*VirtualMachineNetworkInterfaceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkRouteSpec)(nil), (*v1alpha5.VirtualMachineNetworkRouteSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha5_VirtualMachineNetworkRouteSpec(a.(*VirtualMachineNetworkRouteSpec), b.(*v1alpha5.VirtualMachineNetworkRouteSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkRouteSpec)(nil), (*v1alpha6.VirtualMachineNetworkRouteSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha6_VirtualMachineNetworkRouteSpec(a.(*VirtualMachineNetworkRouteSpec), b.(*v1alpha6.VirtualMachineNetworkRouteSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkRouteSpec)(nil), (*VirtualMachineNetworkRouteSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(a.(*v1alpha5.VirtualMachineNetworkRouteSpec), b.(*VirtualMachineNetworkRouteSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkRouteSpec)(nil), (*VirtualMachineNetworkRouteSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(a.(*v1alpha6.VirtualMachineNetworkRouteSpec), b.(*VirtualMachineNetworkRouteSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkRouteStatus)(nil), (*v1alpha5.VirtualMachineNetworkRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha5_VirtualMachineNetworkRouteStatus(a.(*VirtualMachineNetworkRouteStatus), b.(*v1alpha5.VirtualMachineNetworkRouteStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkRouteStatus)(nil), (*v1alpha6.VirtualMachineNetworkRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha6_VirtualMachineNetworkRouteStatus(a.(*VirtualMachineNetworkRouteStatus), b.(*v1alpha6.VirtualMachineNetworkRouteStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkRouteStatus)(nil), (*VirtualMachineNetworkRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(a.(*v1alpha5.VirtualMachineNetworkRouteStatus), b.(*VirtualMachineNetworkRouteStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkRouteStatus)(nil), (*VirtualMachineNetworkRouteStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(a.(*v1alpha6.VirtualMachineNetworkRouteStatus), b.(*VirtualMachineNetworkRouteStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkSpec)(nil), (*v1alpha5.VirtualMachineNetworkSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha5_VirtualMachineNetworkSpec(a.(*VirtualMachineNetworkSpec), b.(*v1alpha5.VirtualMachineNetworkSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkSpec)(nil), (*v1alpha6.VirtualMachineNetworkSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha6_VirtualMachineNetworkSpec(a.(*VirtualMachineNetworkSpec), b.(*v1alpha6.VirtualMachineNetworkSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkSpec)(nil), (*VirtualMachineNetworkSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(a.(*v1alpha5.VirtualMachineNetworkSpec), b.(*VirtualMachineNetworkSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkSpec)(nil), (*VirtualMachineNetworkSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(a.(*v1alpha6.VirtualMachineNetworkSpec), b.(*VirtualMachineNetworkSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkStatus)(nil), (*v1alpha5.VirtualMachineNetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha5_VirtualMachineNetworkStatus(a.(*VirtualMachineNetworkStatus), b.(*v1alpha5.VirtualMachineNetworkStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineNetworkStatus)(nil), (*v1alpha6.VirtualMachineNetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha6_VirtualMachineNetworkStatus(a.(*VirtualMachineNetworkStatus), b.(*v1alpha6.VirtualMachineNetworkStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineNetworkStatus)(nil), (*VirtualMachineNetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(a.(*v1alpha5.VirtualMachineNetworkStatus), b.(*VirtualMachineNetworkStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineNetworkStatus)(nil), (*VirtualMachineNetworkStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(a.(*v1alpha6.VirtualMachineNetworkStatus), b.(*VirtualMachineNetworkStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePlacementStatus)(nil), (*v1alpha5.VirtualMachinePlacementStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha5_VirtualMachinePlacementStatus(a.(*VirtualMachinePlacementStatus), b.(*v1alpha5.VirtualMachinePlacementStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePlacementStatus)(nil), (*v1alpha6.VirtualMachinePlacementStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha6_VirtualMachinePlacementStatus(a.(*VirtualMachinePlacementStatus), b.(*v1alpha6.VirtualMachinePlacementStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePlacementStatus)(nil), (*VirtualMachinePlacementStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(a.(*v1alpha5.VirtualMachinePlacementStatus), b.(*VirtualMachinePlacementStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePlacementStatus)(nil), (*VirtualMachinePlacementStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(a.(*v1alpha6.VirtualMachinePlacementStatus), b.(*VirtualMachinePlacementStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequest)(nil), (*v1alpha5.VirtualMachinePublishRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(a.(*VirtualMachinePublishRequest), b.(*v1alpha5.VirtualMachinePublishRequest), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequest)(nil), (*v1alpha6.VirtualMachinePublishRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(a.(*VirtualMachinePublishRequest), b.(*v1alpha6.VirtualMachinePublishRequest), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequest)(nil), (*VirtualMachinePublishRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(a.(*v1alpha5.VirtualMachinePublishRequest), b.(*VirtualMachinePublishRequest), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequest)(nil), (*VirtualMachinePublishRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(a.(*v1alpha6.VirtualMachinePublishRequest), b.(*VirtualMachinePublishRequest), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestList)(nil), (*v1alpha5.VirtualMachinePublishRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMachinePublishRequestList(a.(*VirtualMachinePublishRequestList), b.(*v1alpha5.VirtualMachinePublishRequestList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestList)(nil), (*v1alpha6.VirtualMachinePublishRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha6_VirtualMachinePublishRequestList(a.(*VirtualMachinePublishRequestList), b.(*v1alpha6.VirtualMachinePublishRequestList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestList)(nil), (*VirtualMachinePublishRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(a.(*v1alpha5.VirtualMachinePublishRequestList), b.(*VirtualMachinePublishRequestList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestList)(nil), (*VirtualMachinePublishRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(a.(*v1alpha6.VirtualMachinePublishRequestList), b.(*VirtualMachinePublishRequestList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestSource)(nil), (*v1alpha5.VirtualMachinePublishRequestSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource(a.(*VirtualMachinePublishRequestSource), b.(*v1alpha5.VirtualMachinePublishRequestSource), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestSource)(nil), (*v1alpha6.VirtualMachinePublishRequestSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource(a.(*VirtualMachinePublishRequestSource), b.(*v1alpha6.VirtualMachinePublishRequestSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestSource)(nil), (*VirtualMachinePublishRequestSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(a.(*v1alpha5.VirtualMachinePublishRequestSource), b.(*VirtualMachinePublishRequestSource), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestSource)(nil), (*VirtualMachinePublishRequestSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(a.(*v1alpha6.VirtualMachinePublishRequestSource), b.(*VirtualMachinePublishRequestSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestSpec)(nil), (*v1alpha5.VirtualMachinePublishRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec(a.(*VirtualMachinePublishRequestSpec), b.(*v1alpha5.VirtualMachinePublishRequestSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestSpec)(nil), (*v1alpha6.VirtualMachinePublishRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec(a.(*VirtualMachinePublishRequestSpec), b.(*v1alpha6.VirtualMachinePublishRequestSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestStatus)(nil), (*v1alpha5.VirtualMachinePublishRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus(a.(*VirtualMachinePublishRequestStatus), b.(*v1alpha5.VirtualMachinePublishRequestStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestStatus)(nil), (*v1alpha6.VirtualMachinePublishRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus(a.(*VirtualMachinePublishRequestStatus), b.(*v1alpha6.VirtualMachinePublishRequestStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestStatus)(nil), (*VirtualMachinePublishRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(a.(*v1alpha5.VirtualMachinePublishRequestStatus), b.(*VirtualMachinePublishRequestStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestStatus)(nil), (*VirtualMachinePublishRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(a.(*v1alpha6.VirtualMachinePublishRequestStatus), b.(*VirtualMachinePublishRequestStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTarget)(nil), (*v1alpha5.VirtualMachinePublishRequestTarget)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget(a.(*VirtualMachinePublishRequestTarget), b.(*v1alpha5.VirtualMachinePublishRequestTarget), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTarget)(nil), (*v1alpha6.VirtualMachinePublishRequestTarget)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget(a.(*VirtualMachinePublishRequestTarget), b.(*v1alpha6.VirtualMachinePublishRequestTarget), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestTarget)(nil), (*VirtualMachinePublishRequestTarget)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(a.(*v1alpha5.VirtualMachinePublishRequestTarget), b.(*VirtualMachinePublishRequestTarget), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestTarget)(nil), (*VirtualMachinePublishRequestTarget)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(a.(*v1alpha6.VirtualMachinePublishRequestTarget), b.(*VirtualMachinePublishRequestTarget), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTargetItem)(nil), (*v1alpha5.VirtualMachinePublishRequestTargetItem)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem(a.(*VirtualMachinePublishRequestTargetItem), b.(*v1alpha5.VirtualMachinePublishRequestTargetItem), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTargetItem)(nil), (*v1alpha6.VirtualMachinePublishRequestTargetItem)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem(a.(*VirtualMachinePublishRequestTargetItem), b.(*v1alpha6.VirtualMachinePublishRequestTargetItem), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestTargetItem)(nil), (*VirtualMachinePublishRequestTargetItem)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(a.(*v1alpha5.VirtualMachinePublishRequestTargetItem), b.(*VirtualMachinePublishRequestTargetItem), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestTargetItem)(nil), (*VirtualMachinePublishRequestTargetItem)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(a.(*v1alpha6.VirtualMachinePublishRequestTargetItem), b.(*VirtualMachinePublishRequestTargetItem), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTargetLocation)(nil), (*v1alpha5.VirtualMachinePublishRequestTargetLocation)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation(a.(*VirtualMachinePublishRequestTargetLocation), b.(*v1alpha5.VirtualMachinePublishRequestTargetLocation), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachinePublishRequestTargetLocation)(nil), (*v1alpha6.VirtualMachinePublishRequestTargetLocation)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation(a.(*VirtualMachinePublishRequestTargetLocation), b.(*v1alpha6.VirtualMachinePublishRequestTargetLocation), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachinePublishRequestTargetLocation)(nil), (*VirtualMachinePublishRequestTargetLocation)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(a.(*v1alpha5.VirtualMachinePublishRequestTargetLocation), b.(*VirtualMachinePublishRequestTargetLocation), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachinePublishRequestTargetLocation)(nil), (*VirtualMachinePublishRequestTargetLocation)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(a.(*v1alpha6.VirtualMachinePublishRequestTargetLocation), b.(*VirtualMachinePublishRequestTargetLocation), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReadinessProbeSpec)(nil), (*v1alpha5.VirtualMachineReadinessProbeSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha5_VirtualMachineReadinessProbeSpec(a.(*VirtualMachineReadinessProbeSpec), b.(*v1alpha5.VirtualMachineReadinessProbeSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReadinessProbeSpec)(nil), (*v1alpha6.VirtualMachineReadinessProbeSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha6_VirtualMachineReadinessProbeSpec(a.(*VirtualMachineReadinessProbeSpec), b.(*v1alpha6.VirtualMachineReadinessProbeSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReadinessProbeSpec)(nil), (*VirtualMachineReadinessProbeSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(a.(*v1alpha5.VirtualMachineReadinessProbeSpec), b.(*VirtualMachineReadinessProbeSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReadinessProbeSpec)(nil), (*VirtualMachineReadinessProbeSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(a.(*v1alpha6.VirtualMachineReadinessProbeSpec), b.(*VirtualMachineReadinessProbeSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSet)(nil), (*v1alpha5.VirtualMachineReplicaSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(a.(*VirtualMachineReplicaSet), b.(*v1alpha5.VirtualMachineReplicaSet), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSet)(nil), (*v1alpha6.VirtualMachineReplicaSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(a.(*VirtualMachineReplicaSet), b.(*v1alpha6.VirtualMachineReplicaSet), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReplicaSet)(nil), (*VirtualMachineReplicaSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(a.(*v1alpha5.VirtualMachineReplicaSet), b.(*VirtualMachineReplicaSet), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReplicaSet)(nil), (*VirtualMachineReplicaSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(a.(*v1alpha6.VirtualMachineReplicaSet), b.(*VirtualMachineReplicaSet), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetList)(nil), (*v1alpha5.VirtualMachineReplicaSetList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList(a.(*VirtualMachineReplicaSetList), b.(*v1alpha5.VirtualMachineReplicaSetList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetList)(nil), (*v1alpha6.VirtualMachineReplicaSetList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList(a.(*VirtualMachineReplicaSetList), b.(*v1alpha6.VirtualMachineReplicaSetList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReplicaSetList)(nil), (*VirtualMachineReplicaSetList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(a.(*v1alpha5.VirtualMachineReplicaSetList), b.(*VirtualMachineReplicaSetList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReplicaSetList)(nil), (*VirtualMachineReplicaSetList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(a.(*v1alpha6.VirtualMachineReplicaSetList), b.(*VirtualMachineReplicaSetList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetSpec)(nil), (*v1alpha5.VirtualMachineReplicaSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec(a.(*VirtualMachineReplicaSetSpec), b.(*v1alpha5.VirtualMachineReplicaSetSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetSpec)(nil), (*v1alpha6.VirtualMachineReplicaSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec(a.(*VirtualMachineReplicaSetSpec), b.(*v1alpha6.VirtualMachineReplicaSetSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReplicaSetSpec)(nil), (*VirtualMachineReplicaSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(a.(*v1alpha5.VirtualMachineReplicaSetSpec), b.(*VirtualMachineReplicaSetSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReplicaSetSpec)(nil), (*VirtualMachineReplicaSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(a.(*v1alpha6.VirtualMachineReplicaSetSpec), b.(*VirtualMachineReplicaSetSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetStatus)(nil), (*v1alpha5.VirtualMachineReplicaSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus(a.(*VirtualMachineReplicaSetStatus), b.(*v1alpha5.VirtualMachineReplicaSetStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReplicaSetStatus)(nil), (*v1alpha6.VirtualMachineReplicaSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus(a.(*VirtualMachineReplicaSetStatus), b.(*v1alpha6.VirtualMachineReplicaSetStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReplicaSetStatus)(nil), (*VirtualMachineReplicaSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(a.(*v1alpha5.VirtualMachineReplicaSetStatus), b.(*VirtualMachineReplicaSetStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReplicaSetStatus)(nil), (*VirtualMachineReplicaSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(a.(*v1alpha6.VirtualMachineReplicaSetStatus), b.(*VirtualMachineReplicaSetStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineReservedSpec)(nil), (*v1alpha5.VirtualMachineReservedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha5_VirtualMachineReservedSpec(a.(*VirtualMachineReservedSpec), b.(*v1alpha5.VirtualMachineReservedSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineReservedSpec)(nil), (*v1alpha6.VirtualMachineReservedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha6_VirtualMachineReservedSpec(a.(*VirtualMachineReservedSpec), b.(*v1alpha6.VirtualMachineReservedSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineReservedSpec)(nil), (*VirtualMachineReservedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(a.(*v1alpha5.VirtualMachineReservedSpec), b.(*VirtualMachineReservedSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineReservedSpec)(nil), (*VirtualMachineReservedSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(a.(*v1alpha6.VirtualMachineReservedSpec), b.(*VirtualMachineReservedSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineResourceSpec)(nil), (*v1alpha5.VirtualMachineResourceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(a.(*VirtualMachineResourceSpec), b.(*v1alpha5.VirtualMachineResourceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineResourceSpec)(nil), (*v1alpha6.VirtualMachineResourceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(a.(*VirtualMachineResourceSpec), b.(*v1alpha6.VirtualMachineResourceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineResourceSpec)(nil), (*VirtualMachineResourceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(a.(*v1alpha5.VirtualMachineResourceSpec), b.(*VirtualMachineResourceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineResourceSpec)(nil), (*VirtualMachineResourceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(a.(*v1alpha6.VirtualMachineResourceSpec), b.(*VirtualMachineResourceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineService)(nil), (*v1alpha5.VirtualMachineService)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineService_To_v1alpha5_VirtualMachineService(a.(*VirtualMachineService), b.(*v1alpha5.VirtualMachineService), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineService)(nil), (*v1alpha6.VirtualMachineService)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineService_To_v1alpha6_VirtualMachineService(a.(*VirtualMachineService), b.(*v1alpha6.VirtualMachineService), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineService)(nil), (*VirtualMachineService)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineService_To_v1alpha3_VirtualMachineService(a.(*v1alpha5.VirtualMachineService), b.(*VirtualMachineService), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineService)(nil), (*VirtualMachineService)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineService_To_v1alpha3_VirtualMachineService(a.(*v1alpha6.VirtualMachineService), b.(*VirtualMachineService), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceList)(nil), (*v1alpha5.VirtualMachineServiceList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha5_VirtualMachineServiceList(a.(*VirtualMachineServiceList), b.(*v1alpha5.VirtualMachineServiceList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceList)(nil), (*v1alpha6.VirtualMachineServiceList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha6_VirtualMachineServiceList(a.(*VirtualMachineServiceList), b.(*v1alpha6.VirtualMachineServiceList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineServiceList)(nil), (*VirtualMachineServiceList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(a.(*v1alpha5.VirtualMachineServiceList), b.(*VirtualMachineServiceList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineServiceList)(nil), (*VirtualMachineServiceList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(a.(*v1alpha6.VirtualMachineServiceList), b.(*VirtualMachineServiceList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineServicePort)(nil), (*v1alpha5.VirtualMachineServicePort)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineServicePort(a.(*VirtualMachineServicePort), b.(*v1alpha5.VirtualMachineServicePort), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineServicePort)(nil), (*v1alpha6.VirtualMachineServicePort)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha6_VirtualMachineServicePort(a.(*VirtualMachineServicePort), b.(*v1alpha6.VirtualMachineServicePort), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineServicePort)(nil), (*VirtualMachineServicePort)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(a.(*v1alpha5.VirtualMachineServicePort), b.(*VirtualMachineServicePort), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineServicePort)(nil), (*VirtualMachineServicePort)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(a.(*v1alpha6.VirtualMachineServicePort), b.(*VirtualMachineServicePort), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceSpec)(nil), (*v1alpha5.VirtualMachineServiceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec(a.(*VirtualMachineServiceSpec), b.(*v1alpha5.VirtualMachineServiceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceSpec)(nil), (*v1alpha6.VirtualMachineServiceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec(a.(*VirtualMachineServiceSpec), b.(*v1alpha6.VirtualMachineServiceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineServiceSpec)(nil), (*VirtualMachineServiceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(a.(*v1alpha5.VirtualMachineServiceSpec), b.(*VirtualMachineServiceSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineServiceSpec)(nil), (*VirtualMachineServiceSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(a.(*v1alpha6.VirtualMachineServiceSpec), b.(*VirtualMachineServiceSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceStatus)(nil), (*v1alpha5.VirtualMachineServiceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus(a.(*VirtualMachineServiceStatus), b.(*v1alpha5.VirtualMachineServiceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineServiceStatus)(nil), (*v1alpha6.VirtualMachineServiceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus(a.(*VirtualMachineServiceStatus), b.(*v1alpha6.VirtualMachineServiceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineServiceStatus)(nil), (*VirtualMachineServiceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(a.(*v1alpha5.VirtualMachineServiceStatus), b.(*VirtualMachineServiceStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineServiceStatus)(nil), (*VirtualMachineServiceStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(a.(*v1alpha6.VirtualMachineServiceStatus), b.(*VirtualMachineServiceStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicy)(nil), (*v1alpha5.VirtualMachineSetResourcePolicy)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy(a.(*VirtualMachineSetResourcePolicy), b.(*v1alpha5.VirtualMachineSetResourcePolicy), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicy)(nil), (*v1alpha6.VirtualMachineSetResourcePolicy)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy(a.(*VirtualMachineSetResourcePolicy), b.(*v1alpha6.VirtualMachineSetResourcePolicy), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineSetResourcePolicy)(nil), (*VirtualMachineSetResourcePolicy)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(a.(*v1alpha5.VirtualMachineSetResourcePolicy), b.(*VirtualMachineSetResourcePolicy), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineSetResourcePolicy)(nil), (*VirtualMachineSetResourcePolicy)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(a.(*v1alpha6.VirtualMachineSetResourcePolicy), b.(*VirtualMachineSetResourcePolicy), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicyList)(nil), (*v1alpha5.VirtualMachineSetResourcePolicyList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha5_VirtualMachineSetResourcePolicyList(a.(*VirtualMachineSetResourcePolicyList), b.(*v1alpha5.VirtualMachineSetResourcePolicyList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicyList)(nil), (*v1alpha6.VirtualMachineSetResourcePolicyList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha6_VirtualMachineSetResourcePolicyList(a.(*VirtualMachineSetResourcePolicyList), b.(*v1alpha6.VirtualMachineSetResourcePolicyList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineSetResourcePolicyList)(nil), (*VirtualMachineSetResourcePolicyList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(a.(*v1alpha5.VirtualMachineSetResourcePolicyList), b.(*VirtualMachineSetResourcePolicyList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineSetResourcePolicyList)(nil), (*VirtualMachineSetResourcePolicyList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(a.(*v1alpha6.VirtualMachineSetResourcePolicyList), b.(*VirtualMachineSetResourcePolicyList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicySpec)(nil), (*v1alpha5.VirtualMachineSetResourcePolicySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec(a.(*VirtualMachineSetResourcePolicySpec), b.(*v1alpha5.VirtualMachineSetResourcePolicySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicySpec)(nil), (*v1alpha6.VirtualMachineSetResourcePolicySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec(a.(*VirtualMachineSetResourcePolicySpec), b.(*v1alpha6.VirtualMachineSetResourcePolicySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineSetResourcePolicySpec)(nil), (*VirtualMachineSetResourcePolicySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(a.(*v1alpha5.VirtualMachineSetResourcePolicySpec), b.(*VirtualMachineSetResourcePolicySpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineSetResourcePolicySpec)(nil), (*VirtualMachineSetResourcePolicySpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(a.(*v1alpha6.VirtualMachineSetResourcePolicySpec), b.(*VirtualMachineSetResourcePolicySpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicyStatus)(nil), (*v1alpha5.VirtualMachineSetResourcePolicyStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus(a.(*VirtualMachineSetResourcePolicyStatus), b.(*v1alpha5.VirtualMachineSetResourcePolicyStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineSetResourcePolicyStatus)(nil), (*v1alpha6.VirtualMachineSetResourcePolicyStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus(a.(*VirtualMachineSetResourcePolicyStatus), b.(*v1alpha6.VirtualMachineSetResourcePolicyStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineSetResourcePolicyStatus)(nil), (*VirtualMachineSetResourcePolicyStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(a.(*v1alpha5.VirtualMachineSetResourcePolicyStatus), b.(*VirtualMachineSetResourcePolicyStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineSetResourcePolicyStatus)(nil), (*VirtualMachineSetResourcePolicyStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(a.(*v1alpha6.VirtualMachineSetResourcePolicyStatus), b.(*VirtualMachineSetResourcePolicyStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineTemplate)(nil), (*v1alpha5.VirtualMachineTemplate)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTemplate(a.(*VirtualMachineTemplate), b.(*v1alpha5.VirtualMachineTemplate), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineTemplate)(nil), (*v1alpha6.VirtualMachineTemplate)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha6_VirtualMachineTemplate(a.(*VirtualMachineTemplate), b.(*v1alpha6.VirtualMachineTemplate), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineTemplate)(nil), (*VirtualMachineTemplate)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(a.(*v1alpha5.VirtualMachineTemplate), b.(*VirtualMachineTemplate), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineTemplate)(nil), (*VirtualMachineTemplate)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(a.(*v1alpha6.VirtualMachineTemplate), b.(*VirtualMachineTemplate), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineTemplateSpec)(nil), (*v1alpha5.VirtualMachineTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec(a.(*VirtualMachineTemplateSpec), b.(*v1alpha5.VirtualMachineTemplateSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineTemplateSpec)(nil), (*v1alpha6.VirtualMachineTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec(a.(*VirtualMachineTemplateSpec), b.(*v1alpha6.VirtualMachineTemplateSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineTemplateSpec)(nil), (*VirtualMachineTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(a.(*v1alpha5.VirtualMachineTemplateSpec), b.(*VirtualMachineTemplateSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineTemplateSpec)(nil), (*VirtualMachineTemplateSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(a.(*v1alpha6.VirtualMachineTemplateSpec), b.(*VirtualMachineTemplateSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolume)(nil), (*v1alpha5.VirtualMachineVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(a.(*VirtualMachineVolume), b.(*v1alpha5.VirtualMachineVolume), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolume)(nil), (*v1alpha6.VirtualMachineVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(a.(*VirtualMachineVolume), b.(*v1alpha6.VirtualMachineVolume), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeCryptoStatus)(nil), (*v1alpha5.VirtualMachineVolumeCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha5_VirtualMachineVolumeCryptoStatus(a.(*VirtualMachineVolumeCryptoStatus), b.(*v1alpha5.VirtualMachineVolumeCryptoStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeCryptoStatus)(nil), (*v1alpha6.VirtualMachineVolumeCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha6_VirtualMachineVolumeCryptoStatus(a.(*VirtualMachineVolumeCryptoStatus), b.(*v1alpha6.VirtualMachineVolumeCryptoStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineVolumeCryptoStatus)(nil), (*VirtualMachineVolumeCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(a.(*v1alpha5.VirtualMachineVolumeCryptoStatus), b.(*VirtualMachineVolumeCryptoStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineVolumeCryptoStatus)(nil), (*VirtualMachineVolumeCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(a.(*v1alpha6.VirtualMachineVolumeCryptoStatus), b.(*VirtualMachineVolumeCryptoStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeSource)(nil), (*v1alpha5.VirtualMachineVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource(a.(*VirtualMachineVolumeSource), b.(*v1alpha5.VirtualMachineVolumeSource), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeSource)(nil), (*v1alpha6.VirtualMachineVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource(a.(*VirtualMachineVolumeSource), b.(*v1alpha6.VirtualMachineVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineVolumeSource)(nil), (*VirtualMachineVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(a.(*v1alpha5.VirtualMachineVolumeSource), b.(*VirtualMachineVolumeSource), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineVolumeSource)(nil), (*VirtualMachineVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(a.(*v1alpha6.VirtualMachineVolumeSource), b.(*VirtualMachineVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeStatus)(nil), (*v1alpha5.VirtualMachineVolumeStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(a.(*VirtualMachineVolumeStatus), b.(*v1alpha5.VirtualMachineVolumeStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineVolumeStatus)(nil), (*v1alpha6.VirtualMachineVolumeStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(a.(*VirtualMachineVolumeStatus), b.(*v1alpha6.VirtualMachineVolumeStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequest)(nil), (*v1alpha5.VirtualMachineWebConsoleRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha5_VirtualMachineWebConsoleRequest(a.(*VirtualMachineWebConsoleRequest), b.(*v1alpha5.VirtualMachineWebConsoleRequest), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequest)(nil), (*v1alpha6.VirtualMachineWebConsoleRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha6_VirtualMachineWebConsoleRequest(a.(*VirtualMachineWebConsoleRequest), b.(*v1alpha6.VirtualMachineWebConsoleRequest), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineWebConsoleRequest)(nil), (*VirtualMachineWebConsoleRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(a.(*v1alpha5.VirtualMachineWebConsoleRequest), b.(*VirtualMachineWebConsoleRequest), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineWebConsoleRequest)(nil), (*VirtualMachineWebConsoleRequest)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(a.(*v1alpha6.VirtualMachineWebConsoleRequest), b.(*VirtualMachineWebConsoleRequest), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestList)(nil), (*v1alpha5.VirtualMachineWebConsoleRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha5_VirtualMachineWebConsoleRequestList(a.(*VirtualMachineWebConsoleRequestList), b.(*v1alpha5.VirtualMachineWebConsoleRequestList), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestList)(nil), (*v1alpha6.VirtualMachineWebConsoleRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha6_VirtualMachineWebConsoleRequestList(a.(*VirtualMachineWebConsoleRequestList), b.(*v1alpha6.VirtualMachineWebConsoleRequestList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineWebConsoleRequestList)(nil), (*VirtualMachineWebConsoleRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(a.(*v1alpha5.VirtualMachineWebConsoleRequestList), b.(*VirtualMachineWebConsoleRequestList), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineWebConsoleRequestList)(nil), (*VirtualMachineWebConsoleRequestList)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(a.(*v1alpha6.VirtualMachineWebConsoleRequestList), b.(*VirtualMachineWebConsoleRequestList), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestSpec)(nil), (*v1alpha5.VirtualMachineWebConsoleRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec(a.(*VirtualMachineWebConsoleRequestSpec), b.(*v1alpha5.VirtualMachineWebConsoleRequestSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestSpec)(nil), (*v1alpha6.VirtualMachineWebConsoleRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec(a.(*VirtualMachineWebConsoleRequestSpec), b.(*v1alpha6.VirtualMachineWebConsoleRequestSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineWebConsoleRequestSpec)(nil), (*VirtualMachineWebConsoleRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(a.(*v1alpha5.VirtualMachineWebConsoleRequestSpec), b.(*VirtualMachineWebConsoleRequestSpec), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineWebConsoleRequestSpec)(nil), (*VirtualMachineWebConsoleRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(a.(*v1alpha6.VirtualMachineWebConsoleRequestSpec), b.(*VirtualMachineWebConsoleRequestSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestStatus)(nil), (*v1alpha5.VirtualMachineWebConsoleRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus(a.(*VirtualMachineWebConsoleRequestStatus), b.(*v1alpha5.VirtualMachineWebConsoleRequestStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*VirtualMachineWebConsoleRequestStatus)(nil), (*v1alpha6.VirtualMachineWebConsoleRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus(a.(*VirtualMachineWebConsoleRequestStatus), b.(*v1alpha6.VirtualMachineWebConsoleRequestStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1alpha5.VirtualMachineWebConsoleRequestStatus)(nil), (*VirtualMachineWebConsoleRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(a.(*v1alpha5.VirtualMachineWebConsoleRequestStatus), b.(*VirtualMachineWebConsoleRequestStatus), scope)
+	if err := s.AddGeneratedConversionFunc((*v1alpha6.VirtualMachineWebConsoleRequestStatus)(nil), (*VirtualMachineWebConsoleRequestStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(a.(*v1alpha6.VirtualMachineWebConsoleRequestStatus), b.(*VirtualMachineWebConsoleRequestStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*VirtualMachineCdromSpec)(nil), (*v1alpha5.VirtualMachineCdromSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineCdromSpec_To_v1alpha5_VirtualMachineCdromSpec(a.(*VirtualMachineCdromSpec), b.(*v1alpha5.VirtualMachineCdromSpec), scope)
+	if err := s.AddConversionFunc((*VirtualMachineCdromSpec)(nil), (*v1alpha6.VirtualMachineCdromSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineCdromSpec_To_v1alpha6_VirtualMachineCdromSpec(a.(*VirtualMachineCdromSpec), b.(*v1alpha6.VirtualMachineCdromSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*VirtualMachineImageDiskInfo)(nil), (*v1alpha5.VirtualMachineImageDiskInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha5_VirtualMachineImageDiskInfo(a.(*VirtualMachineImageDiskInfo), b.(*v1alpha5.VirtualMachineImageDiskInfo), scope)
+	if err := s.AddConversionFunc((*VirtualMachineImageDiskInfo)(nil), (*v1alpha6.VirtualMachineImageDiskInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha6_VirtualMachineImageDiskInfo(a.(*VirtualMachineImageDiskInfo), b.(*v1alpha6.VirtualMachineImageDiskInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*VirtualMachineSpec)(nil), (*v1alpha5.VirtualMachineSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(a.(*VirtualMachineSpec), b.(*v1alpha5.VirtualMachineSpec), scope)
+	if err := s.AddConversionFunc((*VirtualMachineSpec)(nil), (*v1alpha6.VirtualMachineSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(a.(*VirtualMachineSpec), b.(*v1alpha6.VirtualMachineSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*VirtualMachineStatus)(nil), (*v1alpha5.VirtualMachineStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(a.(*VirtualMachineStatus), b.(*v1alpha5.VirtualMachineStatus), scope)
+	if err := s.AddConversionFunc((*VirtualMachineStatus)(nil), (*v1alpha6.VirtualMachineStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineStatus_To_v1alpha6_VirtualMachineStatus(a.(*VirtualMachineStatus), b.(*v1alpha6.VirtualMachineStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*VirtualMachineStorageStatus)(nil), (*v1alpha5.VirtualMachineStorageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha5_VirtualMachineStorageStatus(a.(*VirtualMachineStorageStatus), b.(*v1alpha5.VirtualMachineStorageStatus), scope)
+	if err := s.AddConversionFunc((*VirtualMachineStorageStatus)(nil), (*v1alpha6.VirtualMachineStorageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha6_VirtualMachineStorageStatus(a.(*VirtualMachineStorageStatus), b.(*v1alpha6.VirtualMachineStorageStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.PersistentVolumeClaimVolumeSource)(nil), (*PersistentVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(a.(*v1alpha5.PersistentVolumeClaimVolumeSource), b.(*PersistentVolumeClaimVolumeSource), scope)
+	if err := s.AddConversionFunc((*v1alpha6.PersistentVolumeClaimVolumeSource)(nil), (*PersistentVolumeClaimVolumeSource)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(a.(*v1alpha6.PersistentVolumeClaimVolumeSource), b.(*PersistentVolumeClaimVolumeSource), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineBootstrapCloudInitSpec)(nil), (*VirtualMachineBootstrapCloudInitSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(a.(*v1alpha5.VirtualMachineBootstrapCloudInitSpec), b.(*VirtualMachineBootstrapCloudInitSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineBootstrapCloudInitSpec)(nil), (*VirtualMachineBootstrapCloudInitSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(a.(*v1alpha6.VirtualMachineBootstrapCloudInitSpec), b.(*VirtualMachineBootstrapCloudInitSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineBootstrapLinuxPrepSpec)(nil), (*VirtualMachineBootstrapLinuxPrepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(a.(*v1alpha5.VirtualMachineBootstrapLinuxPrepSpec), b.(*VirtualMachineBootstrapLinuxPrepSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineBootstrapLinuxPrepSpec)(nil), (*VirtualMachineBootstrapLinuxPrepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(a.(*v1alpha6.VirtualMachineBootstrapLinuxPrepSpec), b.(*VirtualMachineBootstrapLinuxPrepSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineBootstrapSpec)(nil), (*VirtualMachineBootstrapSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(a.(*v1alpha5.VirtualMachineBootstrapSpec), b.(*VirtualMachineBootstrapSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineBootstrapSpec)(nil), (*VirtualMachineBootstrapSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(a.(*v1alpha6.VirtualMachineBootstrapSpec), b.(*VirtualMachineBootstrapSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineBootstrapSysprepSpec)(nil), (*VirtualMachineBootstrapSysprepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(a.(*v1alpha5.VirtualMachineBootstrapSysprepSpec), b.(*VirtualMachineBootstrapSysprepSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineBootstrapSysprepSpec)(nil), (*VirtualMachineBootstrapSysprepSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(a.(*v1alpha6.VirtualMachineBootstrapSysprepSpec), b.(*VirtualMachineBootstrapSysprepSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineCdromSpec)(nil), (*VirtualMachineCdromSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineCdromSpec_To_v1alpha3_VirtualMachineCdromSpec(a.(*v1alpha5.VirtualMachineCdromSpec), b.(*VirtualMachineCdromSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineCdromSpec)(nil), (*VirtualMachineCdromSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineCdromSpec_To_v1alpha3_VirtualMachineCdromSpec(a.(*v1alpha6.VirtualMachineCdromSpec), b.(*VirtualMachineCdromSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineCryptoSpec)(nil), (*VirtualMachineCryptoSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(a.(*v1alpha5.VirtualMachineCryptoSpec), b.(*VirtualMachineCryptoSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineCryptoSpec)(nil), (*VirtualMachineCryptoSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(a.(*v1alpha6.VirtualMachineCryptoSpec), b.(*VirtualMachineCryptoSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineCryptoStatus)(nil), (*VirtualMachineCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(a.(*v1alpha5.VirtualMachineCryptoStatus), b.(*VirtualMachineCryptoStatus), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineCryptoStatus)(nil), (*VirtualMachineCryptoStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(a.(*v1alpha6.VirtualMachineCryptoStatus), b.(*VirtualMachineCryptoStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineImageDiskInfo)(nil), (*VirtualMachineImageDiskInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(a.(*v1alpha5.VirtualMachineImageDiskInfo), b.(*VirtualMachineImageDiskInfo), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineImageDiskInfo)(nil), (*VirtualMachineImageDiskInfo)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(a.(*v1alpha6.VirtualMachineImageDiskInfo), b.(*VirtualMachineImageDiskInfo), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachinePublishRequestSpec)(nil), (*VirtualMachinePublishRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(a.(*v1alpha5.VirtualMachinePublishRequestSpec), b.(*VirtualMachinePublishRequestSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachinePublishRequestSpec)(nil), (*VirtualMachinePublishRequestSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(a.(*v1alpha6.VirtualMachinePublishRequestSpec), b.(*VirtualMachinePublishRequestSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineSpec)(nil), (*VirtualMachineSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(a.(*v1alpha5.VirtualMachineSpec), b.(*VirtualMachineSpec), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineSpec)(nil), (*VirtualMachineSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(a.(*v1alpha6.VirtualMachineSpec), b.(*VirtualMachineSpec), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineStatus)(nil), (*VirtualMachineStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(a.(*v1alpha5.VirtualMachineStatus), b.(*VirtualMachineStatus), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineStatus)(nil), (*VirtualMachineStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(a.(*v1alpha6.VirtualMachineStatus), b.(*VirtualMachineStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineStorageStatus)(nil), (*VirtualMachineStorageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(a.(*v1alpha5.VirtualMachineStorageStatus), b.(*VirtualMachineStorageStatus), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineStorageStatus)(nil), (*VirtualMachineStorageStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(a.(*v1alpha6.VirtualMachineStorageStatus), b.(*VirtualMachineStorageStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineVolumeStatus)(nil), (*VirtualMachineVolumeStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(a.(*v1alpha5.VirtualMachineVolumeStatus), b.(*VirtualMachineVolumeStatus), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineVolumeStatus)(nil), (*VirtualMachineVolumeStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(a.(*v1alpha6.VirtualMachineVolumeStatus), b.(*VirtualMachineVolumeStatus), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1alpha5.VirtualMachineVolume)(nil), (*VirtualMachineVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha5_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(a.(*v1alpha5.VirtualMachineVolume), b.(*VirtualMachineVolume), scope)
+	if err := s.AddConversionFunc((*v1alpha6.VirtualMachineVolume)(nil), (*VirtualMachineVolume)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha6_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(a.(*v1alpha6.VirtualMachineVolume), b.(*VirtualMachineVolume), scope)
 	}); err != nil {
 		return err
 	}
 	return nil
 }
 
-func autoConvert_v1alpha3_AffinitySpec_To_v1alpha5_AffinitySpec(in *AffinitySpec, out *v1alpha5.AffinitySpec, s conversion.Scope) error {
-	out.VMAffinity = (*v1alpha5.VMAffinitySpec)(unsafe.Pointer(in.VMAffinity))
-	out.VMAntiAffinity = (*v1alpha5.VMAntiAffinitySpec)(unsafe.Pointer(in.VMAntiAffinity))
+func autoConvert_v1alpha3_AffinitySpec_To_v1alpha6_AffinitySpec(in *AffinitySpec, out *v1alpha6.AffinitySpec, s conversion.Scope) error {
+	out.VMAffinity = (*v1alpha6.VMAffinitySpec)(unsafe.Pointer(in.VMAffinity))
+	out.VMAntiAffinity = (*v1alpha6.VMAntiAffinitySpec)(unsafe.Pointer(in.VMAntiAffinity))
 	return nil
 }
 
-// Convert_v1alpha3_AffinitySpec_To_v1alpha5_AffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha3_AffinitySpec_To_v1alpha5_AffinitySpec(in *AffinitySpec, out *v1alpha5.AffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_AffinitySpec_To_v1alpha5_AffinitySpec(in, out, s)
+// Convert_v1alpha3_AffinitySpec_To_v1alpha6_AffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha3_AffinitySpec_To_v1alpha6_AffinitySpec(in *AffinitySpec, out *v1alpha6.AffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_AffinitySpec_To_v1alpha6_AffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_AffinitySpec_To_v1alpha3_AffinitySpec(in *v1alpha5.AffinitySpec, out *AffinitySpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_AffinitySpec_To_v1alpha3_AffinitySpec(in *v1alpha6.AffinitySpec, out *AffinitySpec, s conversion.Scope) error {
 	out.VMAffinity = (*VMAffinitySpec)(unsafe.Pointer(in.VMAffinity))
 	out.VMAntiAffinity = (*VMAntiAffinitySpec)(unsafe.Pointer(in.VMAntiAffinity))
 	return nil
 }
 
-// Convert_v1alpha5_AffinitySpec_To_v1alpha3_AffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha5_AffinitySpec_To_v1alpha3_AffinitySpec(in *v1alpha5.AffinitySpec, out *AffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_AffinitySpec_To_v1alpha3_AffinitySpec(in, out, s)
+// Convert_v1alpha6_AffinitySpec_To_v1alpha3_AffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha6_AffinitySpec_To_v1alpha3_AffinitySpec(in *v1alpha6.AffinitySpec, out *AffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_AffinitySpec_To_v1alpha3_AffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(in *ClusterVirtualMachineImage, out *v1alpha5.ClusterVirtualMachineImage, s conversion.Scope) error {
+func autoConvert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(in *ClusterVirtualMachineImage, out *v1alpha6.ClusterVirtualMachineImage, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage is an autogenerated conversion function.
-func Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(in *ClusterVirtualMachineImage, out *v1alpha5.ClusterVirtualMachineImage, s conversion.Scope) error {
-	return autoConvert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(in, out, s)
+// Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage is an autogenerated conversion function.
+func Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(in *ClusterVirtualMachineImage, out *v1alpha6.ClusterVirtualMachineImage, s conversion.Scope) error {
+	return autoConvert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(in, out, s)
 }
 
-func autoConvert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in *v1alpha5.ClusterVirtualMachineImage, out *ClusterVirtualMachineImage, s conversion.Scope) error {
+func autoConvert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in *v1alpha6.ClusterVirtualMachineImage, out *ClusterVirtualMachineImage, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage is an autogenerated conversion function.
-func Convert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in *v1alpha5.ClusterVirtualMachineImage, out *ClusterVirtualMachineImage, s conversion.Scope) error {
-	return autoConvert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in, out, s)
+// Convert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage is an autogenerated conversion function.
+func Convert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in *v1alpha6.ClusterVirtualMachineImage, out *ClusterVirtualMachineImage, s conversion.Scope) error {
+	return autoConvert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(in, out, s)
 }
 
-func autoConvert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirtualMachineImageList(in *ClusterVirtualMachineImageList, out *v1alpha5.ClusterVirtualMachineImageList, s conversion.Scope) error {
+func autoConvert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha6_ClusterVirtualMachineImageList(in *ClusterVirtualMachineImageList, out *v1alpha6.ClusterVirtualMachineImageList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]v1alpha5.ClusterVirtualMachineImage, len(*in))
+		*out = make([]v1alpha6.ClusterVirtualMachineImage, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha5_ClusterVirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_ClusterVirtualMachineImage_To_v1alpha6_ClusterVirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -1351,18 +1351,18 @@ func autoConvert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirt
 	return nil
 }
 
-// Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirtualMachineImageList is an autogenerated conversion function.
-func Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirtualMachineImageList(in *ClusterVirtualMachineImageList, out *v1alpha5.ClusterVirtualMachineImageList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha5_ClusterVirtualMachineImageList(in, out, s)
+// Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha6_ClusterVirtualMachineImageList is an autogenerated conversion function.
+func Convert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha6_ClusterVirtualMachineImageList(in *ClusterVirtualMachineImageList, out *v1alpha6.ClusterVirtualMachineImageList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_ClusterVirtualMachineImageList_To_v1alpha6_ClusterVirtualMachineImageList(in, out, s)
 }
 
-func autoConvert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in *v1alpha5.ClusterVirtualMachineImageList, out *ClusterVirtualMachineImageList, s conversion.Scope) error {
+func autoConvert_v1alpha6_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in *v1alpha6.ClusterVirtualMachineImageList, out *ClusterVirtualMachineImageList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]ClusterVirtualMachineImage, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_ClusterVirtualMachineImage_To_v1alpha3_ClusterVirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -1372,557 +1372,557 @@ func autoConvert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirt
 	return nil
 }
 
-// Convert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList is an autogenerated conversion function.
-func Convert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in *v1alpha5.ClusterVirtualMachineImageList, out *ClusterVirtualMachineImageList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in, out, s)
+// Convert_v1alpha6_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList is an autogenerated conversion function.
+func Convert_v1alpha6_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in *v1alpha6.ClusterVirtualMachineImageList, out *ClusterVirtualMachineImageList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_ClusterVirtualMachineImageList_To_v1alpha3_ClusterVirtualMachineImageList(in, out, s)
 }
 
-func autoConvert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha5_DynamicDirectPathIODevice(in *DynamicDirectPathIODevice, out *v1alpha5.DynamicDirectPathIODevice, s conversion.Scope) error {
+func autoConvert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha6_DynamicDirectPathIODevice(in *DynamicDirectPathIODevice, out *v1alpha6.DynamicDirectPathIODevice, s conversion.Scope) error {
 	out.VendorID = in.VendorID
 	out.DeviceID = in.DeviceID
 	out.CustomLabel = in.CustomLabel
 	return nil
 }
 
-// Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha5_DynamicDirectPathIODevice is an autogenerated conversion function.
-func Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha5_DynamicDirectPathIODevice(in *DynamicDirectPathIODevice, out *v1alpha5.DynamicDirectPathIODevice, s conversion.Scope) error {
-	return autoConvert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha5_DynamicDirectPathIODevice(in, out, s)
+// Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha6_DynamicDirectPathIODevice is an autogenerated conversion function.
+func Convert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha6_DynamicDirectPathIODevice(in *DynamicDirectPathIODevice, out *v1alpha6.DynamicDirectPathIODevice, s conversion.Scope) error {
+	return autoConvert_v1alpha3_DynamicDirectPathIODevice_To_v1alpha6_DynamicDirectPathIODevice(in, out, s)
 }
 
-func autoConvert_v1alpha5_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in *v1alpha5.DynamicDirectPathIODevice, out *DynamicDirectPathIODevice, s conversion.Scope) error {
+func autoConvert_v1alpha6_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in *v1alpha6.DynamicDirectPathIODevice, out *DynamicDirectPathIODevice, s conversion.Scope) error {
 	out.VendorID = in.VendorID
 	out.DeviceID = in.DeviceID
 	out.CustomLabel = in.CustomLabel
 	return nil
 }
 
-// Convert_v1alpha5_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice is an autogenerated conversion function.
-func Convert_v1alpha5_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in *v1alpha5.DynamicDirectPathIODevice, out *DynamicDirectPathIODevice, s conversion.Scope) error {
-	return autoConvert_v1alpha5_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in, out, s)
+// Convert_v1alpha6_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice is an autogenerated conversion function.
+func Convert_v1alpha6_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in *v1alpha6.DynamicDirectPathIODevice, out *DynamicDirectPathIODevice, s conversion.Scope) error {
+	return autoConvert_v1alpha6_DynamicDirectPathIODevice_To_v1alpha3_DynamicDirectPathIODevice(in, out, s)
 }
 
-func autoConvert_v1alpha3_GroupMember_To_v1alpha5_GroupMember(in *GroupMember, out *v1alpha5.GroupMember, s conversion.Scope) error {
+func autoConvert_v1alpha3_GroupMember_To_v1alpha6_GroupMember(in *GroupMember, out *v1alpha6.GroupMember, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha3_GroupMember_To_v1alpha5_GroupMember is an autogenerated conversion function.
-func Convert_v1alpha3_GroupMember_To_v1alpha5_GroupMember(in *GroupMember, out *v1alpha5.GroupMember, s conversion.Scope) error {
-	return autoConvert_v1alpha3_GroupMember_To_v1alpha5_GroupMember(in, out, s)
+// Convert_v1alpha3_GroupMember_To_v1alpha6_GroupMember is an autogenerated conversion function.
+func Convert_v1alpha3_GroupMember_To_v1alpha6_GroupMember(in *GroupMember, out *v1alpha6.GroupMember, s conversion.Scope) error {
+	return autoConvert_v1alpha3_GroupMember_To_v1alpha6_GroupMember(in, out, s)
 }
 
-func autoConvert_v1alpha5_GroupMember_To_v1alpha3_GroupMember(in *v1alpha5.GroupMember, out *GroupMember, s conversion.Scope) error {
+func autoConvert_v1alpha6_GroupMember_To_v1alpha3_GroupMember(in *v1alpha6.GroupMember, out *GroupMember, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha5_GroupMember_To_v1alpha3_GroupMember is an autogenerated conversion function.
-func Convert_v1alpha5_GroupMember_To_v1alpha3_GroupMember(in *v1alpha5.GroupMember, out *GroupMember, s conversion.Scope) error {
-	return autoConvert_v1alpha5_GroupMember_To_v1alpha3_GroupMember(in, out, s)
+// Convert_v1alpha6_GroupMember_To_v1alpha3_GroupMember is an autogenerated conversion function.
+func Convert_v1alpha6_GroupMember_To_v1alpha3_GroupMember(in *v1alpha6.GroupMember, out *GroupMember, s conversion.Scope) error {
+	return autoConvert_v1alpha6_GroupMember_To_v1alpha3_GroupMember(in, out, s)
 }
 
-func autoConvert_v1alpha3_GuestHeartbeatAction_To_v1alpha5_GuestHeartbeatAction(in *GuestHeartbeatAction, out *v1alpha5.GuestHeartbeatAction, s conversion.Scope) error {
-	out.ThresholdStatus = v1alpha5.GuestHeartbeatStatus(in.ThresholdStatus)
+func autoConvert_v1alpha3_GuestHeartbeatAction_To_v1alpha6_GuestHeartbeatAction(in *GuestHeartbeatAction, out *v1alpha6.GuestHeartbeatAction, s conversion.Scope) error {
+	out.ThresholdStatus = v1alpha6.GuestHeartbeatStatus(in.ThresholdStatus)
 	return nil
 }
 
-// Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha5_GuestHeartbeatAction is an autogenerated conversion function.
-func Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha5_GuestHeartbeatAction(in *GuestHeartbeatAction, out *v1alpha5.GuestHeartbeatAction, s conversion.Scope) error {
-	return autoConvert_v1alpha3_GuestHeartbeatAction_To_v1alpha5_GuestHeartbeatAction(in, out, s)
+// Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha6_GuestHeartbeatAction is an autogenerated conversion function.
+func Convert_v1alpha3_GuestHeartbeatAction_To_v1alpha6_GuestHeartbeatAction(in *GuestHeartbeatAction, out *v1alpha6.GuestHeartbeatAction, s conversion.Scope) error {
+	return autoConvert_v1alpha3_GuestHeartbeatAction_To_v1alpha6_GuestHeartbeatAction(in, out, s)
 }
 
-func autoConvert_v1alpha5_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in *v1alpha5.GuestHeartbeatAction, out *GuestHeartbeatAction, s conversion.Scope) error {
+func autoConvert_v1alpha6_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in *v1alpha6.GuestHeartbeatAction, out *GuestHeartbeatAction, s conversion.Scope) error {
 	out.ThresholdStatus = GuestHeartbeatStatus(in.ThresholdStatus)
 	return nil
 }
 
-// Convert_v1alpha5_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction is an autogenerated conversion function.
-func Convert_v1alpha5_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in *v1alpha5.GuestHeartbeatAction, out *GuestHeartbeatAction, s conversion.Scope) error {
-	return autoConvert_v1alpha5_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in, out, s)
+// Convert_v1alpha6_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction is an autogenerated conversion function.
+func Convert_v1alpha6_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in *v1alpha6.GuestHeartbeatAction, out *GuestHeartbeatAction, s conversion.Scope) error {
+	return autoConvert_v1alpha6_GuestHeartbeatAction_To_v1alpha3_GuestHeartbeatAction(in, out, s)
 }
 
-func autoConvert_v1alpha3_GuestInfoAction_To_v1alpha5_GuestInfoAction(in *GuestInfoAction, out *v1alpha5.GuestInfoAction, s conversion.Scope) error {
+func autoConvert_v1alpha3_GuestInfoAction_To_v1alpha6_GuestInfoAction(in *GuestInfoAction, out *v1alpha6.GuestInfoAction, s conversion.Scope) error {
 	out.Key = in.Key
 	out.Value = in.Value
 	return nil
 }
 
-// Convert_v1alpha3_GuestInfoAction_To_v1alpha5_GuestInfoAction is an autogenerated conversion function.
-func Convert_v1alpha3_GuestInfoAction_To_v1alpha5_GuestInfoAction(in *GuestInfoAction, out *v1alpha5.GuestInfoAction, s conversion.Scope) error {
-	return autoConvert_v1alpha3_GuestInfoAction_To_v1alpha5_GuestInfoAction(in, out, s)
+// Convert_v1alpha3_GuestInfoAction_To_v1alpha6_GuestInfoAction is an autogenerated conversion function.
+func Convert_v1alpha3_GuestInfoAction_To_v1alpha6_GuestInfoAction(in *GuestInfoAction, out *v1alpha6.GuestInfoAction, s conversion.Scope) error {
+	return autoConvert_v1alpha3_GuestInfoAction_To_v1alpha6_GuestInfoAction(in, out, s)
 }
 
-func autoConvert_v1alpha5_GuestInfoAction_To_v1alpha3_GuestInfoAction(in *v1alpha5.GuestInfoAction, out *GuestInfoAction, s conversion.Scope) error {
+func autoConvert_v1alpha6_GuestInfoAction_To_v1alpha3_GuestInfoAction(in *v1alpha6.GuestInfoAction, out *GuestInfoAction, s conversion.Scope) error {
 	out.Key = in.Key
 	out.Value = in.Value
 	return nil
 }
 
-// Convert_v1alpha5_GuestInfoAction_To_v1alpha3_GuestInfoAction is an autogenerated conversion function.
-func Convert_v1alpha5_GuestInfoAction_To_v1alpha3_GuestInfoAction(in *v1alpha5.GuestInfoAction, out *GuestInfoAction, s conversion.Scope) error {
-	return autoConvert_v1alpha5_GuestInfoAction_To_v1alpha3_GuestInfoAction(in, out, s)
+// Convert_v1alpha6_GuestInfoAction_To_v1alpha3_GuestInfoAction is an autogenerated conversion function.
+func Convert_v1alpha6_GuestInfoAction_To_v1alpha3_GuestInfoAction(in *v1alpha6.GuestInfoAction, out *GuestInfoAction, s conversion.Scope) error {
+	return autoConvert_v1alpha6_GuestInfoAction_To_v1alpha3_GuestInfoAction(in, out, s)
 }
 
-func autoConvert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage(in *InstanceStorage, out *v1alpha5.InstanceStorage, s conversion.Scope) error {
+func autoConvert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage(in *InstanceStorage, out *v1alpha6.InstanceStorage, s conversion.Scope) error {
 	out.StorageClass = in.StorageClass
-	out.Volumes = *(*[]v1alpha5.InstanceStorageVolume)(unsafe.Pointer(&in.Volumes))
+	out.Volumes = *(*[]v1alpha6.InstanceStorageVolume)(unsafe.Pointer(&in.Volumes))
 	return nil
 }
 
-// Convert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage is an autogenerated conversion function.
-func Convert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage(in *InstanceStorage, out *v1alpha5.InstanceStorage, s conversion.Scope) error {
-	return autoConvert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage(in, out, s)
+// Convert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage is an autogenerated conversion function.
+func Convert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage(in *InstanceStorage, out *v1alpha6.InstanceStorage, s conversion.Scope) error {
+	return autoConvert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage(in, out, s)
 }
 
-func autoConvert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage(in *v1alpha5.InstanceStorage, out *InstanceStorage, s conversion.Scope) error {
+func autoConvert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage(in *v1alpha6.InstanceStorage, out *InstanceStorage, s conversion.Scope) error {
 	out.StorageClass = in.StorageClass
 	out.Volumes = *(*[]InstanceStorageVolume)(unsafe.Pointer(&in.Volumes))
 	return nil
 }
 
-// Convert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage is an autogenerated conversion function.
-func Convert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage(in *v1alpha5.InstanceStorage, out *InstanceStorage, s conversion.Scope) error {
-	return autoConvert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage(in, out, s)
+// Convert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage is an autogenerated conversion function.
+func Convert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage(in *v1alpha6.InstanceStorage, out *InstanceStorage, s conversion.Scope) error {
+	return autoConvert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage(in, out, s)
 }
 
-func autoConvert_v1alpha3_InstanceStorageVolume_To_v1alpha5_InstanceStorageVolume(in *InstanceStorageVolume, out *v1alpha5.InstanceStorageVolume, s conversion.Scope) error {
+func autoConvert_v1alpha3_InstanceStorageVolume_To_v1alpha6_InstanceStorageVolume(in *InstanceStorageVolume, out *v1alpha6.InstanceStorageVolume, s conversion.Scope) error {
 	out.Size = in.Size
 	return nil
 }
 
-// Convert_v1alpha3_InstanceStorageVolume_To_v1alpha5_InstanceStorageVolume is an autogenerated conversion function.
-func Convert_v1alpha3_InstanceStorageVolume_To_v1alpha5_InstanceStorageVolume(in *InstanceStorageVolume, out *v1alpha5.InstanceStorageVolume, s conversion.Scope) error {
-	return autoConvert_v1alpha3_InstanceStorageVolume_To_v1alpha5_InstanceStorageVolume(in, out, s)
+// Convert_v1alpha3_InstanceStorageVolume_To_v1alpha6_InstanceStorageVolume is an autogenerated conversion function.
+func Convert_v1alpha3_InstanceStorageVolume_To_v1alpha6_InstanceStorageVolume(in *InstanceStorageVolume, out *v1alpha6.InstanceStorageVolume, s conversion.Scope) error {
+	return autoConvert_v1alpha3_InstanceStorageVolume_To_v1alpha6_InstanceStorageVolume(in, out, s)
 }
 
-func autoConvert_v1alpha5_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in *v1alpha5.InstanceStorageVolume, out *InstanceStorageVolume, s conversion.Scope) error {
+func autoConvert_v1alpha6_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in *v1alpha6.InstanceStorageVolume, out *InstanceStorageVolume, s conversion.Scope) error {
 	out.Size = in.Size
 	return nil
 }
 
-// Convert_v1alpha5_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume is an autogenerated conversion function.
-func Convert_v1alpha5_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in *v1alpha5.InstanceStorageVolume, out *InstanceStorageVolume, s conversion.Scope) error {
-	return autoConvert_v1alpha5_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in, out, s)
+// Convert_v1alpha6_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume is an autogenerated conversion function.
+func Convert_v1alpha6_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in *v1alpha6.InstanceStorageVolume, out *InstanceStorageVolume, s conversion.Scope) error {
+	return autoConvert_v1alpha6_InstanceStorageVolume_To_v1alpha3_InstanceStorageVolume(in, out, s)
 }
 
-func autoConvert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource(in *InstanceVolumeClaimVolumeSource, out *v1alpha5.InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource(in *InstanceVolumeClaimVolumeSource, out *v1alpha6.InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
 	out.StorageClass = in.StorageClass
 	out.Size = in.Size
 	return nil
 }
 
-// Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource is an autogenerated conversion function.
-func Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource(in *InstanceVolumeClaimVolumeSource, out *v1alpha5.InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
-	return autoConvert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha5_InstanceVolumeClaimVolumeSource(in, out, s)
+// Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource is an autogenerated conversion function.
+func Convert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource(in *InstanceVolumeClaimVolumeSource, out *v1alpha6.InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
+	return autoConvert_v1alpha3_InstanceVolumeClaimVolumeSource_To_v1alpha6_InstanceVolumeClaimVolumeSource(in, out, s)
 }
 
-func autoConvert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in *v1alpha5.InstanceVolumeClaimVolumeSource, out *InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in *v1alpha6.InstanceVolumeClaimVolumeSource, out *InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
 	out.StorageClass = in.StorageClass
 	out.Size = in.Size
 	return nil
 }
 
-// Convert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource is an autogenerated conversion function.
-func Convert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in *v1alpha5.InstanceVolumeClaimVolumeSource, out *InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
-	return autoConvert_v1alpha5_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in, out, s)
+// Convert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource is an autogenerated conversion function.
+func Convert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in *v1alpha6.InstanceVolumeClaimVolumeSource, out *InstanceVolumeClaimVolumeSource, s conversion.Scope) error {
+	return autoConvert_v1alpha6_InstanceVolumeClaimVolumeSource_To_v1alpha3_InstanceVolumeClaimVolumeSource(in, out, s)
 }
 
-func autoConvert_v1alpha3_LoadBalancerIngress_To_v1alpha5_LoadBalancerIngress(in *LoadBalancerIngress, out *v1alpha5.LoadBalancerIngress, s conversion.Scope) error {
+func autoConvert_v1alpha3_LoadBalancerIngress_To_v1alpha6_LoadBalancerIngress(in *LoadBalancerIngress, out *v1alpha6.LoadBalancerIngress, s conversion.Scope) error {
 	out.IP = in.IP
 	out.Hostname = in.Hostname
 	return nil
 }
 
-// Convert_v1alpha3_LoadBalancerIngress_To_v1alpha5_LoadBalancerIngress is an autogenerated conversion function.
-func Convert_v1alpha3_LoadBalancerIngress_To_v1alpha5_LoadBalancerIngress(in *LoadBalancerIngress, out *v1alpha5.LoadBalancerIngress, s conversion.Scope) error {
-	return autoConvert_v1alpha3_LoadBalancerIngress_To_v1alpha5_LoadBalancerIngress(in, out, s)
+// Convert_v1alpha3_LoadBalancerIngress_To_v1alpha6_LoadBalancerIngress is an autogenerated conversion function.
+func Convert_v1alpha3_LoadBalancerIngress_To_v1alpha6_LoadBalancerIngress(in *LoadBalancerIngress, out *v1alpha6.LoadBalancerIngress, s conversion.Scope) error {
+	return autoConvert_v1alpha3_LoadBalancerIngress_To_v1alpha6_LoadBalancerIngress(in, out, s)
 }
 
-func autoConvert_v1alpha5_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in *v1alpha5.LoadBalancerIngress, out *LoadBalancerIngress, s conversion.Scope) error {
+func autoConvert_v1alpha6_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in *v1alpha6.LoadBalancerIngress, out *LoadBalancerIngress, s conversion.Scope) error {
 	out.IP = in.IP
 	out.Hostname = in.Hostname
 	return nil
 }
 
-// Convert_v1alpha5_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress is an autogenerated conversion function.
-func Convert_v1alpha5_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in *v1alpha5.LoadBalancerIngress, out *LoadBalancerIngress, s conversion.Scope) error {
-	return autoConvert_v1alpha5_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in, out, s)
+// Convert_v1alpha6_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress is an autogenerated conversion function.
+func Convert_v1alpha6_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in *v1alpha6.LoadBalancerIngress, out *LoadBalancerIngress, s conversion.Scope) error {
+	return autoConvert_v1alpha6_LoadBalancerIngress_To_v1alpha3_LoadBalancerIngress(in, out, s)
 }
 
-func autoConvert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus(in *LoadBalancerStatus, out *v1alpha5.LoadBalancerStatus, s conversion.Scope) error {
-	out.Ingress = *(*[]v1alpha5.LoadBalancerIngress)(unsafe.Pointer(&in.Ingress))
+func autoConvert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus(in *LoadBalancerStatus, out *v1alpha6.LoadBalancerStatus, s conversion.Scope) error {
+	out.Ingress = *(*[]v1alpha6.LoadBalancerIngress)(unsafe.Pointer(&in.Ingress))
 	return nil
 }
 
-// Convert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus is an autogenerated conversion function.
-func Convert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus(in *LoadBalancerStatus, out *v1alpha5.LoadBalancerStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus(in, out, s)
+// Convert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus is an autogenerated conversion function.
+func Convert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus(in *LoadBalancerStatus, out *v1alpha6.LoadBalancerStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in *v1alpha5.LoadBalancerStatus, out *LoadBalancerStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in *v1alpha6.LoadBalancerStatus, out *LoadBalancerStatus, s conversion.Scope) error {
 	out.Ingress = *(*[]LoadBalancerIngress)(unsafe.Pointer(&in.Ingress))
 	return nil
 }
 
-// Convert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus is an autogenerated conversion function.
-func Convert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in *v1alpha5.LoadBalancerStatus, out *LoadBalancerStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in, out, s)
+// Convert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus is an autogenerated conversion function.
+func Convert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in *v1alpha6.LoadBalancerStatus, out *LoadBalancerStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_NetworkDeviceStatus_To_v1alpha5_NetworkDeviceStatus(in *NetworkDeviceStatus, out *v1alpha5.NetworkDeviceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_NetworkDeviceStatus_To_v1alpha6_NetworkDeviceStatus(in *NetworkDeviceStatus, out *v1alpha6.NetworkDeviceStatus, s conversion.Scope) error {
 	out.Gateway4 = in.Gateway4
 	out.MacAddress = in.MacAddress
 	out.IPAddresses = *(*[]string)(unsafe.Pointer(&in.IPAddresses))
 	return nil
 }
 
-// Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha5_NetworkDeviceStatus is an autogenerated conversion function.
-func Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha5_NetworkDeviceStatus(in *NetworkDeviceStatus, out *v1alpha5.NetworkDeviceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_NetworkDeviceStatus_To_v1alpha5_NetworkDeviceStatus(in, out, s)
+// Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha6_NetworkDeviceStatus is an autogenerated conversion function.
+func Convert_v1alpha3_NetworkDeviceStatus_To_v1alpha6_NetworkDeviceStatus(in *NetworkDeviceStatus, out *v1alpha6.NetworkDeviceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_NetworkDeviceStatus_To_v1alpha6_NetworkDeviceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in *v1alpha5.NetworkDeviceStatus, out *NetworkDeviceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in *v1alpha6.NetworkDeviceStatus, out *NetworkDeviceStatus, s conversion.Scope) error {
 	out.Gateway4 = in.Gateway4
 	out.MacAddress = in.MacAddress
 	out.IPAddresses = *(*[]string)(unsafe.Pointer(&in.IPAddresses))
 	return nil
 }
 
-// Convert_v1alpha5_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus is an autogenerated conversion function.
-func Convert_v1alpha5_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in *v1alpha5.NetworkDeviceStatus, out *NetworkDeviceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in, out, s)
+// Convert_v1alpha6_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus is an autogenerated conversion function.
+func Convert_v1alpha6_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in *v1alpha6.NetworkDeviceStatus, out *NetworkDeviceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_NetworkDeviceStatus_To_v1alpha3_NetworkDeviceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus(in *NetworkStatus, out *v1alpha5.NetworkStatus, s conversion.Scope) error {
-	out.Devices = *(*[]v1alpha5.NetworkDeviceStatus)(unsafe.Pointer(&in.Devices))
+func autoConvert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus(in *NetworkStatus, out *v1alpha6.NetworkStatus, s conversion.Scope) error {
+	out.Devices = *(*[]v1alpha6.NetworkDeviceStatus)(unsafe.Pointer(&in.Devices))
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
 	return nil
 }
 
-// Convert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus is an autogenerated conversion function.
-func Convert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus(in *NetworkStatus, out *v1alpha5.NetworkStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus(in, out, s)
+// Convert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus is an autogenerated conversion function.
+func Convert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus(in *NetworkStatus, out *v1alpha6.NetworkStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus(in *v1alpha5.NetworkStatus, out *NetworkStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus(in *v1alpha6.NetworkStatus, out *NetworkStatus, s conversion.Scope) error {
 	out.Devices = *(*[]NetworkDeviceStatus)(unsafe.Pointer(&in.Devices))
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
 	return nil
 }
 
-// Convert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus is an autogenerated conversion function.
-func Convert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus(in *v1alpha5.NetworkStatus, out *NetworkStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus(in, out, s)
+// Convert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus is an autogenerated conversion function.
+func Convert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus(in *v1alpha6.NetworkStatus, out *NetworkStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_OVFProperty_To_v1alpha5_OVFProperty(in *OVFProperty, out *v1alpha5.OVFProperty, s conversion.Scope) error {
+func autoConvert_v1alpha3_OVFProperty_To_v1alpha6_OVFProperty(in *OVFProperty, out *v1alpha6.OVFProperty, s conversion.Scope) error {
 	out.Key = in.Key
 	out.Type = in.Type
 	out.Default = (*string)(unsafe.Pointer(in.Default))
 	return nil
 }
 
-// Convert_v1alpha3_OVFProperty_To_v1alpha5_OVFProperty is an autogenerated conversion function.
-func Convert_v1alpha3_OVFProperty_To_v1alpha5_OVFProperty(in *OVFProperty, out *v1alpha5.OVFProperty, s conversion.Scope) error {
-	return autoConvert_v1alpha3_OVFProperty_To_v1alpha5_OVFProperty(in, out, s)
+// Convert_v1alpha3_OVFProperty_To_v1alpha6_OVFProperty is an autogenerated conversion function.
+func Convert_v1alpha3_OVFProperty_To_v1alpha6_OVFProperty(in *OVFProperty, out *v1alpha6.OVFProperty, s conversion.Scope) error {
+	return autoConvert_v1alpha3_OVFProperty_To_v1alpha6_OVFProperty(in, out, s)
 }
 
-func autoConvert_v1alpha5_OVFProperty_To_v1alpha3_OVFProperty(in *v1alpha5.OVFProperty, out *OVFProperty, s conversion.Scope) error {
+func autoConvert_v1alpha6_OVFProperty_To_v1alpha3_OVFProperty(in *v1alpha6.OVFProperty, out *OVFProperty, s conversion.Scope) error {
 	out.Key = in.Key
 	out.Type = in.Type
 	out.Default = (*string)(unsafe.Pointer(in.Default))
 	return nil
 }
 
-// Convert_v1alpha5_OVFProperty_To_v1alpha3_OVFProperty is an autogenerated conversion function.
-func Convert_v1alpha5_OVFProperty_To_v1alpha3_OVFProperty(in *v1alpha5.OVFProperty, out *OVFProperty, s conversion.Scope) error {
-	return autoConvert_v1alpha5_OVFProperty_To_v1alpha3_OVFProperty(in, out, s)
+// Convert_v1alpha6_OVFProperty_To_v1alpha3_OVFProperty is an autogenerated conversion function.
+func Convert_v1alpha6_OVFProperty_To_v1alpha3_OVFProperty(in *v1alpha6.OVFProperty, out *OVFProperty, s conversion.Scope) error {
+	return autoConvert_v1alpha6_OVFProperty_To_v1alpha3_OVFProperty(in, out, s)
 }
 
-func autoConvert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource(in *PersistentVolumeClaimVolumeSource, out *v1alpha5.PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource(in *PersistentVolumeClaimVolumeSource, out *v1alpha6.PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
 	out.PersistentVolumeClaimVolumeSource = in.PersistentVolumeClaimVolumeSource
-	out.InstanceVolumeClaim = (*v1alpha5.InstanceVolumeClaimVolumeSource)(unsafe.Pointer(in.InstanceVolumeClaim))
+	out.InstanceVolumeClaim = (*v1alpha6.InstanceVolumeClaimVolumeSource)(unsafe.Pointer(in.InstanceVolumeClaim))
 	return nil
 }
 
-// Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource is an autogenerated conversion function.
-func Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource(in *PersistentVolumeClaimVolumeSource, out *v1alpha5.PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
-	return autoConvert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource(in, out, s)
+// Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource is an autogenerated conversion function.
+func Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource(in *PersistentVolumeClaimVolumeSource, out *v1alpha6.PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
+	return autoConvert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource(in, out, s)
 }
 
-func autoConvert_v1alpha5_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(in *v1alpha5.PersistentVolumeClaimVolumeSource, out *PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha6_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(in *v1alpha6.PersistentVolumeClaimVolumeSource, out *PersistentVolumeClaimVolumeSource, s conversion.Scope) error {
 	out.PersistentVolumeClaimVolumeSource = in.PersistentVolumeClaimVolumeSource
 	out.InstanceVolumeClaim = (*InstanceVolumeClaimVolumeSource)(unsafe.Pointer(in.InstanceVolumeClaim))
 	return nil
 }
 
-func autoConvert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec(in *ResourcePoolSpec, out *v1alpha5.ResourcePoolSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec(in *ResourcePoolSpec, out *v1alpha6.ResourcePoolSpec, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(&in.Reservations, &out.Reservations, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(&in.Reservations, &out.Reservations, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec is an autogenerated conversion function.
-func Convert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec(in *ResourcePoolSpec, out *v1alpha5.ResourcePoolSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec(in, out, s)
+// Convert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec is an autogenerated conversion function.
+func Convert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec(in *ResourcePoolSpec, out *v1alpha6.ResourcePoolSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in *v1alpha5.ResourcePoolSpec, out *ResourcePoolSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in *v1alpha6.ResourcePoolSpec, out *ResourcePoolSpec, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Reservations, &out.Reservations, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Reservations, &out.Reservations, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec is an autogenerated conversion function.
-func Convert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in *v1alpha5.ResourcePoolSpec, out *ResourcePoolSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in, out, s)
+// Convert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec is an autogenerated conversion function.
+func Convert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in *v1alpha6.ResourcePoolSpec, out *ResourcePoolSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_ResourcePoolStatus_To_v1alpha5_ResourcePoolStatus(in *ResourcePoolStatus, out *v1alpha5.ResourcePoolStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_ResourcePoolStatus_To_v1alpha6_ResourcePoolStatus(in *ResourcePoolStatus, out *v1alpha6.ResourcePoolStatus, s conversion.Scope) error {
 	out.ClusterMoID = in.ClusterMoID
 	out.ChildResourcePoolMoID = in.ChildResourcePoolMoID
 	return nil
 }
 
-// Convert_v1alpha3_ResourcePoolStatus_To_v1alpha5_ResourcePoolStatus is an autogenerated conversion function.
-func Convert_v1alpha3_ResourcePoolStatus_To_v1alpha5_ResourcePoolStatus(in *ResourcePoolStatus, out *v1alpha5.ResourcePoolStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_ResourcePoolStatus_To_v1alpha5_ResourcePoolStatus(in, out, s)
+// Convert_v1alpha3_ResourcePoolStatus_To_v1alpha6_ResourcePoolStatus is an autogenerated conversion function.
+func Convert_v1alpha3_ResourcePoolStatus_To_v1alpha6_ResourcePoolStatus(in *ResourcePoolStatus, out *v1alpha6.ResourcePoolStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_ResourcePoolStatus_To_v1alpha6_ResourcePoolStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in *v1alpha5.ResourcePoolStatus, out *ResourcePoolStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in *v1alpha6.ResourcePoolStatus, out *ResourcePoolStatus, s conversion.Scope) error {
 	out.ClusterMoID = in.ClusterMoID
 	out.ChildResourcePoolMoID = in.ChildResourcePoolMoID
 	return nil
 }
 
-// Convert_v1alpha5_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus is an autogenerated conversion function.
-func Convert_v1alpha5_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in *v1alpha5.ResourcePoolStatus, out *ResourcePoolStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in, out, s)
+// Convert_v1alpha6_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus is an autogenerated conversion function.
+func Convert_v1alpha6_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in *v1alpha6.ResourcePoolStatus, out *ResourcePoolStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_ResourcePoolStatus_To_v1alpha3_ResourcePoolStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_TCPSocketAction_To_v1alpha5_TCPSocketAction(in *TCPSocketAction, out *v1alpha5.TCPSocketAction, s conversion.Scope) error {
+func autoConvert_v1alpha3_TCPSocketAction_To_v1alpha6_TCPSocketAction(in *TCPSocketAction, out *v1alpha6.TCPSocketAction, s conversion.Scope) error {
 	out.Port = in.Port
 	out.Host = in.Host
 	return nil
 }
 
-// Convert_v1alpha3_TCPSocketAction_To_v1alpha5_TCPSocketAction is an autogenerated conversion function.
-func Convert_v1alpha3_TCPSocketAction_To_v1alpha5_TCPSocketAction(in *TCPSocketAction, out *v1alpha5.TCPSocketAction, s conversion.Scope) error {
-	return autoConvert_v1alpha3_TCPSocketAction_To_v1alpha5_TCPSocketAction(in, out, s)
+// Convert_v1alpha3_TCPSocketAction_To_v1alpha6_TCPSocketAction is an autogenerated conversion function.
+func Convert_v1alpha3_TCPSocketAction_To_v1alpha6_TCPSocketAction(in *TCPSocketAction, out *v1alpha6.TCPSocketAction, s conversion.Scope) error {
+	return autoConvert_v1alpha3_TCPSocketAction_To_v1alpha6_TCPSocketAction(in, out, s)
 }
 
-func autoConvert_v1alpha5_TCPSocketAction_To_v1alpha3_TCPSocketAction(in *v1alpha5.TCPSocketAction, out *TCPSocketAction, s conversion.Scope) error {
+func autoConvert_v1alpha6_TCPSocketAction_To_v1alpha3_TCPSocketAction(in *v1alpha6.TCPSocketAction, out *TCPSocketAction, s conversion.Scope) error {
 	out.Port = in.Port
 	out.Host = in.Host
 	return nil
 }
 
-// Convert_v1alpha5_TCPSocketAction_To_v1alpha3_TCPSocketAction is an autogenerated conversion function.
-func Convert_v1alpha5_TCPSocketAction_To_v1alpha3_TCPSocketAction(in *v1alpha5.TCPSocketAction, out *TCPSocketAction, s conversion.Scope) error {
-	return autoConvert_v1alpha5_TCPSocketAction_To_v1alpha3_TCPSocketAction(in, out, s)
+// Convert_v1alpha6_TCPSocketAction_To_v1alpha3_TCPSocketAction is an autogenerated conversion function.
+func Convert_v1alpha6_TCPSocketAction_To_v1alpha3_TCPSocketAction(in *v1alpha6.TCPSocketAction, out *TCPSocketAction, s conversion.Scope) error {
+	return autoConvert_v1alpha6_TCPSocketAction_To_v1alpha3_TCPSocketAction(in, out, s)
 }
 
-func autoConvert_v1alpha3_VGPUDevice_To_v1alpha5_VGPUDevice(in *VGPUDevice, out *v1alpha5.VGPUDevice, s conversion.Scope) error {
+func autoConvert_v1alpha3_VGPUDevice_To_v1alpha6_VGPUDevice(in *VGPUDevice, out *v1alpha6.VGPUDevice, s conversion.Scope) error {
 	out.ProfileName = in.ProfileName
 	return nil
 }
 
-// Convert_v1alpha3_VGPUDevice_To_v1alpha5_VGPUDevice is an autogenerated conversion function.
-func Convert_v1alpha3_VGPUDevice_To_v1alpha5_VGPUDevice(in *VGPUDevice, out *v1alpha5.VGPUDevice, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VGPUDevice_To_v1alpha5_VGPUDevice(in, out, s)
+// Convert_v1alpha3_VGPUDevice_To_v1alpha6_VGPUDevice is an autogenerated conversion function.
+func Convert_v1alpha3_VGPUDevice_To_v1alpha6_VGPUDevice(in *VGPUDevice, out *v1alpha6.VGPUDevice, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VGPUDevice_To_v1alpha6_VGPUDevice(in, out, s)
 }
 
-func autoConvert_v1alpha5_VGPUDevice_To_v1alpha3_VGPUDevice(in *v1alpha5.VGPUDevice, out *VGPUDevice, s conversion.Scope) error {
+func autoConvert_v1alpha6_VGPUDevice_To_v1alpha3_VGPUDevice(in *v1alpha6.VGPUDevice, out *VGPUDevice, s conversion.Scope) error {
 	out.ProfileName = in.ProfileName
 	return nil
 }
 
-// Convert_v1alpha5_VGPUDevice_To_v1alpha3_VGPUDevice is an autogenerated conversion function.
-func Convert_v1alpha5_VGPUDevice_To_v1alpha3_VGPUDevice(in *v1alpha5.VGPUDevice, out *VGPUDevice, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VGPUDevice_To_v1alpha3_VGPUDevice(in, out, s)
+// Convert_v1alpha6_VGPUDevice_To_v1alpha3_VGPUDevice is an autogenerated conversion function.
+func Convert_v1alpha6_VGPUDevice_To_v1alpha3_VGPUDevice(in *v1alpha6.VGPUDevice, out *VGPUDevice, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VGPUDevice_To_v1alpha3_VGPUDevice(in, out, s)
 }
 
-func autoConvert_v1alpha3_VMAffinitySpec_To_v1alpha5_VMAffinitySpec(in *VMAffinitySpec, out *v1alpha5.VMAffinitySpec, s conversion.Scope) error {
-	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha5.VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
-	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha5.VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
+func autoConvert_v1alpha3_VMAffinitySpec_To_v1alpha6_VMAffinitySpec(in *VMAffinitySpec, out *v1alpha6.VMAffinitySpec, s conversion.Scope) error {
+	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha6.VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
+	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha6.VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
 	return nil
 }
 
-// Convert_v1alpha3_VMAffinitySpec_To_v1alpha5_VMAffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha3_VMAffinitySpec_To_v1alpha5_VMAffinitySpec(in *VMAffinitySpec, out *v1alpha5.VMAffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VMAffinitySpec_To_v1alpha5_VMAffinitySpec(in, out, s)
+// Convert_v1alpha3_VMAffinitySpec_To_v1alpha6_VMAffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha3_VMAffinitySpec_To_v1alpha6_VMAffinitySpec(in *VMAffinitySpec, out *v1alpha6.VMAffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VMAffinitySpec_To_v1alpha6_VMAffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in *v1alpha5.VMAffinitySpec, out *VMAffinitySpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in *v1alpha6.VMAffinitySpec, out *VMAffinitySpec, s conversion.Scope) error {
 	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
 	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
 	return nil
 }
 
-// Convert_v1alpha5_VMAffinitySpec_To_v1alpha3_VMAffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha5_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in *v1alpha5.VMAffinitySpec, out *VMAffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in, out, s)
+// Convert_v1alpha6_VMAffinitySpec_To_v1alpha3_VMAffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha6_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in *v1alpha6.VMAffinitySpec, out *VMAffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VMAffinitySpec_To_v1alpha3_VMAffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VMAffinityTerm_To_v1alpha5_VMAffinityTerm(in *VMAffinityTerm, out *v1alpha5.VMAffinityTerm, s conversion.Scope) error {
+func autoConvert_v1alpha3_VMAffinityTerm_To_v1alpha6_VMAffinityTerm(in *VMAffinityTerm, out *v1alpha6.VMAffinityTerm, s conversion.Scope) error {
 	out.LabelSelector = (*v1.LabelSelector)(unsafe.Pointer(in.LabelSelector))
 	out.TopologyKey = in.TopologyKey
 	return nil
 }
 
-// Convert_v1alpha3_VMAffinityTerm_To_v1alpha5_VMAffinityTerm is an autogenerated conversion function.
-func Convert_v1alpha3_VMAffinityTerm_To_v1alpha5_VMAffinityTerm(in *VMAffinityTerm, out *v1alpha5.VMAffinityTerm, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VMAffinityTerm_To_v1alpha5_VMAffinityTerm(in, out, s)
+// Convert_v1alpha3_VMAffinityTerm_To_v1alpha6_VMAffinityTerm is an autogenerated conversion function.
+func Convert_v1alpha3_VMAffinityTerm_To_v1alpha6_VMAffinityTerm(in *VMAffinityTerm, out *v1alpha6.VMAffinityTerm, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VMAffinityTerm_To_v1alpha6_VMAffinityTerm(in, out, s)
 }
 
-func autoConvert_v1alpha5_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in *v1alpha5.VMAffinityTerm, out *VMAffinityTerm, s conversion.Scope) error {
+func autoConvert_v1alpha6_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in *v1alpha6.VMAffinityTerm, out *VMAffinityTerm, s conversion.Scope) error {
 	out.LabelSelector = (*v1.LabelSelector)(unsafe.Pointer(in.LabelSelector))
 	out.TopologyKey = in.TopologyKey
 	return nil
 }
 
-// Convert_v1alpha5_VMAffinityTerm_To_v1alpha3_VMAffinityTerm is an autogenerated conversion function.
-func Convert_v1alpha5_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in *v1alpha5.VMAffinityTerm, out *VMAffinityTerm, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in, out, s)
+// Convert_v1alpha6_VMAffinityTerm_To_v1alpha3_VMAffinityTerm is an autogenerated conversion function.
+func Convert_v1alpha6_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in *v1alpha6.VMAffinityTerm, out *VMAffinityTerm, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VMAffinityTerm_To_v1alpha3_VMAffinityTerm(in, out, s)
 }
 
-func autoConvert_v1alpha3_VMAntiAffinitySpec_To_v1alpha5_VMAntiAffinitySpec(in *VMAntiAffinitySpec, out *v1alpha5.VMAntiAffinitySpec, s conversion.Scope) error {
-	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha5.VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
-	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha5.VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
+func autoConvert_v1alpha3_VMAntiAffinitySpec_To_v1alpha6_VMAntiAffinitySpec(in *VMAntiAffinitySpec, out *v1alpha6.VMAntiAffinitySpec, s conversion.Scope) error {
+	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha6.VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
+	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]v1alpha6.VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
 	return nil
 }
 
-// Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha5_VMAntiAffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha5_VMAntiAffinitySpec(in *VMAntiAffinitySpec, out *v1alpha5.VMAntiAffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VMAntiAffinitySpec_To_v1alpha5_VMAntiAffinitySpec(in, out, s)
+// Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha6_VMAntiAffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha3_VMAntiAffinitySpec_To_v1alpha6_VMAntiAffinitySpec(in *VMAntiAffinitySpec, out *v1alpha6.VMAntiAffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VMAntiAffinitySpec_To_v1alpha6_VMAntiAffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in *v1alpha5.VMAntiAffinitySpec, out *VMAntiAffinitySpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in *v1alpha6.VMAntiAffinitySpec, out *VMAntiAffinitySpec, s conversion.Scope) error {
 	out.RequiredDuringSchedulingPreferredDuringExecution = *(*[]VMAffinityTerm)(unsafe.Pointer(&in.RequiredDuringSchedulingPreferredDuringExecution))
 	out.PreferredDuringSchedulingPreferredDuringExecution = *(*[]VMAffinityTerm)(unsafe.Pointer(&in.PreferredDuringSchedulingPreferredDuringExecution))
 	return nil
 }
 
-// Convert_v1alpha5_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec is an autogenerated conversion function.
-func Convert_v1alpha5_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in *v1alpha5.VMAntiAffinitySpec, out *VMAntiAffinitySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in, out, s)
+// Convert_v1alpha6_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec is an autogenerated conversion function.
+func Convert_v1alpha6_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in *v1alpha6.VMAntiAffinitySpec, out *VMAntiAffinitySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VMAntiAffinitySpec_To_v1alpha3_VMAntiAffinitySpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha5_VSphereClusterModuleStatus(in *VSphereClusterModuleStatus, out *v1alpha5.VSphereClusterModuleStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha6_VSphereClusterModuleStatus(in *VSphereClusterModuleStatus, out *v1alpha6.VSphereClusterModuleStatus, s conversion.Scope) error {
 	out.GroupName = in.GroupName
 	out.ModuleUuid = in.ModuleUuid
 	out.ClusterMoID = in.ClusterMoID
 	return nil
 }
 
-// Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha5_VSphereClusterModuleStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha5_VSphereClusterModuleStatus(in *VSphereClusterModuleStatus, out *v1alpha5.VSphereClusterModuleStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha5_VSphereClusterModuleStatus(in, out, s)
+// Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha6_VSphereClusterModuleStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha6_VSphereClusterModuleStatus(in *VSphereClusterModuleStatus, out *v1alpha6.VSphereClusterModuleStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VSphereClusterModuleStatus_To_v1alpha6_VSphereClusterModuleStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in *v1alpha5.VSphereClusterModuleStatus, out *VSphereClusterModuleStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in *v1alpha6.VSphereClusterModuleStatus, out *VSphereClusterModuleStatus, s conversion.Scope) error {
 	out.GroupName = in.GroupName
 	out.ModuleUuid = in.ModuleUuid
 	out.ClusterMoID = in.ClusterMoID
 	return nil
 }
 
-// Convert_v1alpha5_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in *v1alpha5.VSphereClusterModuleStatus, out *VSphereClusterModuleStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in, out, s)
+// Convert_v1alpha6_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in *v1alpha6.VSphereClusterModuleStatus, out *VSphereClusterModuleStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VSphereClusterModuleStatus_To_v1alpha3_VSphereClusterModuleStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices(in *VirtualDevices, out *v1alpha5.VirtualDevices, s conversion.Scope) error {
-	out.VGPUDevices = *(*[]v1alpha5.VGPUDevice)(unsafe.Pointer(&in.VGPUDevices))
-	out.DynamicDirectPathIODevices = *(*[]v1alpha5.DynamicDirectPathIODevice)(unsafe.Pointer(&in.DynamicDirectPathIODevices))
+func autoConvert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices(in *VirtualDevices, out *v1alpha6.VirtualDevices, s conversion.Scope) error {
+	out.VGPUDevices = *(*[]v1alpha6.VGPUDevice)(unsafe.Pointer(&in.VGPUDevices))
+	out.DynamicDirectPathIODevices = *(*[]v1alpha6.DynamicDirectPathIODevice)(unsafe.Pointer(&in.DynamicDirectPathIODevices))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices(in *VirtualDevices, out *v1alpha5.VirtualDevices, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices(in, out, s)
+// Convert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices(in *VirtualDevices, out *v1alpha6.VirtualDevices, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices(in *v1alpha5.VirtualDevices, out *VirtualDevices, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices(in *v1alpha6.VirtualDevices, out *VirtualDevices, s conversion.Scope) error {
 	out.VGPUDevices = *(*[]VGPUDevice)(unsafe.Pointer(&in.VGPUDevices))
 	out.DynamicDirectPathIODevices = *(*[]DynamicDirectPathIODevice)(unsafe.Pointer(&in.DynamicDirectPathIODevices))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices(in *v1alpha5.VirtualDevices, out *VirtualDevices, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices(in, out, s)
+// Convert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices(in *v1alpha6.VirtualDevices, out *VirtualDevices, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(in *VirtualMachine, out *v1alpha5.VirtualMachine, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(in *VirtualMachine, out *v1alpha6.VirtualMachine, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineStatus_To_v1alpha6_VirtualMachineStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(in *VirtualMachine, out *v1alpha5.VirtualMachine, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(in, out, s)
+// Convert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(in *VirtualMachine, out *v1alpha6.VirtualMachine, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(in *v1alpha5.VirtualMachine, out *VirtualMachine, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(in *v1alpha6.VirtualMachine, out *VirtualMachine, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(in *v1alpha5.VirtualMachine, out *VirtualMachine, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(in, out, s)
+// Convert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(in *v1alpha6.VirtualMachine, out *VirtualMachine, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha5_VirtualMachineAdvancedSpec(in *VirtualMachineAdvancedSpec, out *v1alpha5.VirtualMachineAdvancedSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha6_VirtualMachineAdvancedSpec(in *VirtualMachineAdvancedSpec, out *v1alpha6.VirtualMachineAdvancedSpec, s conversion.Scope) error {
 	out.BootDiskCapacity = (*resource.Quantity)(unsafe.Pointer(in.BootDiskCapacity))
-	out.DefaultVolumeProvisioningMode = v1alpha5.VolumeProvisioningMode(in.DefaultVolumeProvisioningMode)
+	out.DefaultVolumeProvisioningMode = v1alpha6.VolumeProvisioningMode(in.DefaultVolumeProvisioningMode)
 	out.ChangeBlockTracking = (*bool)(unsafe.Pointer(in.ChangeBlockTracking))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha5_VirtualMachineAdvancedSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha5_VirtualMachineAdvancedSpec(in *VirtualMachineAdvancedSpec, out *v1alpha5.VirtualMachineAdvancedSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha5_VirtualMachineAdvancedSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha6_VirtualMachineAdvancedSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha6_VirtualMachineAdvancedSpec(in *VirtualMachineAdvancedSpec, out *v1alpha6.VirtualMachineAdvancedSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineAdvancedSpec_To_v1alpha6_VirtualMachineAdvancedSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in *v1alpha5.VirtualMachineAdvancedSpec, out *VirtualMachineAdvancedSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in *v1alpha6.VirtualMachineAdvancedSpec, out *VirtualMachineAdvancedSpec, s conversion.Scope) error {
 	out.BootDiskCapacity = (*resource.Quantity)(unsafe.Pointer(in.BootDiskCapacity))
 	out.DefaultVolumeProvisioningMode = VirtualMachineVolumeProvisioningMode(in.DefaultVolumeProvisioningMode)
 	out.ChangeBlockTracking = (*bool)(unsafe.Pointer(in.ChangeBlockTracking))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in *v1alpha5.VirtualMachineAdvancedSpec, out *VirtualMachineAdvancedSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in *v1alpha6.VirtualMachineAdvancedSpec, out *VirtualMachineAdvancedSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineAdvancedSpec_To_v1alpha3_VirtualMachineAdvancedSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec(in *VirtualMachineBootstrapCloudInitSpec, out *v1alpha5.VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec(in *VirtualMachineBootstrapCloudInitSpec, out *v1alpha6.VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
 	out.InstanceID = in.InstanceID
 	out.CloudConfig = (*cloudinit.CloudConfig)(unsafe.Pointer(in.CloudConfig))
 	out.RawCloudConfig = (*common.SecretKeySelector)(unsafe.Pointer(in.RawCloudConfig))
@@ -1932,12 +1932,12 @@ func autoConvert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_Virtu
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec(in *VirtualMachineBootstrapCloudInitSpec, out *v1alpha5.VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec(in *VirtualMachineBootstrapCloudInitSpec, out *v1alpha6.VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(in *v1alpha5.VirtualMachineBootstrapCloudInitSpec, out *VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(in *v1alpha6.VirtualMachineBootstrapCloudInitSpec, out *VirtualMachineBootstrapCloudInitSpec, s conversion.Scope) error {
 	out.InstanceID = in.InstanceID
 	out.CloudConfig = (*v1alpha3cloudinit.CloudConfig)(unsafe.Pointer(in.CloudConfig))
 	out.RawCloudConfig = (*v1alpha3common.SecretKeySelector)(unsafe.Pointer(in.RawCloudConfig))
@@ -1949,18 +1949,18 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_Virtu
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec(in *VirtualMachineBootstrapLinuxPrepSpec, out *v1alpha5.VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec(in *VirtualMachineBootstrapLinuxPrepSpec, out *v1alpha6.VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
 	out.HardwareClockIsUTC = (*bool)(unsafe.Pointer(in.HardwareClockIsUTC))
 	out.TimeZone = in.TimeZone
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec(in *VirtualMachineBootstrapLinuxPrepSpec, out *v1alpha5.VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec(in *VirtualMachineBootstrapLinuxPrepSpec, out *v1alpha6.VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(in *v1alpha5.VirtualMachineBootstrapLinuxPrepSpec, out *VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(in *v1alpha6.VirtualMachineBootstrapLinuxPrepSpec, out *VirtualMachineBootstrapLinuxPrepSpec, s conversion.Scope) error {
 	out.HardwareClockIsUTC = (*bool)(unsafe.Pointer(in.HardwareClockIsUTC))
 	out.TimeZone = in.TimeZone
 	// WARNING: in.ExpirePasswordAfterNextLogin requires manual conversion: does not exist in peer-type
@@ -1970,11 +1970,11 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_Virtu
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(in *VirtualMachineBootstrapSpec, out *v1alpha5.VirtualMachineBootstrapSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec(in *VirtualMachineBootstrapSpec, out *v1alpha6.VirtualMachineBootstrapSpec, s conversion.Scope) error {
 	if in.CloudInit != nil {
 		in, out := &in.CloudInit, &out.CloudInit
-		*out = new(v1alpha5.VirtualMachineBootstrapCloudInitSpec)
-		if err := Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha5_VirtualMachineBootstrapCloudInitSpec(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineBootstrapCloudInitSpec)
+		if err := Convert_v1alpha3_VirtualMachineBootstrapCloudInitSpec_To_v1alpha6_VirtualMachineBootstrapCloudInitSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -1982,8 +1982,8 @@ func autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachine
 	}
 	if in.LinuxPrep != nil {
 		in, out := &in.LinuxPrep, &out.LinuxPrep
-		*out = new(v1alpha5.VirtualMachineBootstrapLinuxPrepSpec)
-		if err := Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineBootstrapLinuxPrepSpec)
+		if err := Convert_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -1991,27 +1991,27 @@ func autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachine
 	}
 	if in.Sysprep != nil {
 		in, out := &in.Sysprep, &out.Sysprep
-		*out = new(v1alpha5.VirtualMachineBootstrapSysprepSpec)
-		if err := Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineBootstrapSysprepSpec)
+		if err := Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
 		out.Sysprep = nil
 	}
-	out.VAppConfig = (*v1alpha5.VirtualMachineBootstrapVAppConfigSpec)(unsafe.Pointer(in.VAppConfig))
+	out.VAppConfig = (*v1alpha6.VirtualMachineBootstrapVAppConfigSpec)(unsafe.Pointer(in.VAppConfig))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(in *VirtualMachineBootstrapSpec, out *v1alpha5.VirtualMachineBootstrapSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec(in *VirtualMachineBootstrapSpec, out *v1alpha6.VirtualMachineBootstrapSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(in *v1alpha5.VirtualMachineBootstrapSpec, out *VirtualMachineBootstrapSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(in *v1alpha6.VirtualMachineBootstrapSpec, out *VirtualMachineBootstrapSpec, s conversion.Scope) error {
 	if in.CloudInit != nil {
 		in, out := &in.CloudInit, &out.CloudInit
 		*out = new(VirtualMachineBootstrapCloudInitSpec)
-		if err := Convert_v1alpha5_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineBootstrapCloudInitSpec_To_v1alpha3_VirtualMachineBootstrapCloudInitSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -2020,7 +2020,7 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachine
 	if in.LinuxPrep != nil {
 		in, out := &in.LinuxPrep, &out.LinuxPrep
 		*out = new(VirtualMachineBootstrapLinuxPrepSpec)
-		if err := Convert_v1alpha5_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineBootstrapLinuxPrepSpec_To_v1alpha3_VirtualMachineBootstrapLinuxPrepSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -2029,7 +2029,7 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachine
 	if in.Sysprep != nil {
 		in, out := &in.Sysprep, &out.Sysprep
 		*out = new(VirtualMachineBootstrapSysprepSpec)
-		if err := Convert_v1alpha5_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -2040,7 +2040,7 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachine
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec(in *VirtualMachineBootstrapSysprepSpec, out *v1alpha5.VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec(in *VirtualMachineBootstrapSysprepSpec, out *v1alpha6.VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
 	if in.Sysprep != nil {
 		in, out := &in.Sysprep, &out.Sysprep
 		*out = new(sysprep.Sysprep)
@@ -2054,16 +2054,16 @@ func autoConvert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_Virtual
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec(in *VirtualMachineBootstrapSysprepSpec, out *v1alpha5.VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha5_VirtualMachineBootstrapSysprepSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec(in *VirtualMachineBootstrapSysprepSpec, out *v1alpha6.VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineBootstrapSysprepSpec_To_v1alpha6_VirtualMachineBootstrapSysprepSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(in *v1alpha5.VirtualMachineBootstrapSysprepSpec, out *VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_VirtualMachineBootstrapSysprepSpec(in *v1alpha6.VirtualMachineBootstrapSysprepSpec, out *VirtualMachineBootstrapSysprepSpec, s conversion.Scope) error {
 	if in.Sysprep != nil {
 		in, out := &in.Sysprep, &out.Sysprep
 		*out = new(v1alpha3sysprep.Sysprep)
-		if err := conversionv1alpha5.Convert_sysprep_Sysprep_To_sysprep_Sysprep(*in, *out, s); err != nil {
+		if err := conversionv1alpha6.Convert_sysprep_Sysprep_To_sysprep_Sysprep(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -2074,31 +2074,31 @@ func autoConvert_v1alpha5_VirtualMachineBootstrapSysprepSpec_To_v1alpha3_Virtual
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha5_VirtualMachineBootstrapVAppConfigSpec(in *VirtualMachineBootstrapVAppConfigSpec, out *v1alpha5.VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha6_VirtualMachineBootstrapVAppConfigSpec(in *VirtualMachineBootstrapVAppConfigSpec, out *v1alpha6.VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
 	out.Properties = *(*[]common.KeyValueOrSecretKeySelectorPair)(unsafe.Pointer(&in.Properties))
 	out.RawProperties = in.RawProperties
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha5_VirtualMachineBootstrapVAppConfigSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha5_VirtualMachineBootstrapVAppConfigSpec(in *VirtualMachineBootstrapVAppConfigSpec, out *v1alpha5.VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha5_VirtualMachineBootstrapVAppConfigSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha6_VirtualMachineBootstrapVAppConfigSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha6_VirtualMachineBootstrapVAppConfigSpec(in *VirtualMachineBootstrapVAppConfigSpec, out *v1alpha6.VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha6_VirtualMachineBootstrapVAppConfigSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in *v1alpha5.VirtualMachineBootstrapVAppConfigSpec, out *VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in *v1alpha6.VirtualMachineBootstrapVAppConfigSpec, out *VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
 	out.Properties = *(*[]v1alpha3common.KeyValueOrSecretKeySelectorPair)(unsafe.Pointer(&in.Properties))
 	out.RawProperties = in.RawProperties
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in *v1alpha5.VirtualMachineBootstrapVAppConfigSpec, out *VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in *v1alpha6.VirtualMachineBootstrapVAppConfigSpec, out *VirtualMachineBootstrapVAppConfigSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineBootstrapVAppConfigSpec_To_v1alpha3_VirtualMachineBootstrapVAppConfigSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineCdromSpec_To_v1alpha5_VirtualMachineCdromSpec(in *VirtualMachineCdromSpec, out *v1alpha5.VirtualMachineCdromSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineCdromSpec_To_v1alpha6_VirtualMachineCdromSpec(in *VirtualMachineCdromSpec, out *v1alpha6.VirtualMachineCdromSpec, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef(&in.Image, &out.Image, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef(&in.Image, &out.Image, s); err != nil {
 		return err
 	}
 	out.Connected = (*bool)(unsafe.Pointer(in.Connected))
@@ -2106,9 +2106,9 @@ func autoConvert_v1alpha3_VirtualMachineCdromSpec_To_v1alpha5_VirtualMachineCdro
 	return nil
 }
 
-func autoConvert_v1alpha5_VirtualMachineCdromSpec_To_v1alpha3_VirtualMachineCdromSpec(in *v1alpha5.VirtualMachineCdromSpec, out *VirtualMachineCdromSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineCdromSpec_To_v1alpha3_VirtualMachineCdromSpec(in *v1alpha6.VirtualMachineCdromSpec, out *VirtualMachineCdromSpec, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(&in.Image, &out.Image, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(&in.Image, &out.Image, s); err != nil {
 		return err
 	}
 	// WARNING: in.ControllerBusNumber requires manual conversion: does not exist in peer-type
@@ -2119,154 +2119,154 @@ func autoConvert_v1alpha5_VirtualMachineCdromSpec_To_v1alpha3_VirtualMachineCdro
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(in *VirtualMachineClass, out *v1alpha5.VirtualMachineClass, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineClass_To_v1alpha6_VirtualMachineClass(in *VirtualMachineClass, out *v1alpha6.VirtualMachineClass, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClass_To_v1alpha5_VirtualMachineClass is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(in *VirtualMachineClass, out *v1alpha5.VirtualMachineClass, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClass_To_v1alpha5_VirtualMachineClass(in, out, s)
+// Convert_v1alpha3_VirtualMachineClass_To_v1alpha6_VirtualMachineClass is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClass_To_v1alpha6_VirtualMachineClass(in *VirtualMachineClass, out *v1alpha6.VirtualMachineClass, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClass_To_v1alpha6_VirtualMachineClass(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in *v1alpha5.VirtualMachineClass, out *VirtualMachineClass, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in *v1alpha6.VirtualMachineClass, out *VirtualMachineClass, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClass_To_v1alpha3_VirtualMachineClass is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in *v1alpha5.VirtualMachineClass, out *VirtualMachineClass, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in, out, s)
+// Convert_v1alpha6_VirtualMachineClass_To_v1alpha3_VirtualMachineClass is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in *v1alpha6.VirtualMachineClass, out *VirtualMachineClass, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClass_To_v1alpha3_VirtualMachineClass(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware(in *VirtualMachineClassHardware, out *v1alpha5.VirtualMachineClassHardware, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware(in *VirtualMachineClassHardware, out *v1alpha6.VirtualMachineClassHardware, s conversion.Scope) error {
 	out.Cpus = in.Cpus
 	out.Memory = in.Memory
-	if err := Convert_v1alpha3_VirtualDevices_To_v1alpha5_VirtualDevices(&in.Devices, &out.Devices, s); err != nil {
+	if err := Convert_v1alpha3_VirtualDevices_To_v1alpha6_VirtualDevices(&in.Devices, &out.Devices, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_InstanceStorage_To_v1alpha5_InstanceStorage(&in.InstanceStorage, &out.InstanceStorage, s); err != nil {
+	if err := Convert_v1alpha3_InstanceStorage_To_v1alpha6_InstanceStorage(&in.InstanceStorage, &out.InstanceStorage, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware(in *VirtualMachineClassHardware, out *v1alpha5.VirtualMachineClassHardware, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware(in *VirtualMachineClassHardware, out *v1alpha6.VirtualMachineClassHardware, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in *v1alpha5.VirtualMachineClassHardware, out *VirtualMachineClassHardware, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in *v1alpha6.VirtualMachineClassHardware, out *VirtualMachineClassHardware, s conversion.Scope) error {
 	out.Cpus = in.Cpus
 	out.Memory = in.Memory
-	if err := Convert_v1alpha5_VirtualDevices_To_v1alpha3_VirtualDevices(&in.Devices, &out.Devices, s); err != nil {
+	if err := Convert_v1alpha6_VirtualDevices_To_v1alpha3_VirtualDevices(&in.Devices, &out.Devices, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_InstanceStorage_To_v1alpha3_InstanceStorage(&in.InstanceStorage, &out.InstanceStorage, s); err != nil {
+	if err := Convert_v1alpha6_InstanceStorage_To_v1alpha3_InstanceStorage(&in.InstanceStorage, &out.InstanceStorage, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in *v1alpha5.VirtualMachineClassHardware, out *VirtualMachineClassHardware, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in, out, s)
+// Convert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in *v1alpha6.VirtualMachineClassHardware, out *VirtualMachineClassHardware, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassList_To_v1alpha5_VirtualMachineClassList(in *VirtualMachineClassList, out *v1alpha5.VirtualMachineClassList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineClassList_To_v1alpha6_VirtualMachineClassList(in *VirtualMachineClassList, out *v1alpha6.VirtualMachineClassList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineClass)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineClass)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClassList_To_v1alpha5_VirtualMachineClassList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassList_To_v1alpha5_VirtualMachineClassList(in *VirtualMachineClassList, out *v1alpha5.VirtualMachineClassList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassList_To_v1alpha5_VirtualMachineClassList(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassList_To_v1alpha6_VirtualMachineClassList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassList_To_v1alpha6_VirtualMachineClassList(in *VirtualMachineClassList, out *v1alpha6.VirtualMachineClassList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassList_To_v1alpha6_VirtualMachineClassList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in *v1alpha5.VirtualMachineClassList, out *VirtualMachineClassList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in *v1alpha6.VirtualMachineClassList, out *VirtualMachineClassList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineClass)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in *v1alpha5.VirtualMachineClassList, out *VirtualMachineClassList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in, out, s)
+// Convert_v1alpha6_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in *v1alpha6.VirtualMachineClassList, out *VirtualMachineClassList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassList_To_v1alpha3_VirtualMachineClassList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies(in *VirtualMachineClassPolicies, out *v1alpha5.VirtualMachineClassPolicies, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources(&in.Resources, &out.Resources, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies(in *VirtualMachineClassPolicies, out *v1alpha6.VirtualMachineClassPolicies, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources(&in.Resources, &out.Resources, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies(in *VirtualMachineClassPolicies, out *v1alpha5.VirtualMachineClassPolicies, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies(in *VirtualMachineClassPolicies, out *v1alpha6.VirtualMachineClassPolicies, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in *v1alpha5.VirtualMachineClassPolicies, out *VirtualMachineClassPolicies, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(&in.Resources, &out.Resources, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in *v1alpha6.VirtualMachineClassPolicies, out *VirtualMachineClassPolicies, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(&in.Resources, &out.Resources, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in *v1alpha5.VirtualMachineClassPolicies, out *VirtualMachineClassPolicies, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in, out, s)
+// Convert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in *v1alpha6.VirtualMachineClassPolicies, out *VirtualMachineClassPolicies, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources(in *VirtualMachineClassResources, out *v1alpha5.VirtualMachineClassResources, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(&in.Requests, &out.Requests, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources(in *VirtualMachineClassResources, out *v1alpha6.VirtualMachineClassResources, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(&in.Requests, &out.Requests, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources(in *VirtualMachineClassResources, out *v1alpha5.VirtualMachineClassResources, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassResources_To_v1alpha5_VirtualMachineClassResources(in, out, s)
-}
-
-func autoConvert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in *v1alpha5.VirtualMachineClassResources, out *VirtualMachineClassResources, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Requests, &out.Requests, s); err != nil {
-		return err
-	}
-	if err := Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in *v1alpha5.VirtualMachineClassResources, out *VirtualMachineClassResources, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources(in *VirtualMachineClassResources, out *v1alpha6.VirtualMachineClassResources, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassResources_To_v1alpha6_VirtualMachineClassResources(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec(in *VirtualMachineClassSpec, out *v1alpha5.VirtualMachineClassSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in *v1alpha6.VirtualMachineClassResources, out *VirtualMachineClassResources, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Requests, &out.Requests, s); err != nil {
+		return err
+	}
+	if err := Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(&in.Limits, &out.Limits, s); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Convert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in *v1alpha6.VirtualMachineClassResources, out *VirtualMachineClassResources, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassResources_To_v1alpha3_VirtualMachineClassResources(in, out, s)
+}
+
+func autoConvert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec(in *VirtualMachineClassSpec, out *v1alpha6.VirtualMachineClassSpec, s conversion.Scope) error {
 	out.ControllerName = in.ControllerName
-	if err := Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha5_VirtualMachineClassHardware(&in.Hardware, &out.Hardware, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineClassHardware_To_v1alpha6_VirtualMachineClassHardware(&in.Hardware, &out.Hardware, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha5_VirtualMachineClassPolicies(&in.Policies, &out.Policies, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineClassPolicies_To_v1alpha6_VirtualMachineClassPolicies(&in.Policies, &out.Policies, s); err != nil {
 		return err
 	}
 	out.Description = in.Description
@@ -2276,17 +2276,17 @@ func autoConvert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClas
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec(in *VirtualMachineClassSpec, out *v1alpha5.VirtualMachineClassSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassSpec_To_v1alpha5_VirtualMachineClassSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec(in *VirtualMachineClassSpec, out *v1alpha6.VirtualMachineClassSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassSpec_To_v1alpha6_VirtualMachineClassSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in *v1alpha5.VirtualMachineClassSpec, out *VirtualMachineClassSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in *v1alpha6.VirtualMachineClassSpec, out *VirtualMachineClassSpec, s conversion.Scope) error {
 	out.ControllerName = in.ControllerName
-	if err := Convert_v1alpha5_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(&in.Hardware, &out.Hardware, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineClassHardware_To_v1alpha3_VirtualMachineClassHardware(&in.Hardware, &out.Hardware, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(&in.Policies, &out.Policies, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineClassPolicies_To_v1alpha3_VirtualMachineClassPolicies(&in.Policies, &out.Policies, s); err != nil {
 		return err
 	}
 	out.Description = in.Description
@@ -2296,60 +2296,60 @@ func autoConvert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClas
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in *v1alpha5.VirtualMachineClassSpec, out *VirtualMachineClassSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in *v1alpha6.VirtualMachineClassSpec, out *VirtualMachineClassSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassSpec_To_v1alpha3_VirtualMachineClassSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus(in *VirtualMachineClassStatus, out *v1alpha5.VirtualMachineClassStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus(in *VirtualMachineClassStatus, out *v1alpha6.VirtualMachineClassStatus, s conversion.Scope) error {
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus(in *VirtualMachineClassStatus, out *v1alpha5.VirtualMachineClassStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineClassStatus_To_v1alpha5_VirtualMachineClassStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus(in *VirtualMachineClassStatus, out *v1alpha6.VirtualMachineClassStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineClassStatus_To_v1alpha6_VirtualMachineClassStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in *v1alpha5.VirtualMachineClassStatus, out *VirtualMachineClassStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in *v1alpha6.VirtualMachineClassStatus, out *VirtualMachineClassStatus, s conversion.Scope) error {
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in *v1alpha5.VirtualMachineClassStatus, out *VirtualMachineClassStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in *v1alpha6.VirtualMachineClassStatus, out *VirtualMachineClassStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineClassStatus_To_v1alpha3_VirtualMachineClassStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec(in *VirtualMachineCryptoSpec, out *v1alpha5.VirtualMachineCryptoSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec(in *VirtualMachineCryptoSpec, out *v1alpha6.VirtualMachineCryptoSpec, s conversion.Scope) error {
 	out.EncryptionClassName = in.EncryptionClassName
 	out.UseDefaultKeyProvider = (*bool)(unsafe.Pointer(in.UseDefaultKeyProvider))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec(in *VirtualMachineCryptoSpec, out *v1alpha5.VirtualMachineCryptoSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec(in *VirtualMachineCryptoSpec, out *v1alpha6.VirtualMachineCryptoSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(in *v1alpha5.VirtualMachineCryptoSpec, out *VirtualMachineCryptoSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(in *v1alpha6.VirtualMachineCryptoSpec, out *VirtualMachineCryptoSpec, s conversion.Scope) error {
 	out.EncryptionClassName = in.EncryptionClassName
 	out.UseDefaultKeyProvider = (*bool)(unsafe.Pointer(in.UseDefaultKeyProvider))
 	// WARNING: in.VTPMMode requires manual conversion: does not exist in peer-type
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus(in *VirtualMachineCryptoStatus, out *v1alpha5.VirtualMachineCryptoStatus, s conversion.Scope) error {
-	out.Encrypted = *(*[]v1alpha5.VirtualMachineEncryptionType)(unsafe.Pointer(&in.Encrypted))
+func autoConvert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus(in *VirtualMachineCryptoStatus, out *v1alpha6.VirtualMachineCryptoStatus, s conversion.Scope) error {
+	out.Encrypted = *(*[]v1alpha6.VirtualMachineEncryptionType)(unsafe.Pointer(&in.Encrypted))
 	out.ProviderID = in.ProviderID
 	out.KeyID = in.KeyID
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus(in *VirtualMachineCryptoStatus, out *v1alpha5.VirtualMachineCryptoStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus(in *VirtualMachineCryptoStatus, out *v1alpha6.VirtualMachineCryptoStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(in *v1alpha5.VirtualMachineCryptoStatus, out *VirtualMachineCryptoStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(in *v1alpha6.VirtualMachineCryptoStatus, out *VirtualMachineCryptoStatus, s conversion.Scope) error {
 	out.Encrypted = *(*[]VirtualMachineEncryptionType)(unsafe.Pointer(&in.Encrypted))
 	out.ProviderID = in.ProviderID
 	out.KeyID = in.KeyID
@@ -2357,98 +2357,98 @@ func autoConvert_v1alpha5_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineC
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroup_To_v1alpha5_VirtualMachineGroup(in *VirtualMachineGroup, out *v1alpha5.VirtualMachineGroup, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineGroup_To_v1alpha6_VirtualMachineGroup(in *VirtualMachineGroup, out *v1alpha6.VirtualMachineGroup, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroup_To_v1alpha5_VirtualMachineGroup is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroup_To_v1alpha5_VirtualMachineGroup(in *VirtualMachineGroup, out *v1alpha5.VirtualMachineGroup, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroup_To_v1alpha5_VirtualMachineGroup(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroup_To_v1alpha6_VirtualMachineGroup is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroup_To_v1alpha6_VirtualMachineGroup(in *VirtualMachineGroup, out *v1alpha6.VirtualMachineGroup, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroup_To_v1alpha6_VirtualMachineGroup(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in *v1alpha5.VirtualMachineGroup, out *VirtualMachineGroup, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in *v1alpha6.VirtualMachineGroup, out *VirtualMachineGroup, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in *v1alpha5.VirtualMachineGroup, out *VirtualMachineGroup, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in *v1alpha6.VirtualMachineGroup, out *VirtualMachineGroup, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroup_To_v1alpha3_VirtualMachineGroup(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha5_VirtualMachineGroupBootOrderGroup(in *VirtualMachineGroupBootOrderGroup, out *v1alpha5.VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
-	out.Members = *(*[]v1alpha5.GroupMember)(unsafe.Pointer(&in.Members))
+func autoConvert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha6_VirtualMachineGroupBootOrderGroup(in *VirtualMachineGroupBootOrderGroup, out *v1alpha6.VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
+	out.Members = *(*[]v1alpha6.GroupMember)(unsafe.Pointer(&in.Members))
 	out.PowerOnDelay = (*v1.Duration)(unsafe.Pointer(in.PowerOnDelay))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha5_VirtualMachineGroupBootOrderGroup is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha5_VirtualMachineGroupBootOrderGroup(in *VirtualMachineGroupBootOrderGroup, out *v1alpha5.VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha5_VirtualMachineGroupBootOrderGroup(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha6_VirtualMachineGroupBootOrderGroup is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha6_VirtualMachineGroupBootOrderGroup(in *VirtualMachineGroupBootOrderGroup, out *v1alpha6.VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupBootOrderGroup_To_v1alpha6_VirtualMachineGroupBootOrderGroup(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in *v1alpha5.VirtualMachineGroupBootOrderGroup, out *VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in *v1alpha6.VirtualMachineGroupBootOrderGroup, out *VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
 	out.Members = *(*[]GroupMember)(unsafe.Pointer(&in.Members))
 	out.PowerOnDelay = (*v1.Duration)(unsafe.Pointer(in.PowerOnDelay))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in *v1alpha5.VirtualMachineGroupBootOrderGroup, out *VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in *v1alpha6.VirtualMachineGroupBootOrderGroup, out *VirtualMachineGroupBootOrderGroup, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupBootOrderGroup_To_v1alpha3_VirtualMachineGroupBootOrderGroup(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupList_To_v1alpha5_VirtualMachineGroupList(in *VirtualMachineGroupList, out *v1alpha5.VirtualMachineGroupList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineGroupList_To_v1alpha6_VirtualMachineGroupList(in *VirtualMachineGroupList, out *v1alpha6.VirtualMachineGroupList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineGroup)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineGroup)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha5_VirtualMachineGroupList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha5_VirtualMachineGroupList(in *VirtualMachineGroupList, out *v1alpha5.VirtualMachineGroupList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupList_To_v1alpha5_VirtualMachineGroupList(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha6_VirtualMachineGroupList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupList_To_v1alpha6_VirtualMachineGroupList(in *VirtualMachineGroupList, out *v1alpha6.VirtualMachineGroupList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupList_To_v1alpha6_VirtualMachineGroupList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in *v1alpha5.VirtualMachineGroupList, out *VirtualMachineGroupList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in *v1alpha6.VirtualMachineGroupList, out *VirtualMachineGroupList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineGroup)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in *v1alpha5.VirtualMachineGroupList, out *VirtualMachineGroupList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in *v1alpha6.VirtualMachineGroupList, out *VirtualMachineGroupList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupList_To_v1alpha3_VirtualMachineGroupList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha5_VirtualMachineGroupMemberStatus(in *VirtualMachineGroupMemberStatus, out *v1alpha5.VirtualMachineGroupMemberStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha6_VirtualMachineGroupMemberStatus(in *VirtualMachineGroupMemberStatus, out *v1alpha6.VirtualMachineGroupMemberStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Kind = in.Kind
 	out.UID = types.UID(in.UID)
-	out.Placement = (*v1alpha5.VirtualMachinePlacementStatus)(unsafe.Pointer(in.Placement))
-	out.PowerState = (*v1alpha5.VirtualMachinePowerState)(unsafe.Pointer(in.PowerState))
+	out.Placement = (*v1alpha6.VirtualMachinePlacementStatus)(unsafe.Pointer(in.Placement))
+	out.PowerState = (*v1alpha6.VirtualMachinePowerState)(unsafe.Pointer(in.PowerState))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha5_VirtualMachineGroupMemberStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha5_VirtualMachineGroupMemberStatus(in *VirtualMachineGroupMemberStatus, out *v1alpha5.VirtualMachineGroupMemberStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha5_VirtualMachineGroupMemberStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha6_VirtualMachineGroupMemberStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha6_VirtualMachineGroupMemberStatus(in *VirtualMachineGroupMemberStatus, out *v1alpha6.VirtualMachineGroupMemberStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupMemberStatus_To_v1alpha6_VirtualMachineGroupMemberStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in *v1alpha5.VirtualMachineGroupMemberStatus, out *VirtualMachineGroupMemberStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in *v1alpha6.VirtualMachineGroupMemberStatus, out *VirtualMachineGroupMemberStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Kind = in.Kind
 	out.UID = types.UID(in.UID)
@@ -2458,12 +2458,12 @@ func autoConvert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMac
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in *v1alpha5.VirtualMachineGroupMemberStatus, out *VirtualMachineGroupMemberStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in *v1alpha6.VirtualMachineGroupMemberStatus, out *VirtualMachineGroupMemberStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupMemberStatus_To_v1alpha3_VirtualMachineGroupMemberStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus(in *VirtualMachineGroupPlacementDatastoreStatus, out *v1alpha5.VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus(in *VirtualMachineGroupPlacementDatastoreStatus, out *v1alpha6.VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.ID = in.ID
 	out.URL = in.URL
@@ -2473,12 +2473,12 @@ func autoConvert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus(in *VirtualMachineGroupPlacementDatastoreStatus, out *v1alpha5.VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus(in *VirtualMachineGroupPlacementDatastoreStatus, out *v1alpha6.VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in *v1alpha5.VirtualMachineGroupPlacementDatastoreStatus, out *VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in *v1alpha6.VirtualMachineGroupPlacementDatastoreStatus, out *VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.ID = in.ID
 	out.URL = in.URL
@@ -2488,27 +2488,27 @@ func autoConvert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in *v1alpha5.VirtualMachineGroupPlacementDatastoreStatus, out *VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in *v1alpha6.VirtualMachineGroupPlacementDatastoreStatus, out *VirtualMachineGroupPlacementDatastoreStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupPlacementDatastoreStatus_To_v1alpha3_VirtualMachineGroupPlacementDatastoreStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec(in *VirtualMachineGroupSpec, out *v1alpha5.VirtualMachineGroupSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec(in *VirtualMachineGroupSpec, out *v1alpha6.VirtualMachineGroupSpec, s conversion.Scope) error {
 	out.GroupName = in.GroupName
-	out.BootOrder = *(*[]v1alpha5.VirtualMachineGroupBootOrderGroup)(unsafe.Pointer(&in.BootOrder))
-	out.PowerState = v1alpha5.VirtualMachinePowerState(in.PowerState)
+	out.BootOrder = *(*[]v1alpha6.VirtualMachineGroupBootOrderGroup)(unsafe.Pointer(&in.BootOrder))
+	out.PowerState = v1alpha6.VirtualMachinePowerState(in.PowerState)
 	out.NextForcePowerStateSyncTime = in.NextForcePowerStateSyncTime
-	out.PowerOffMode = v1alpha5.VirtualMachinePowerOpMode(in.PowerOffMode)
-	out.SuspendMode = v1alpha5.VirtualMachinePowerOpMode(in.SuspendMode)
+	out.PowerOffMode = v1alpha6.VirtualMachinePowerOpMode(in.PowerOffMode)
+	out.SuspendMode = v1alpha6.VirtualMachinePowerOpMode(in.SuspendMode)
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec(in *VirtualMachineGroupSpec, out *v1alpha5.VirtualMachineGroupSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha5_VirtualMachineGroupSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec(in *VirtualMachineGroupSpec, out *v1alpha6.VirtualMachineGroupSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupSpec_To_v1alpha6_VirtualMachineGroupSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in *v1alpha5.VirtualMachineGroupSpec, out *VirtualMachineGroupSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in *v1alpha6.VirtualMachineGroupSpec, out *VirtualMachineGroupSpec, s conversion.Scope) error {
 	out.GroupName = in.GroupName
 	out.BootOrder = *(*[]VirtualMachineGroupBootOrderGroup)(unsafe.Pointer(&in.BootOrder))
 	out.PowerState = VirtualMachinePowerState(in.PowerState)
@@ -2518,184 +2518,184 @@ func autoConvert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGrou
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in *v1alpha5.VirtualMachineGroupSpec, out *VirtualMachineGroupSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in *v1alpha6.VirtualMachineGroupSpec, out *VirtualMachineGroupSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupSpec_To_v1alpha3_VirtualMachineGroupSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus(in *VirtualMachineGroupStatus, out *v1alpha5.VirtualMachineGroupStatus, s conversion.Scope) error {
-	out.Members = *(*[]v1alpha5.VirtualMachineGroupMemberStatus)(unsafe.Pointer(&in.Members))
+func autoConvert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus(in *VirtualMachineGroupStatus, out *v1alpha6.VirtualMachineGroupStatus, s conversion.Scope) error {
+	out.Members = *(*[]v1alpha6.VirtualMachineGroupMemberStatus)(unsafe.Pointer(&in.Members))
 	out.LastUpdatedPowerStateTime = (*v1.Time)(unsafe.Pointer(in.LastUpdatedPowerStateTime))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus(in *VirtualMachineGroupStatus, out *v1alpha5.VirtualMachineGroupStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha5_VirtualMachineGroupStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus(in *VirtualMachineGroupStatus, out *v1alpha6.VirtualMachineGroupStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineGroupStatus_To_v1alpha6_VirtualMachineGroupStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in *v1alpha5.VirtualMachineGroupStatus, out *VirtualMachineGroupStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in *v1alpha6.VirtualMachineGroupStatus, out *VirtualMachineGroupStatus, s conversion.Scope) error {
 	out.Members = *(*[]VirtualMachineGroupMemberStatus)(unsafe.Pointer(&in.Members))
 	out.LastUpdatedPowerStateTime = (*v1.Time)(unsafe.Pointer(in.LastUpdatedPowerStateTime))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in *v1alpha5.VirtualMachineGroupStatus, out *VirtualMachineGroupStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in *v1alpha6.VirtualMachineGroupStatus, out *VirtualMachineGroupStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineGroupStatus_To_v1alpha3_VirtualMachineGroupStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(in *VirtualMachineImage, out *v1alpha5.VirtualMachineImage, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(in *VirtualMachineImage, out *v1alpha6.VirtualMachineImage, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(in *VirtualMachineImage, out *v1alpha5.VirtualMachineImage, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(in, out, s)
+// Convert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(in *VirtualMachineImage, out *v1alpha6.VirtualMachineImage, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in *v1alpha5.VirtualMachineImage, out *VirtualMachineImage, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in *v1alpha6.VirtualMachineImage, out *VirtualMachineImage, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in *v1alpha5.VirtualMachineImage, out *VirtualMachineImage, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in, out, s)
+// Convert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in *v1alpha6.VirtualMachineImage, out *VirtualMachineImage, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCache_To_v1alpha5_VirtualMachineImageCache(in *VirtualMachineImageCache, out *v1alpha5.VirtualMachineImageCache, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCache_To_v1alpha6_VirtualMachineImageCache(in *VirtualMachineImageCache, out *v1alpha6.VirtualMachineImageCache, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha5_VirtualMachineImageCache is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha5_VirtualMachineImageCache(in *VirtualMachineImageCache, out *v1alpha5.VirtualMachineImageCache, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCache_To_v1alpha5_VirtualMachineImageCache(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha6_VirtualMachineImageCache is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCache_To_v1alpha6_VirtualMachineImageCache(in *VirtualMachineImageCache, out *v1alpha6.VirtualMachineImageCache, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCache_To_v1alpha6_VirtualMachineImageCache(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in *v1alpha5.VirtualMachineImageCache, out *VirtualMachineImageCache, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in *v1alpha6.VirtualMachineImageCache, out *VirtualMachineImageCache, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in *v1alpha5.VirtualMachineImageCache, out *VirtualMachineImageCache, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in *v1alpha6.VirtualMachineImageCache, out *VirtualMachineImageCache, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCache_To_v1alpha3_VirtualMachineImageCache(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha5_VirtualMachineImageCacheFileStatus(in *VirtualMachineImageCacheFileStatus, out *v1alpha5.VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha6_VirtualMachineImageCacheFileStatus(in *VirtualMachineImageCacheFileStatus, out *v1alpha6.VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
 	out.ID = in.ID
-	out.Type = v1alpha5.VirtualMachineImageCacheFileType(in.Type)
-	out.DiskType = v1alpha5.VolumeType(in.DiskType)
+	out.Type = v1alpha6.VirtualMachineImageCacheFileType(in.Type)
+	out.DiskType = v1alpha6.VolumeType(in.DiskType)
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha5_VirtualMachineImageCacheFileStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha5_VirtualMachineImageCacheFileStatus(in *VirtualMachineImageCacheFileStatus, out *v1alpha5.VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha5_VirtualMachineImageCacheFileStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha6_VirtualMachineImageCacheFileStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha6_VirtualMachineImageCacheFileStatus(in *VirtualMachineImageCacheFileStatus, out *v1alpha6.VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheFileStatus_To_v1alpha6_VirtualMachineImageCacheFileStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in *v1alpha5.VirtualMachineImageCacheFileStatus, out *VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in *v1alpha6.VirtualMachineImageCacheFileStatus, out *VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
 	out.ID = in.ID
 	out.Type = VirtualMachineImageCacheFileType(in.Type)
 	out.DiskType = VirtualMachineVolumeType(in.DiskType)
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in *v1alpha5.VirtualMachineImageCacheFileStatus, out *VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in *v1alpha6.VirtualMachineImageCacheFileStatus, out *VirtualMachineImageCacheFileStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheFileStatus_To_v1alpha3_VirtualMachineImageCacheFileStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha5_VirtualMachineImageCacheList(in *VirtualMachineImageCacheList, out *v1alpha5.VirtualMachineImageCacheList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha6_VirtualMachineImageCacheList(in *VirtualMachineImageCacheList, out *v1alpha6.VirtualMachineImageCacheList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineImageCache)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineImageCache)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha5_VirtualMachineImageCacheList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha5_VirtualMachineImageCacheList(in *VirtualMachineImageCacheList, out *v1alpha5.VirtualMachineImageCacheList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha5_VirtualMachineImageCacheList(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha6_VirtualMachineImageCacheList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha6_VirtualMachineImageCacheList(in *VirtualMachineImageCacheList, out *v1alpha6.VirtualMachineImageCacheList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheList_To_v1alpha6_VirtualMachineImageCacheList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in *v1alpha5.VirtualMachineImageCacheList, out *VirtualMachineImageCacheList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in *v1alpha6.VirtualMachineImageCacheList, out *VirtualMachineImageCacheList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineImageCache)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in *v1alpha5.VirtualMachineImageCacheList, out *VirtualMachineImageCacheList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in *v1alpha6.VirtualMachineImageCacheList, out *VirtualMachineImageCacheList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheList_To_v1alpha3_VirtualMachineImageCacheList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha5_VirtualMachineImageCacheLocationSpec(in *VirtualMachineImageCacheLocationSpec, out *v1alpha5.VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha6_VirtualMachineImageCacheLocationSpec(in *VirtualMachineImageCacheLocationSpec, out *v1alpha6.VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
 	out.DatacenterID = in.DatacenterID
 	out.ProfileID = in.ProfileID
 	out.DatastoreID = in.DatastoreID
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha5_VirtualMachineImageCacheLocationSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha5_VirtualMachineImageCacheLocationSpec(in *VirtualMachineImageCacheLocationSpec, out *v1alpha5.VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha5_VirtualMachineImageCacheLocationSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha6_VirtualMachineImageCacheLocationSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha6_VirtualMachineImageCacheLocationSpec(in *VirtualMachineImageCacheLocationSpec, out *v1alpha6.VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheLocationSpec_To_v1alpha6_VirtualMachineImageCacheLocationSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in *v1alpha5.VirtualMachineImageCacheLocationSpec, out *VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in *v1alpha6.VirtualMachineImageCacheLocationSpec, out *VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
 	out.DatacenterID = in.DatacenterID
 	out.ProfileID = in.ProfileID
 	out.DatastoreID = in.DatastoreID
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in *v1alpha5.VirtualMachineImageCacheLocationSpec, out *VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in *v1alpha6.VirtualMachineImageCacheLocationSpec, out *VirtualMachineImageCacheLocationSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheLocationSpec_To_v1alpha3_VirtualMachineImageCacheLocationSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha5_VirtualMachineImageCacheLocationStatus(in *VirtualMachineImageCacheLocationStatus, out *v1alpha5.VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha6_VirtualMachineImageCacheLocationStatus(in *VirtualMachineImageCacheLocationStatus, out *v1alpha6.VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
 	out.DatacenterID = in.DatacenterID
 	out.DatastoreID = in.DatastoreID
 	out.ProfileID = in.ProfileID
-	out.Files = *(*[]v1alpha5.VirtualMachineImageCacheFileStatus)(unsafe.Pointer(&in.Files))
+	out.Files = *(*[]v1alpha6.VirtualMachineImageCacheFileStatus)(unsafe.Pointer(&in.Files))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha5_VirtualMachineImageCacheLocationStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha5_VirtualMachineImageCacheLocationStatus(in *VirtualMachineImageCacheLocationStatus, out *v1alpha5.VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha5_VirtualMachineImageCacheLocationStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha6_VirtualMachineImageCacheLocationStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha6_VirtualMachineImageCacheLocationStatus(in *VirtualMachineImageCacheLocationStatus, out *v1alpha6.VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheLocationStatus_To_v1alpha6_VirtualMachineImageCacheLocationStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in *v1alpha5.VirtualMachineImageCacheLocationStatus, out *VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in *v1alpha6.VirtualMachineImageCacheLocationStatus, out *VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
 	out.DatacenterID = in.DatacenterID
 	out.DatastoreID = in.DatastoreID
 	out.ProfileID = in.ProfileID
@@ -2704,88 +2704,88 @@ func autoConvert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_Vir
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in *v1alpha5.VirtualMachineImageCacheLocationStatus, out *VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in *v1alpha6.VirtualMachineImageCacheLocationStatus, out *VirtualMachineImageCacheLocationStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheLocationStatus_To_v1alpha3_VirtualMachineImageCacheLocationStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha5_VirtualMachineImageCacheOVFStatus(in *VirtualMachineImageCacheOVFStatus, out *v1alpha5.VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha6_VirtualMachineImageCacheOVFStatus(in *VirtualMachineImageCacheOVFStatus, out *v1alpha6.VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
 	out.ConfigMapName = in.ConfigMapName
 	out.ProviderVersion = in.ProviderVersion
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha5_VirtualMachineImageCacheOVFStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha5_VirtualMachineImageCacheOVFStatus(in *VirtualMachineImageCacheOVFStatus, out *v1alpha5.VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha5_VirtualMachineImageCacheOVFStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha6_VirtualMachineImageCacheOVFStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha6_VirtualMachineImageCacheOVFStatus(in *VirtualMachineImageCacheOVFStatus, out *v1alpha6.VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheOVFStatus_To_v1alpha6_VirtualMachineImageCacheOVFStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in *v1alpha5.VirtualMachineImageCacheOVFStatus, out *VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in *v1alpha6.VirtualMachineImageCacheOVFStatus, out *VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
 	out.ConfigMapName = in.ConfigMapName
 	out.ProviderVersion = in.ProviderVersion
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in *v1alpha5.VirtualMachineImageCacheOVFStatus, out *VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in *v1alpha6.VirtualMachineImageCacheOVFStatus, out *VirtualMachineImageCacheOVFStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheOVFStatus_To_v1alpha3_VirtualMachineImageCacheOVFStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec(in *VirtualMachineImageCacheSpec, out *v1alpha5.VirtualMachineImageCacheSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec(in *VirtualMachineImageCacheSpec, out *v1alpha6.VirtualMachineImageCacheSpec, s conversion.Scope) error {
 	out.ProviderID = in.ProviderID
 	out.ProviderVersion = in.ProviderVersion
-	out.Locations = *(*[]v1alpha5.VirtualMachineImageCacheLocationSpec)(unsafe.Pointer(&in.Locations))
+	out.Locations = *(*[]v1alpha6.VirtualMachineImageCacheLocationSpec)(unsafe.Pointer(&in.Locations))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec(in *VirtualMachineImageCacheSpec, out *v1alpha5.VirtualMachineImageCacheSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha5_VirtualMachineImageCacheSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec(in *VirtualMachineImageCacheSpec, out *v1alpha6.VirtualMachineImageCacheSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheSpec_To_v1alpha6_VirtualMachineImageCacheSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in *v1alpha5.VirtualMachineImageCacheSpec, out *VirtualMachineImageCacheSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in *v1alpha6.VirtualMachineImageCacheSpec, out *VirtualMachineImageCacheSpec, s conversion.Scope) error {
 	out.ProviderID = in.ProviderID
 	out.ProviderVersion = in.ProviderVersion
 	out.Locations = *(*[]VirtualMachineImageCacheLocationSpec)(unsafe.Pointer(&in.Locations))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in *v1alpha5.VirtualMachineImageCacheSpec, out *VirtualMachineImageCacheSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in *v1alpha6.VirtualMachineImageCacheSpec, out *VirtualMachineImageCacheSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheSpec_To_v1alpha3_VirtualMachineImageCacheSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus(in *VirtualMachineImageCacheStatus, out *v1alpha5.VirtualMachineImageCacheStatus, s conversion.Scope) error {
-	out.Locations = *(*[]v1alpha5.VirtualMachineImageCacheLocationStatus)(unsafe.Pointer(&in.Locations))
-	out.OVF = (*v1alpha5.VirtualMachineImageCacheOVFStatus)(unsafe.Pointer(in.OVF))
+func autoConvert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus(in *VirtualMachineImageCacheStatus, out *v1alpha6.VirtualMachineImageCacheStatus, s conversion.Scope) error {
+	out.Locations = *(*[]v1alpha6.VirtualMachineImageCacheLocationStatus)(unsafe.Pointer(&in.Locations))
+	out.OVF = (*v1alpha6.VirtualMachineImageCacheOVFStatus)(unsafe.Pointer(in.OVF))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus(in *VirtualMachineImageCacheStatus, out *v1alpha5.VirtualMachineImageCacheStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha5_VirtualMachineImageCacheStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus(in *VirtualMachineImageCacheStatus, out *v1alpha6.VirtualMachineImageCacheStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageCacheStatus_To_v1alpha6_VirtualMachineImageCacheStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in *v1alpha5.VirtualMachineImageCacheStatus, out *VirtualMachineImageCacheStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in *v1alpha6.VirtualMachineImageCacheStatus, out *VirtualMachineImageCacheStatus, s conversion.Scope) error {
 	out.Locations = *(*[]VirtualMachineImageCacheLocationStatus)(unsafe.Pointer(&in.Locations))
 	out.OVF = (*VirtualMachineImageCacheOVFStatus)(unsafe.Pointer(in.OVF))
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in *v1alpha5.VirtualMachineImageCacheStatus, out *VirtualMachineImageCacheStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in *v1alpha6.VirtualMachineImageCacheStatus, out *VirtualMachineImageCacheStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageCacheStatus_To_v1alpha3_VirtualMachineImageCacheStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha5_VirtualMachineImageDiskInfo(in *VirtualMachineImageDiskInfo, out *v1alpha5.VirtualMachineImageDiskInfo, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha6_VirtualMachineImageDiskInfo(in *VirtualMachineImageDiskInfo, out *v1alpha6.VirtualMachineImageDiskInfo, s conversion.Scope) error {
 	// WARNING: in.Capacity requires manual conversion: does not exist in peer-type
 	// WARNING: in.Size requires manual conversion: does not exist in peer-type
 	return nil
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(in *v1alpha5.VirtualMachineImageDiskInfo, out *VirtualMachineImageDiskInfo, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(in *v1alpha6.VirtualMachineImageDiskInfo, out *VirtualMachineImageDiskInfo, s conversion.Scope) error {
 	// WARNING: in.Name requires manual conversion: does not exist in peer-type
 	// WARNING: in.Limit requires manual conversion: does not exist in peer-type
 	// WARNING: in.Requested requires manual conversion: does not exist in peer-type
@@ -2795,13 +2795,13 @@ func autoConvert_v1alpha5_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachine
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImageList(in *VirtualMachineImageList, out *v1alpha5.VirtualMachineImageList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageList_To_v1alpha6_VirtualMachineImageList(in *VirtualMachineImageList, out *v1alpha6.VirtualMachineImageList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]v1alpha5.VirtualMachineImage, len(*in))
+		*out = make([]v1alpha6.VirtualMachineImage, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachineImage_To_v1alpha5_VirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachineImage_To_v1alpha6_VirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -2811,18 +2811,18 @@ func autoConvert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImag
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImageList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImageList(in *VirtualMachineImageList, out *v1alpha5.VirtualMachineImageList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageList_To_v1alpha5_VirtualMachineImageList(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageList_To_v1alpha6_VirtualMachineImageList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageList_To_v1alpha6_VirtualMachineImageList(in *VirtualMachineImageList, out *v1alpha6.VirtualMachineImageList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageList_To_v1alpha6_VirtualMachineImageList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in *v1alpha5.VirtualMachineImageList, out *VirtualMachineImageList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in *v1alpha6.VirtualMachineImageList, out *VirtualMachineImageList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]VirtualMachineImage, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachineImage_To_v1alpha3_VirtualMachineImage(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -2832,36 +2832,36 @@ func autoConvert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImag
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in *v1alpha5.VirtualMachineImageList, out *VirtualMachineImageList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in *v1alpha6.VirtualMachineImageList, out *VirtualMachineImageList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageList_To_v1alpha3_VirtualMachineImageList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo(in *VirtualMachineImageOSInfo, out *v1alpha5.VirtualMachineImageOSInfo, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo(in *VirtualMachineImageOSInfo, out *v1alpha6.VirtualMachineImageOSInfo, s conversion.Scope) error {
 	out.ID = in.ID
 	out.Type = in.Type
 	out.Version = in.Version
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo(in *VirtualMachineImageOSInfo, out *v1alpha5.VirtualMachineImageOSInfo, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo(in *VirtualMachineImageOSInfo, out *v1alpha6.VirtualMachineImageOSInfo, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in *v1alpha5.VirtualMachineImageOSInfo, out *VirtualMachineImageOSInfo, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in *v1alpha6.VirtualMachineImageOSInfo, out *VirtualMachineImageOSInfo, s conversion.Scope) error {
 	out.ID = in.ID
 	out.Type = in.Type
 	out.Version = in.Version
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in *v1alpha5.VirtualMachineImageOSInfo, out *VirtualMachineImageOSInfo, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in *v1alpha6.VirtualMachineImageOSInfo, out *VirtualMachineImageOSInfo, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo(in *VirtualMachineImageProductInfo, out *v1alpha5.VirtualMachineImageProductInfo, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo(in *VirtualMachineImageProductInfo, out *v1alpha6.VirtualMachineImageProductInfo, s conversion.Scope) error {
 	out.Product = in.Product
 	out.Vendor = in.Vendor
 	out.Version = in.Version
@@ -2869,12 +2869,12 @@ func autoConvert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo(in *VirtualMachineImageProductInfo, out *v1alpha5.VirtualMachineImageProductInfo, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo(in *VirtualMachineImageProductInfo, out *v1alpha6.VirtualMachineImageProductInfo, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in *v1alpha5.VirtualMachineImageProductInfo, out *VirtualMachineImageProductInfo, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in *v1alpha6.VirtualMachineImageProductInfo, out *VirtualMachineImageProductInfo, s conversion.Scope) error {
 	out.Product = in.Product
 	out.Vendor = in.Vendor
 	out.Version = in.Version
@@ -2882,71 +2882,71 @@ func autoConvert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in *v1alpha5.VirtualMachineImageProductInfo, out *VirtualMachineImageProductInfo, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in *v1alpha6.VirtualMachineImageProductInfo, out *VirtualMachineImageProductInfo, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef(in *VirtualMachineImageRef, out *v1alpha5.VirtualMachineImageRef, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef(in *VirtualMachineImageRef, out *v1alpha6.VirtualMachineImageRef, s conversion.Scope) error {
 	out.Kind = in.Kind
 	out.Name = in.Name
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef(in *VirtualMachineImageRef, out *v1alpha5.VirtualMachineImageRef, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageRef_To_v1alpha5_VirtualMachineImageRef(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef(in *VirtualMachineImageRef, out *v1alpha6.VirtualMachineImageRef, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageRef_To_v1alpha6_VirtualMachineImageRef(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in *v1alpha5.VirtualMachineImageRef, out *VirtualMachineImageRef, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in *v1alpha6.VirtualMachineImageRef, out *VirtualMachineImageRef, s conversion.Scope) error {
 	out.Kind = in.Kind
 	out.Name = in.Name
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in *v1alpha5.VirtualMachineImageRef, out *VirtualMachineImageRef, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in *v1alpha6.VirtualMachineImageRef, out *VirtualMachineImageRef, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageRef_To_v1alpha3_VirtualMachineImageRef(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(in *VirtualMachineImageSpec, out *v1alpha5.VirtualMachineImageSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(in *VirtualMachineImageSpec, out *v1alpha6.VirtualMachineImageSpec, s conversion.Scope) error {
 	out.ProviderRef = (*common.LocalObjectRef)(unsafe.Pointer(in.ProviderRef))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(in *VirtualMachineImageSpec, out *v1alpha5.VirtualMachineImageSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageSpec_To_v1alpha5_VirtualMachineImageSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(in *VirtualMachineImageSpec, out *v1alpha6.VirtualMachineImageSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageSpec_To_v1alpha6_VirtualMachineImageSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in *v1alpha5.VirtualMachineImageSpec, out *VirtualMachineImageSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in *v1alpha6.VirtualMachineImageSpec, out *VirtualMachineImageSpec, s conversion.Scope) error {
 	out.ProviderRef = (*v1alpha3common.LocalObjectRef)(unsafe.Pointer(in.ProviderRef))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in *v1alpha5.VirtualMachineImageSpec, out *VirtualMachineImageSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in *v1alpha6.VirtualMachineImageSpec, out *VirtualMachineImageSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageSpec_To_v1alpha3_VirtualMachineImageSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(in *VirtualMachineImageStatus, out *v1alpha5.VirtualMachineImageStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(in *VirtualMachineImageStatus, out *v1alpha6.VirtualMachineImageStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Capabilities = *(*[]string)(unsafe.Pointer(&in.Capabilities))
 	out.Firmware = in.Firmware
 	out.HardwareVersion = (*int32)(unsafe.Pointer(in.HardwareVersion))
-	if err := Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha5_VirtualMachineImageOSInfo(&in.OSInfo, &out.OSInfo, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageOSInfo_To_v1alpha6_VirtualMachineImageOSInfo(&in.OSInfo, &out.OSInfo, s); err != nil {
 		return err
 	}
-	out.OVFProperties = *(*[]v1alpha5.OVFProperty)(unsafe.Pointer(&in.OVFProperties))
+	out.OVFProperties = *(*[]v1alpha6.OVFProperty)(unsafe.Pointer(&in.OVFProperties))
 	out.VMwareSystemProperties = *(*[]common.KeyValuePair)(unsafe.Pointer(&in.VMwareSystemProperties))
-	if err := Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha5_VirtualMachineImageProductInfo(&in.ProductInfo, &out.ProductInfo, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineImageProductInfo_To_v1alpha6_VirtualMachineImageProductInfo(&in.ProductInfo, &out.ProductInfo, s); err != nil {
 		return err
 	}
 	if in.Disks != nil {
 		in, out := &in.Disks, &out.Disks
-		*out = make([]v1alpha5.VirtualMachineImageDiskInfo, len(*in))
+		*out = make([]v1alpha6.VirtualMachineImageDiskInfo, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha5_VirtualMachineImageDiskInfo(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachineImageDiskInfo_To_v1alpha6_VirtualMachineImageDiskInfo(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -2960,29 +2960,29 @@ func autoConvert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineIm
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(in *VirtualMachineImageStatus, out *v1alpha5.VirtualMachineImageStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineImageStatus_To_v1alpha5_VirtualMachineImageStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(in *VirtualMachineImageStatus, out *v1alpha6.VirtualMachineImageStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineImageStatus_To_v1alpha6_VirtualMachineImageStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in *v1alpha5.VirtualMachineImageStatus, out *VirtualMachineImageStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in *v1alpha6.VirtualMachineImageStatus, out *VirtualMachineImageStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Capabilities = *(*[]string)(unsafe.Pointer(&in.Capabilities))
 	out.Firmware = in.Firmware
 	out.HardwareVersion = (*int32)(unsafe.Pointer(in.HardwareVersion))
-	if err := Convert_v1alpha5_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(&in.OSInfo, &out.OSInfo, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageOSInfo_To_v1alpha3_VirtualMachineImageOSInfo(&in.OSInfo, &out.OSInfo, s); err != nil {
 		return err
 	}
 	out.OVFProperties = *(*[]OVFProperty)(unsafe.Pointer(&in.OVFProperties))
 	out.VMwareSystemProperties = *(*[]v1alpha3common.KeyValuePair)(unsafe.Pointer(&in.VMwareSystemProperties))
-	if err := Convert_v1alpha5_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(&in.ProductInfo, &out.ProductInfo, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineImageProductInfo_To_v1alpha3_VirtualMachineImageProductInfo(&in.ProductInfo, &out.ProductInfo, s); err != nil {
 		return err
 	}
 	if in.Disks != nil {
 		in, out := &in.Disks, &out.Disks
 		*out = make([]VirtualMachineImageDiskInfo, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachineImageDiskInfo_To_v1alpha3_VirtualMachineImageDiskInfo(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -2996,18 +2996,18 @@ func autoConvert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineIm
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in *v1alpha5.VirtualMachineImageStatus, out *VirtualMachineImageStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in *v1alpha6.VirtualMachineImageStatus, out *VirtualMachineImageStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineImageStatus_To_v1alpha3_VirtualMachineImageStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList(in *VirtualMachineList, out *v1alpha5.VirtualMachineList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineList_To_v1alpha6_VirtualMachineList(in *VirtualMachineList, out *v1alpha6.VirtualMachineList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]v1alpha5.VirtualMachine, len(*in))
+		*out = make([]v1alpha6.VirtualMachine, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3017,18 +3017,18 @@ func autoConvert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList(in *
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList(in *VirtualMachineList, out *v1alpha5.VirtualMachineList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineList_To_v1alpha5_VirtualMachineList(in, out, s)
+// Convert_v1alpha3_VirtualMachineList_To_v1alpha6_VirtualMachineList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineList_To_v1alpha6_VirtualMachineList(in *VirtualMachineList, out *v1alpha6.VirtualMachineList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineList_To_v1alpha6_VirtualMachineList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList(in *v1alpha5.VirtualMachineList, out *VirtualMachineList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineList_To_v1alpha3_VirtualMachineList(in *v1alpha6.VirtualMachineList, out *VirtualMachineList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]VirtualMachine, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3038,54 +3038,54 @@ func autoConvert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList(in *
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList(in *v1alpha5.VirtualMachineList, out *VirtualMachineList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineList_To_v1alpha3_VirtualMachineList(in, out, s)
+// Convert_v1alpha6_VirtualMachineList_To_v1alpha3_VirtualMachineList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineList_To_v1alpha3_VirtualMachineList(in *v1alpha6.VirtualMachineList, out *VirtualMachineList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineList_To_v1alpha3_VirtualMachineList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus(in *VirtualMachineNetworkConfigDHCPOptionsStatus, out *v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus(in *VirtualMachineNetworkConfigDHCPOptionsStatus, out *v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
 	out.Enabled = in.Enabled
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus(in *VirtualMachineNetworkConfigDHCPOptionsStatus, out *v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus(in *VirtualMachineNetworkConfigDHCPOptionsStatus, out *v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in *v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus, out *VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in *v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus, out *VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
 	out.Enabled = in.Enabled
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in *v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus, out *VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in *v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus, out *VirtualMachineNetworkConfigDHCPOptionsStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPOptionsStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPStatus(in *VirtualMachineNetworkConfigDHCPStatus, out *v1alpha5.VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
-	out.IP4 = (*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP4))
-	out.IP6 = (*v1alpha5.VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP6))
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPStatus(in *VirtualMachineNetworkConfigDHCPStatus, out *v1alpha6.VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
+	out.IP4 = (*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP4))
+	out.IP6 = (*v1alpha6.VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP6))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPStatus(in *VirtualMachineNetworkConfigDHCPStatus, out *v1alpha5.VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha5_VirtualMachineNetworkConfigDHCPStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPStatus(in *VirtualMachineNetworkConfigDHCPStatus, out *v1alpha6.VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha6_VirtualMachineNetworkConfigDHCPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in *v1alpha5.VirtualMachineNetworkConfigDHCPStatus, out *VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in *v1alpha6.VirtualMachineNetworkConfigDHCPStatus, out *VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
 	out.IP4 = (*VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP4))
 	out.IP6 = (*VirtualMachineNetworkConfigDHCPOptionsStatus)(unsafe.Pointer(in.IP6))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in *v1alpha5.VirtualMachineNetworkConfigDHCPStatus, out *VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in *v1alpha6.VirtualMachineNetworkConfigDHCPStatus, out *VirtualMachineNetworkConfigDHCPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigDHCPStatus_To_v1alpha3_VirtualMachineNetworkConfigDHCPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_VirtualMachineNetworkConfigDNSStatus(in *VirtualMachineNetworkConfigDNSStatus, out *v1alpha5.VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha6_VirtualMachineNetworkConfigDNSStatus(in *VirtualMachineNetworkConfigDNSStatus, out *v1alpha6.VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
@@ -3093,12 +3093,12 @@ func autoConvert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_Virtu
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_VirtualMachineNetworkConfigDNSStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_VirtualMachineNetworkConfigDNSStatus(in *VirtualMachineNetworkConfigDNSStatus, out *v1alpha5.VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha5_VirtualMachineNetworkConfigDNSStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha6_VirtualMachineNetworkConfigDNSStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha6_VirtualMachineNetworkConfigDNSStatus(in *VirtualMachineNetworkConfigDNSStatus, out *v1alpha6.VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigDNSStatus_To_v1alpha6_VirtualMachineNetworkConfigDNSStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in *v1alpha5.VirtualMachineNetworkConfigDNSStatus, out *VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in *v1alpha6.VirtualMachineNetworkConfigDNSStatus, out *VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
@@ -3106,25 +3106,25 @@ func autoConvert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_Virtu
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in *v1alpha5.VirtualMachineNetworkConfigDNSStatus, out *VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in *v1alpha6.VirtualMachineNetworkConfigDNSStatus, out *VirtualMachineNetworkConfigDNSStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigDNSStatus_To_v1alpha3_VirtualMachineNetworkConfigDNSStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus(in *VirtualMachineNetworkConfigInterfaceIPStatus, out *v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
-	out.DHCP = (*v1alpha5.VirtualMachineNetworkConfigDHCPStatus)(unsafe.Pointer(in.DHCP))
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus(in *VirtualMachineNetworkConfigInterfaceIPStatus, out *v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
+	out.DHCP = (*v1alpha6.VirtualMachineNetworkConfigDHCPStatus)(unsafe.Pointer(in.DHCP))
 	out.Addresses = *(*[]string)(unsafe.Pointer(&in.Addresses))
 	out.Gateway4 = in.Gateway4
 	out.Gateway6 = in.Gateway6
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus(in *VirtualMachineNetworkConfigInterfaceIPStatus, out *v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus(in *VirtualMachineNetworkConfigInterfaceIPStatus, out *v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in *v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus, out *VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in *v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus, out *VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
 	out.DHCP = (*VirtualMachineNetworkConfigDHCPStatus)(unsafe.Pointer(in.DHCP))
 	out.Addresses = *(*[]string)(unsafe.Pointer(&in.Addresses))
 	out.Gateway4 = in.Gateway4
@@ -3132,110 +3132,110 @@ func autoConvert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alph
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in *v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus, out *VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in *v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus, out *VirtualMachineNetworkConfigInterfaceIPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceIPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus(in *VirtualMachineNetworkConfigInterfaceStatus, out *v1alpha5.VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus(in *VirtualMachineNetworkConfigInterfaceStatus, out *v1alpha6.VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
 	out.Name = in.Name
-	out.IP = (*v1alpha5.VirtualMachineNetworkConfigInterfaceIPStatus)(unsafe.Pointer(in.IP))
-	out.DNS = (*v1alpha5.VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
+	out.IP = (*v1alpha6.VirtualMachineNetworkConfigInterfaceIPStatus)(unsafe.Pointer(in.IP))
+	out.DNS = (*v1alpha6.VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus(in *VirtualMachineNetworkConfigInterfaceStatus, out *v1alpha5.VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus(in *VirtualMachineNetworkConfigInterfaceStatus, out *v1alpha6.VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in *v1alpha5.VirtualMachineNetworkConfigInterfaceStatus, out *VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in *v1alpha6.VirtualMachineNetworkConfigInterfaceStatus, out *VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.IP = (*VirtualMachineNetworkConfigInterfaceIPStatus)(unsafe.Pointer(in.IP))
 	out.DNS = (*VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in *v1alpha5.VirtualMachineNetworkConfigInterfaceStatus, out *VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in *v1alpha6.VirtualMachineNetworkConfigInterfaceStatus, out *VirtualMachineNetworkConfigInterfaceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigInterfaceStatus_To_v1alpha3_VirtualMachineNetworkConfigInterfaceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha5_VirtualMachineNetworkConfigStatus(in *VirtualMachineNetworkConfigStatus, out *v1alpha5.VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
-	out.Interfaces = *(*[]v1alpha5.VirtualMachineNetworkConfigInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
-	out.DNS = (*v1alpha5.VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
+func autoConvert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha6_VirtualMachineNetworkConfigStatus(in *VirtualMachineNetworkConfigStatus, out *v1alpha6.VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
+	out.Interfaces = *(*[]v1alpha6.VirtualMachineNetworkConfigInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
+	out.DNS = (*v1alpha6.VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha5_VirtualMachineNetworkConfigStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha5_VirtualMachineNetworkConfigStatus(in *VirtualMachineNetworkConfigStatus, out *v1alpha5.VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha5_VirtualMachineNetworkConfigStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha6_VirtualMachineNetworkConfigStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha6_VirtualMachineNetworkConfigStatus(in *VirtualMachineNetworkConfigStatus, out *v1alpha6.VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkConfigStatus_To_v1alpha6_VirtualMachineNetworkConfigStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in *v1alpha5.VirtualMachineNetworkConfigStatus, out *VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in *v1alpha6.VirtualMachineNetworkConfigStatus, out *VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
 	out.Interfaces = *(*[]VirtualMachineNetworkConfigInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
 	out.DNS = (*VirtualMachineNetworkConfigDNSStatus)(unsafe.Pointer(in.DNS))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in *v1alpha5.VirtualMachineNetworkConfigStatus, out *VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in *v1alpha6.VirtualMachineNetworkConfigStatus, out *VirtualMachineNetworkConfigStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkConfigStatus_To_v1alpha3_VirtualMachineNetworkConfigStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(in *VirtualMachineNetworkDHCPOptionsStatus, out *v1alpha5.VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(in *VirtualMachineNetworkDHCPOptionsStatus, out *v1alpha6.VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
 	out.Config = *(*[]common.KeyValuePair)(unsafe.Pointer(&in.Config))
 	out.Enabled = in.Enabled
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(in *VirtualMachineNetworkDHCPOptionsStatus, out *v1alpha5.VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(in *VirtualMachineNetworkDHCPOptionsStatus, out *v1alpha6.VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in *v1alpha5.VirtualMachineNetworkDHCPOptionsStatus, out *VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in *v1alpha6.VirtualMachineNetworkDHCPOptionsStatus, out *VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
 	out.Config = *(*[]v1alpha3common.KeyValuePair)(unsafe.Pointer(&in.Config))
 	out.Enabled = in.Enabled
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in *v1alpha5.VirtualMachineNetworkDHCPOptionsStatus, out *VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in *v1alpha6.VirtualMachineNetworkDHCPOptionsStatus, out *VirtualMachineNetworkDHCPOptionsStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha5_VirtualMachineNetworkDHCPStatus(in *VirtualMachineNetworkDHCPStatus, out *v1alpha5.VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(&in.IP4, &out.IP4, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha6_VirtualMachineNetworkDHCPStatus(in *VirtualMachineNetworkDHCPStatus, out *v1alpha6.VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(&in.IP4, &out.IP4, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus(&in.IP6, &out.IP6, s); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha5_VirtualMachineNetworkDHCPStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha5_VirtualMachineNetworkDHCPStatus(in *VirtualMachineNetworkDHCPStatus, out *v1alpha5.VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha5_VirtualMachineNetworkDHCPStatus(in, out, s)
-}
-
-func autoConvert_v1alpha5_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in *v1alpha5.VirtualMachineNetworkDHCPStatus, out *VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(&in.IP4, &out.IP4, s); err != nil {
-		return err
-	}
-	if err := Convert_v1alpha5_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(&in.IP6, &out.IP6, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus(&in.IP6, &out.IP6, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in *v1alpha5.VirtualMachineNetworkDHCPStatus, out *VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha6_VirtualMachineNetworkDHCPStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha6_VirtualMachineNetworkDHCPStatus(in *VirtualMachineNetworkDHCPStatus, out *v1alpha6.VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkDHCPStatus_To_v1alpha6_VirtualMachineNetworkDHCPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMachineNetworkDNSStatus(in *VirtualMachineNetworkDNSStatus, out *v1alpha5.VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in *v1alpha6.VirtualMachineNetworkDHCPStatus, out *VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(&in.IP4, &out.IP4, s); err != nil {
+		return err
+	}
+	if err := Convert_v1alpha6_VirtualMachineNetworkDHCPOptionsStatus_To_v1alpha3_VirtualMachineNetworkDHCPOptionsStatus(&in.IP6, &out.IP6, s); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Convert_v1alpha6_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in *v1alpha6.VirtualMachineNetworkDHCPStatus, out *VirtualMachineNetworkDHCPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkDHCPStatus_To_v1alpha3_VirtualMachineNetworkDHCPStatus(in, out, s)
+}
+
+func autoConvert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha6_VirtualMachineNetworkDNSStatus(in *VirtualMachineNetworkDNSStatus, out *v1alpha6.VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
 	out.DHCP = in.DHCP
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
@@ -3244,12 +3244,12 @@ func autoConvert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMachineNetworkDNSStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMachineNetworkDNSStatus(in *VirtualMachineNetworkDNSStatus, out *v1alpha5.VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha5_VirtualMachineNetworkDNSStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha6_VirtualMachineNetworkDNSStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha6_VirtualMachineNetworkDNSStatus(in *VirtualMachineNetworkDNSStatus, out *v1alpha6.VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkDNSStatus_To_v1alpha6_VirtualMachineNetworkDNSStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in *v1alpha5.VirtualMachineNetworkDNSStatus, out *VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in *v1alpha6.VirtualMachineNetworkDNSStatus, out *VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
 	out.DHCP = in.DHCP
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
@@ -3258,73 +3258,73 @@ func autoConvert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in *v1alpha5.VirtualMachineNetworkDNSStatus, out *VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in *v1alpha6.VirtualMachineNetworkDNSStatus, out *VirtualMachineNetworkDNSStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkDNSStatus_To_v1alpha3_VirtualMachineNetworkDNSStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus(in *VirtualMachineNetworkIPRouteGatewayStatus, out *v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus(in *VirtualMachineNetworkIPRouteGatewayStatus, out *v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
 	out.Device = in.Device
 	out.Address = in.Address
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus(in *VirtualMachineNetworkIPRouteGatewayStatus, out *v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus(in *VirtualMachineNetworkIPRouteGatewayStatus, out *v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in *v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus, out *VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in *v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus, out *VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
 	out.Device = in.Device
 	out.Address = in.Address
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in *v1alpha5.VirtualMachineNetworkIPRouteGatewayStatus, out *VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in *v1alpha6.VirtualMachineNetworkIPRouteGatewayStatus, out *VirtualMachineNetworkIPRouteGatewayStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha5_VirtualMachineNetworkIPRouteStatus(in *VirtualMachineNetworkIPRouteStatus, out *v1alpha5.VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus(&in.Gateway, &out.Gateway, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha6_VirtualMachineNetworkIPRouteStatus(in *VirtualMachineNetworkIPRouteStatus, out *v1alpha6.VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus(&in.Gateway, &out.Gateway, s); err != nil {
 		return err
 	}
 	out.NetworkAddress = in.NetworkAddress
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha5_VirtualMachineNetworkIPRouteStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha5_VirtualMachineNetworkIPRouteStatus(in *VirtualMachineNetworkIPRouteStatus, out *v1alpha5.VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha5_VirtualMachineNetworkIPRouteStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha6_VirtualMachineNetworkIPRouteStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha6_VirtualMachineNetworkIPRouteStatus(in *VirtualMachineNetworkIPRouteStatus, out *v1alpha6.VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkIPRouteStatus_To_v1alpha6_VirtualMachineNetworkIPRouteStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in *v1alpha5.VirtualMachineNetworkIPRouteStatus, out *VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(&in.Gateway, &out.Gateway, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in *v1alpha6.VirtualMachineNetworkIPRouteStatus, out *VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachineNetworkIPRouteGatewayStatus_To_v1alpha3_VirtualMachineNetworkIPRouteGatewayStatus(&in.Gateway, &out.Gateway, s); err != nil {
 		return err
 	}
 	out.NetworkAddress = in.NetworkAddress
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in *v1alpha5.VirtualMachineNetworkIPRouteStatus, out *VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in *v1alpha6.VirtualMachineNetworkIPRouteStatus, out *VirtualMachineNetworkIPRouteStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkIPRouteStatus_To_v1alpha3_VirtualMachineNetworkIPRouteStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha5_VirtualMachineNetworkIPStackStatus(in *VirtualMachineNetworkIPStackStatus, out *v1alpha5.VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
-	out.DHCP = (*v1alpha5.VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
-	out.DNS = (*v1alpha5.VirtualMachineNetworkDNSStatus)(unsafe.Pointer(in.DNS))
-	out.IPRoutes = *(*[]v1alpha5.VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
+func autoConvert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha6_VirtualMachineNetworkIPStackStatus(in *VirtualMachineNetworkIPStackStatus, out *v1alpha6.VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
+	out.DHCP = (*v1alpha6.VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
+	out.DNS = (*v1alpha6.VirtualMachineNetworkDNSStatus)(unsafe.Pointer(in.DNS))
+	out.IPRoutes = *(*[]v1alpha6.VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
 	out.KernelConfig = *(*[]common.KeyValuePair)(unsafe.Pointer(&in.KernelConfig))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha5_VirtualMachineNetworkIPStackStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha5_VirtualMachineNetworkIPStackStatus(in *VirtualMachineNetworkIPStackStatus, out *v1alpha5.VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha5_VirtualMachineNetworkIPStackStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha6_VirtualMachineNetworkIPStackStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha6_VirtualMachineNetworkIPStackStatus(in *VirtualMachineNetworkIPStackStatus, out *v1alpha6.VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkIPStackStatus_To_v1alpha6_VirtualMachineNetworkIPStackStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in *v1alpha5.VirtualMachineNetworkIPStackStatus, out *VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in *v1alpha6.VirtualMachineNetworkIPStackStatus, out *VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
 	out.DHCP = (*VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
 	out.DNS = (*VirtualMachineNetworkDNSStatus)(unsafe.Pointer(in.DNS))
 	out.IPRoutes = *(*[]VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
@@ -3332,12 +3332,12 @@ func autoConvert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_Virtual
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in *v1alpha5.VirtualMachineNetworkIPStackStatus, out *VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in *v1alpha6.VirtualMachineNetworkIPStackStatus, out *VirtualMachineNetworkIPStackStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkIPStackStatus_To_v1alpha3_VirtualMachineNetworkIPStackStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus(in *VirtualMachineNetworkInterfaceIPAddrStatus, out *v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus(in *VirtualMachineNetworkInterfaceIPAddrStatus, out *v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
 	out.Address = in.Address
 	out.Lifetime = in.Lifetime
 	out.Origin = in.Origin
@@ -3345,12 +3345,12 @@ func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus(in *VirtualMachineNetworkInterfaceIPAddrStatus, out *v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus(in *VirtualMachineNetworkInterfaceIPAddrStatus, out *v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in *v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus, out *VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in *v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus, out *VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
 	out.Address = in.Address
 	out.Lifetime = in.Lifetime
 	out.Origin = in.Origin
@@ -3358,25 +3358,25 @@ func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in *v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus, out *VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in *v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus, out *VirtualMachineNetworkInterfaceIPAddrStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkInterfaceIPAddrStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPAddrStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPStatus(in *VirtualMachineNetworkInterfaceIPStatus, out *v1alpha5.VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPStatus(in *VirtualMachineNetworkInterfaceIPStatus, out *v1alpha6.VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
 	out.AutoConfigurationEnabled = (*bool)(unsafe.Pointer(in.AutoConfigurationEnabled))
-	out.DHCP = (*v1alpha5.VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
-	out.Addresses = *(*[]v1alpha5.VirtualMachineNetworkInterfaceIPAddrStatus)(unsafe.Pointer(&in.Addresses))
+	out.DHCP = (*v1alpha6.VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
+	out.Addresses = *(*[]v1alpha6.VirtualMachineNetworkInterfaceIPAddrStatus)(unsafe.Pointer(&in.Addresses))
 	out.MACAddr = in.MACAddr
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPStatus(in *VirtualMachineNetworkInterfaceIPStatus, out *v1alpha5.VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha5_VirtualMachineNetworkInterfaceIPStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPStatus(in *VirtualMachineNetworkInterfaceIPStatus, out *v1alpha6.VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha6_VirtualMachineNetworkInterfaceIPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in *v1alpha5.VirtualMachineNetworkInterfaceIPStatus, out *VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in *v1alpha6.VirtualMachineNetworkInterfaceIPStatus, out *VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
 	out.AutoConfigurationEnabled = (*bool)(unsafe.Pointer(in.AutoConfigurationEnabled))
 	out.DHCP = (*VirtualMachineNetworkDHCPStatus)(unsafe.Pointer(in.DHCP))
 	out.Addresses = *(*[]VirtualMachineNetworkInterfaceIPAddrStatus)(unsafe.Pointer(&in.Addresses))
@@ -3384,12 +3384,12 @@ func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_Vir
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in *v1alpha5.VirtualMachineNetworkInterfaceIPStatus, out *VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in *v1alpha6.VirtualMachineNetworkInterfaceIPStatus, out *VirtualMachineNetworkInterfaceIPStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkInterfaceIPStatus_To_v1alpha3_VirtualMachineNetworkInterfaceIPStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_VirtualMachineNetworkInterfaceSpec(in *VirtualMachineNetworkInterfaceSpec, out *v1alpha5.VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha6_VirtualMachineNetworkInterfaceSpec(in *VirtualMachineNetworkInterfaceSpec, out *v1alpha6.VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Network = (*common.PartialObjectRef)(unsafe.Pointer(in.Network))
 	out.GuestDeviceName = in.GuestDeviceName
@@ -3401,17 +3401,17 @@ func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_Virtual
 	out.Gateway6 = in.Gateway6
 	out.MTU = (*int64)(unsafe.Pointer(in.MTU))
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
-	out.Routes = *(*[]v1alpha5.VirtualMachineNetworkRouteSpec)(unsafe.Pointer(&in.Routes))
+	out.Routes = *(*[]v1alpha6.VirtualMachineNetworkRouteSpec)(unsafe.Pointer(&in.Routes))
 	out.SearchDomains = *(*[]string)(unsafe.Pointer(&in.SearchDomains))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_VirtualMachineNetworkInterfaceSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_VirtualMachineNetworkInterfaceSpec(in *VirtualMachineNetworkInterfaceSpec, out *v1alpha5.VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha5_VirtualMachineNetworkInterfaceSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha6_VirtualMachineNetworkInterfaceSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha6_VirtualMachineNetworkInterfaceSpec(in *VirtualMachineNetworkInterfaceSpec, out *v1alpha6.VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceSpec_To_v1alpha6_VirtualMachineNetworkInterfaceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in *v1alpha5.VirtualMachineNetworkInterfaceSpec, out *VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in *v1alpha6.VirtualMachineNetworkInterfaceSpec, out *VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Network = (*v1alpha3common.PartialObjectRef)(unsafe.Pointer(in.Network))
 	out.GuestDeviceName = in.GuestDeviceName
@@ -3428,25 +3428,25 @@ func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_Virtual
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in *v1alpha5.VirtualMachineNetworkInterfaceSpec, out *VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in *v1alpha6.VirtualMachineNetworkInterfaceSpec, out *VirtualMachineNetworkInterfaceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkInterfaceSpec_To_v1alpha3_VirtualMachineNetworkInterfaceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha5_VirtualMachineNetworkInterfaceStatus(in *VirtualMachineNetworkInterfaceStatus, out *v1alpha5.VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha6_VirtualMachineNetworkInterfaceStatus(in *VirtualMachineNetworkInterfaceStatus, out *v1alpha6.VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.DeviceKey = in.DeviceKey
-	out.IP = (*v1alpha5.VirtualMachineNetworkInterfaceIPStatus)(unsafe.Pointer(in.IP))
-	out.DNS = (*v1alpha5.VirtualMachineNetworkDNSStatus)(unsafe.Pointer(in.DNS))
+	out.IP = (*v1alpha6.VirtualMachineNetworkInterfaceIPStatus)(unsafe.Pointer(in.IP))
+	out.DNS = (*v1alpha6.VirtualMachineNetworkDNSStatus)(unsafe.Pointer(in.DNS))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha5_VirtualMachineNetworkInterfaceStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha5_VirtualMachineNetworkInterfaceStatus(in *VirtualMachineNetworkInterfaceStatus, out *v1alpha5.VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha5_VirtualMachineNetworkInterfaceStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha6_VirtualMachineNetworkInterfaceStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha6_VirtualMachineNetworkInterfaceStatus(in *VirtualMachineNetworkInterfaceStatus, out *v1alpha6.VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkInterfaceStatus_To_v1alpha6_VirtualMachineNetworkInterfaceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in *v1alpha5.VirtualMachineNetworkInterfaceStatus, out *VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in *v1alpha6.VirtualMachineNetworkInterfaceStatus, out *VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	out.DeviceKey = in.DeviceKey
 	out.IP = (*VirtualMachineNetworkInterfaceIPStatus)(unsafe.Pointer(in.IP))
@@ -3454,71 +3454,71 @@ func autoConvert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_Virtu
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in *v1alpha5.VirtualMachineNetworkInterfaceStatus, out *VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in *v1alpha6.VirtualMachineNetworkInterfaceStatus, out *VirtualMachineNetworkInterfaceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkInterfaceStatus_To_v1alpha3_VirtualMachineNetworkInterfaceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha5_VirtualMachineNetworkRouteSpec(in *VirtualMachineNetworkRouteSpec, out *v1alpha5.VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha6_VirtualMachineNetworkRouteSpec(in *VirtualMachineNetworkRouteSpec, out *v1alpha6.VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
 	out.To = in.To
 	out.Via = in.Via
 	out.Metric = in.Metric
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha5_VirtualMachineNetworkRouteSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha5_VirtualMachineNetworkRouteSpec(in *VirtualMachineNetworkRouteSpec, out *v1alpha5.VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha5_VirtualMachineNetworkRouteSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha6_VirtualMachineNetworkRouteSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha6_VirtualMachineNetworkRouteSpec(in *VirtualMachineNetworkRouteSpec, out *v1alpha6.VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkRouteSpec_To_v1alpha6_VirtualMachineNetworkRouteSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in *v1alpha5.VirtualMachineNetworkRouteSpec, out *VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in *v1alpha6.VirtualMachineNetworkRouteSpec, out *VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
 	out.To = in.To
 	out.Via = in.Via
 	out.Metric = in.Metric
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in *v1alpha5.VirtualMachineNetworkRouteSpec, out *VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in *v1alpha6.VirtualMachineNetworkRouteSpec, out *VirtualMachineNetworkRouteSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkRouteSpec_To_v1alpha3_VirtualMachineNetworkRouteSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha5_VirtualMachineNetworkRouteStatus(in *VirtualMachineNetworkRouteStatus, out *v1alpha5.VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
-	out.IPRoutes = *(*[]v1alpha5.VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
+func autoConvert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha6_VirtualMachineNetworkRouteStatus(in *VirtualMachineNetworkRouteStatus, out *v1alpha6.VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
+	out.IPRoutes = *(*[]v1alpha6.VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha5_VirtualMachineNetworkRouteStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha5_VirtualMachineNetworkRouteStatus(in *VirtualMachineNetworkRouteStatus, out *v1alpha5.VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha5_VirtualMachineNetworkRouteStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha6_VirtualMachineNetworkRouteStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha6_VirtualMachineNetworkRouteStatus(in *VirtualMachineNetworkRouteStatus, out *v1alpha6.VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkRouteStatus_To_v1alpha6_VirtualMachineNetworkRouteStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in *v1alpha5.VirtualMachineNetworkRouteStatus, out *VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in *v1alpha6.VirtualMachineNetworkRouteStatus, out *VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
 	out.IPRoutes = *(*[]VirtualMachineNetworkIPRouteStatus)(unsafe.Pointer(&in.IPRoutes))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in *v1alpha5.VirtualMachineNetworkRouteStatus, out *VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in *v1alpha6.VirtualMachineNetworkRouteStatus, out *VirtualMachineNetworkRouteStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkRouteStatus_To_v1alpha3_VirtualMachineNetworkRouteStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha5_VirtualMachineNetworkSpec(in *VirtualMachineNetworkSpec, out *v1alpha5.VirtualMachineNetworkSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha6_VirtualMachineNetworkSpec(in *VirtualMachineNetworkSpec, out *v1alpha6.VirtualMachineNetworkSpec, s conversion.Scope) error {
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
 	out.Disabled = in.Disabled
 	out.Nameservers = *(*[]string)(unsafe.Pointer(&in.Nameservers))
 	out.SearchDomains = *(*[]string)(unsafe.Pointer(&in.SearchDomains))
-	out.Interfaces = *(*[]v1alpha5.VirtualMachineNetworkInterfaceSpec)(unsafe.Pointer(&in.Interfaces))
+	out.Interfaces = *(*[]v1alpha6.VirtualMachineNetworkInterfaceSpec)(unsafe.Pointer(&in.Interfaces))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha5_VirtualMachineNetworkSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha5_VirtualMachineNetworkSpec(in *VirtualMachineNetworkSpec, out *v1alpha5.VirtualMachineNetworkSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha5_VirtualMachineNetworkSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha6_VirtualMachineNetworkSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha6_VirtualMachineNetworkSpec(in *VirtualMachineNetworkSpec, out *v1alpha6.VirtualMachineNetworkSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkSpec_To_v1alpha6_VirtualMachineNetworkSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in *v1alpha5.VirtualMachineNetworkSpec, out *VirtualMachineNetworkSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in *v1alpha6.VirtualMachineNetworkSpec, out *VirtualMachineNetworkSpec, s conversion.Scope) error {
 	out.HostName = in.HostName
 	out.DomainName = in.DomainName
 	out.Disabled = in.Disabled
@@ -3528,27 +3528,27 @@ func autoConvert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNe
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in *v1alpha5.VirtualMachineNetworkSpec, out *VirtualMachineNetworkSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in *v1alpha6.VirtualMachineNetworkSpec, out *VirtualMachineNetworkSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkSpec_To_v1alpha3_VirtualMachineNetworkSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha5_VirtualMachineNetworkStatus(in *VirtualMachineNetworkStatus, out *v1alpha5.VirtualMachineNetworkStatus, s conversion.Scope) error {
-	out.Config = (*v1alpha5.VirtualMachineNetworkConfigStatus)(unsafe.Pointer(in.Config))
+func autoConvert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha6_VirtualMachineNetworkStatus(in *VirtualMachineNetworkStatus, out *v1alpha6.VirtualMachineNetworkStatus, s conversion.Scope) error {
+	out.Config = (*v1alpha6.VirtualMachineNetworkConfigStatus)(unsafe.Pointer(in.Config))
 	out.HostName = in.HostName
-	out.Interfaces = *(*[]v1alpha5.VirtualMachineNetworkInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
-	out.IPStacks = *(*[]v1alpha5.VirtualMachineNetworkIPStackStatus)(unsafe.Pointer(&in.IPStacks))
+	out.Interfaces = *(*[]v1alpha6.VirtualMachineNetworkInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
+	out.IPStacks = *(*[]v1alpha6.VirtualMachineNetworkIPStackStatus)(unsafe.Pointer(&in.IPStacks))
 	out.PrimaryIP4 = in.PrimaryIP4
 	out.PrimaryIP6 = in.PrimaryIP6
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha5_VirtualMachineNetworkStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha5_VirtualMachineNetworkStatus(in *VirtualMachineNetworkStatus, out *v1alpha5.VirtualMachineNetworkStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha5_VirtualMachineNetworkStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha6_VirtualMachineNetworkStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha6_VirtualMachineNetworkStatus(in *VirtualMachineNetworkStatus, out *v1alpha6.VirtualMachineNetworkStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineNetworkStatus_To_v1alpha6_VirtualMachineNetworkStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in *v1alpha5.VirtualMachineNetworkStatus, out *VirtualMachineNetworkStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in *v1alpha6.VirtualMachineNetworkStatus, out *VirtualMachineNetworkStatus, s conversion.Scope) error {
 	out.Config = (*VirtualMachineNetworkConfigStatus)(unsafe.Pointer(in.Config))
 	out.HostName = in.HostName
 	out.Interfaces = *(*[]VirtualMachineNetworkInterfaceStatus)(unsafe.Pointer(&in.Interfaces))
@@ -3558,25 +3558,25 @@ func autoConvert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachine
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in *v1alpha5.VirtualMachineNetworkStatus, out *VirtualMachineNetworkStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in *v1alpha6.VirtualMachineNetworkStatus, out *VirtualMachineNetworkStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineNetworkStatus_To_v1alpha3_VirtualMachineNetworkStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha5_VirtualMachinePlacementStatus(in *VirtualMachinePlacementStatus, out *v1alpha5.VirtualMachinePlacementStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha6_VirtualMachinePlacementStatus(in *VirtualMachinePlacementStatus, out *v1alpha6.VirtualMachinePlacementStatus, s conversion.Scope) error {
 	out.Zone = in.Zone
 	out.Node = in.Node
 	out.Pool = in.Pool
-	out.Datastores = *(*[]v1alpha5.VirtualMachineGroupPlacementDatastoreStatus)(unsafe.Pointer(&in.Datastores))
+	out.Datastores = *(*[]v1alpha6.VirtualMachineGroupPlacementDatastoreStatus)(unsafe.Pointer(&in.Datastores))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha5_VirtualMachinePlacementStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha5_VirtualMachinePlacementStatus(in *VirtualMachinePlacementStatus, out *v1alpha5.VirtualMachinePlacementStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha5_VirtualMachinePlacementStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha6_VirtualMachinePlacementStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha6_VirtualMachinePlacementStatus(in *VirtualMachinePlacementStatus, out *v1alpha6.VirtualMachinePlacementStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePlacementStatus_To_v1alpha6_VirtualMachinePlacementStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in *v1alpha5.VirtualMachinePlacementStatus, out *VirtualMachinePlacementStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in *v1alpha6.VirtualMachinePlacementStatus, out *VirtualMachinePlacementStatus, s conversion.Scope) error {
 	out.Zone = in.Zone
 	out.Node = in.Node
 	out.Pool = in.Pool
@@ -3584,50 +3584,50 @@ func autoConvert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachi
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in *v1alpha5.VirtualMachinePlacementStatus, out *VirtualMachinePlacementStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in *v1alpha6.VirtualMachinePlacementStatus, out *VirtualMachinePlacementStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePlacementStatus_To_v1alpha3_VirtualMachinePlacementStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(in *VirtualMachinePublishRequest, out *v1alpha5.VirtualMachinePublishRequest, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(in *VirtualMachinePublishRequest, out *v1alpha6.VirtualMachinePublishRequest, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(in *VirtualMachinePublishRequest, out *v1alpha5.VirtualMachinePublishRequest, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(in *VirtualMachinePublishRequest, out *v1alpha6.VirtualMachinePublishRequest, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in *v1alpha5.VirtualMachinePublishRequest, out *VirtualMachinePublishRequest, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in *v1alpha6.VirtualMachinePublishRequest, out *VirtualMachinePublishRequest, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in *v1alpha5.VirtualMachinePublishRequest, out *VirtualMachinePublishRequest, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in *v1alpha6.VirtualMachinePublishRequest, out *VirtualMachinePublishRequest, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMachinePublishRequestList(in *VirtualMachinePublishRequestList, out *v1alpha5.VirtualMachinePublishRequestList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha6_VirtualMachinePublishRequestList(in *VirtualMachinePublishRequestList, out *v1alpha6.VirtualMachinePublishRequestList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]v1alpha5.VirtualMachinePublishRequest, len(*in))
+		*out = make([]v1alpha6.VirtualMachinePublishRequest, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha5_VirtualMachinePublishRequest(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachinePublishRequest_To_v1alpha6_VirtualMachinePublishRequest(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3637,18 +3637,18 @@ func autoConvert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMa
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMachinePublishRequestList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMachinePublishRequestList(in *VirtualMachinePublishRequestList, out *v1alpha5.VirtualMachinePublishRequestList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha5_VirtualMachinePublishRequestList(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha6_VirtualMachinePublishRequestList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha6_VirtualMachinePublishRequestList(in *VirtualMachinePublishRequestList, out *v1alpha6.VirtualMachinePublishRequestList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestList_To_v1alpha6_VirtualMachinePublishRequestList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in *v1alpha5.VirtualMachinePublishRequestList, out *VirtualMachinePublishRequestList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in *v1alpha6.VirtualMachinePublishRequestList, out *VirtualMachinePublishRequestList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]VirtualMachinePublishRequest, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachinePublishRequest_To_v1alpha3_VirtualMachinePublishRequest(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3658,56 +3658,56 @@ func autoConvert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMa
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in *v1alpha5.VirtualMachinePublishRequestList, out *VirtualMachinePublishRequestList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in *v1alpha6.VirtualMachinePublishRequestList, out *VirtualMachinePublishRequestList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestList_To_v1alpha3_VirtualMachinePublishRequestList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource(in *VirtualMachinePublishRequestSource, out *v1alpha5.VirtualMachinePublishRequestSource, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource(in *VirtualMachinePublishRequestSource, out *v1alpha6.VirtualMachinePublishRequestSource, s conversion.Scope) error {
 	out.Name = in.Name
 	out.APIVersion = in.APIVersion
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource(in *VirtualMachinePublishRequestSource, out *v1alpha5.VirtualMachinePublishRequestSource, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource(in *VirtualMachinePublishRequestSource, out *v1alpha6.VirtualMachinePublishRequestSource, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in *v1alpha5.VirtualMachinePublishRequestSource, out *VirtualMachinePublishRequestSource, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in *v1alpha6.VirtualMachinePublishRequestSource, out *VirtualMachinePublishRequestSource, s conversion.Scope) error {
 	out.Name = in.Name
 	out.APIVersion = in.APIVersion
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in *v1alpha5.VirtualMachinePublishRequestSource, out *VirtualMachinePublishRequestSource, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in *v1alpha6.VirtualMachinePublishRequestSource, out *VirtualMachinePublishRequestSource, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec(in *VirtualMachinePublishRequestSpec, out *v1alpha5.VirtualMachinePublishRequestSpec, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha5_VirtualMachinePublishRequestSource(&in.Source, &out.Source, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec(in *VirtualMachinePublishRequestSpec, out *v1alpha6.VirtualMachinePublishRequestSpec, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestSource_To_v1alpha6_VirtualMachinePublishRequestSource(&in.Source, &out.Source, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget(&in.Target, &out.Target, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget(&in.Target, &out.Target, s); err != nil {
 		return err
 	}
 	out.TTLSecondsAfterFinished = (*int64)(unsafe.Pointer(in.TTLSecondsAfterFinished))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec(in *VirtualMachinePublishRequestSpec, out *v1alpha5.VirtualMachinePublishRequestSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha5_VirtualMachinePublishRequestSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec(in *VirtualMachinePublishRequestSpec, out *v1alpha6.VirtualMachinePublishRequestSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestSpec_To_v1alpha6_VirtualMachinePublishRequestSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(in *v1alpha5.VirtualMachinePublishRequestSpec, out *VirtualMachinePublishRequestSpec, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(&in.Source, &out.Source, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMachinePublishRequestSpec(in *v1alpha6.VirtualMachinePublishRequestSpec, out *VirtualMachinePublishRequestSpec, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestSource_To_v1alpha3_VirtualMachinePublishRequestSource(&in.Source, &out.Source, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(&in.Target, &out.Target, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(&in.Target, &out.Target, s); err != nil {
 		return err
 	}
 	out.TTLSecondsAfterFinished = (*int64)(unsafe.Pointer(in.TTLSecondsAfterFinished))
@@ -3715,9 +3715,9 @@ func autoConvert_v1alpha5_VirtualMachinePublishRequestSpec_To_v1alpha3_VirtualMa
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus(in *VirtualMachinePublishRequestStatus, out *v1alpha5.VirtualMachinePublishRequestStatus, s conversion.Scope) error {
-	out.SourceRef = (*v1alpha5.VirtualMachinePublishRequestSource)(unsafe.Pointer(in.SourceRef))
-	out.TargetRef = (*v1alpha5.VirtualMachinePublishRequestTarget)(unsafe.Pointer(in.TargetRef))
+func autoConvert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus(in *VirtualMachinePublishRequestStatus, out *v1alpha6.VirtualMachinePublishRequestStatus, s conversion.Scope) error {
+	out.SourceRef = (*v1alpha6.VirtualMachinePublishRequestSource)(unsafe.Pointer(in.SourceRef))
+	out.TargetRef = (*v1alpha6.VirtualMachinePublishRequestTarget)(unsafe.Pointer(in.TargetRef))
 	out.CompletionTime = in.CompletionTime
 	out.StartTime = in.StartTime
 	out.Attempts = in.Attempts
@@ -3728,12 +3728,12 @@ func autoConvert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_Virtual
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus(in *VirtualMachinePublishRequestStatus, out *v1alpha5.VirtualMachinePublishRequestStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha5_VirtualMachinePublishRequestStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus(in *VirtualMachinePublishRequestStatus, out *v1alpha6.VirtualMachinePublishRequestStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestStatus_To_v1alpha6_VirtualMachinePublishRequestStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in *v1alpha5.VirtualMachinePublishRequestStatus, out *VirtualMachinePublishRequestStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in *v1alpha6.VirtualMachinePublishRequestStatus, out *VirtualMachinePublishRequestStatus, s conversion.Scope) error {
 	out.SourceRef = (*VirtualMachinePublishRequestSource)(unsafe.Pointer(in.SourceRef))
 	out.TargetRef = (*VirtualMachinePublishRequestTarget)(unsafe.Pointer(in.TargetRef))
 	out.CompletionTime = in.CompletionTime
@@ -3746,102 +3746,102 @@ func autoConvert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_Virtual
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in *v1alpha5.VirtualMachinePublishRequestStatus, out *VirtualMachinePublishRequestStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in *v1alpha6.VirtualMachinePublishRequestStatus, out *VirtualMachinePublishRequestStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestStatus_To_v1alpha3_VirtualMachinePublishRequestStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget(in *VirtualMachinePublishRequestTarget, out *v1alpha5.VirtualMachinePublishRequestTarget, s conversion.Scope) error {
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem(&in.Item, &out.Item, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget(in *VirtualMachinePublishRequestTarget, out *v1alpha6.VirtualMachinePublishRequestTarget, s conversion.Scope) error {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem(&in.Item, &out.Item, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation(&in.Location, &out.Location, s); err != nil {
-		return err
-	}
-	return nil
-}
-
-// Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget(in *VirtualMachinePublishRequestTarget, out *v1alpha5.VirtualMachinePublishRequestTarget, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha5_VirtualMachinePublishRequestTarget(in, out, s)
-}
-
-func autoConvert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in *v1alpha5.VirtualMachinePublishRequestTarget, out *VirtualMachinePublishRequestTarget, s conversion.Scope) error {
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(&in.Item, &out.Item, s); err != nil {
-		return err
-	}
-	if err := Convert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(&in.Location, &out.Location, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation(&in.Location, &out.Location, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in *v1alpha5.VirtualMachinePublishRequestTarget, out *VirtualMachinePublishRequestTarget, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget(in *VirtualMachinePublishRequestTarget, out *v1alpha6.VirtualMachinePublishRequestTarget, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestTarget_To_v1alpha6_VirtualMachinePublishRequestTarget(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem(in *VirtualMachinePublishRequestTargetItem, out *v1alpha5.VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in *v1alpha6.VirtualMachinePublishRequestTarget, out *VirtualMachinePublishRequestTarget, s conversion.Scope) error {
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(&in.Item, &out.Item, s); err != nil {
+		return err
+	}
+	if err := Convert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(&in.Location, &out.Location, s); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Convert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in *v1alpha6.VirtualMachinePublishRequestTarget, out *VirtualMachinePublishRequestTarget, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestTarget_To_v1alpha3_VirtualMachinePublishRequestTarget(in, out, s)
+}
+
+func autoConvert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem(in *VirtualMachinePublishRequestTargetItem, out *v1alpha6.VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Description = in.Description
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem(in *VirtualMachinePublishRequestTargetItem, out *v1alpha5.VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha5_VirtualMachinePublishRequestTargetItem(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem(in *VirtualMachinePublishRequestTargetItem, out *v1alpha6.VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestTargetItem_To_v1alpha6_VirtualMachinePublishRequestTargetItem(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in *v1alpha5.VirtualMachinePublishRequestTargetItem, out *VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in *v1alpha6.VirtualMachinePublishRequestTargetItem, out *VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Description = in.Description
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in *v1alpha5.VirtualMachinePublishRequestTargetItem, out *VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in *v1alpha6.VirtualMachinePublishRequestTargetItem, out *VirtualMachinePublishRequestTargetItem, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestTargetItem_To_v1alpha3_VirtualMachinePublishRequestTargetItem(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation(in *VirtualMachinePublishRequestTargetLocation, out *v1alpha5.VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation(in *VirtualMachinePublishRequestTargetLocation, out *v1alpha6.VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
 	out.Name = in.Name
 	out.APIVersion = in.APIVersion
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation(in *VirtualMachinePublishRequestTargetLocation, out *v1alpha5.VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha5_VirtualMachinePublishRequestTargetLocation(in, out, s)
+// Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation(in *VirtualMachinePublishRequestTargetLocation, out *v1alpha6.VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachinePublishRequestTargetLocation_To_v1alpha6_VirtualMachinePublishRequestTargetLocation(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in *v1alpha5.VirtualMachinePublishRequestTargetLocation, out *VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in *v1alpha6.VirtualMachinePublishRequestTargetLocation, out *VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
 	out.Name = in.Name
 	out.APIVersion = in.APIVersion
 	out.Kind = in.Kind
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in *v1alpha5.VirtualMachinePublishRequestTargetLocation, out *VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in, out, s)
+// Convert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in *v1alpha6.VirtualMachinePublishRequestTargetLocation, out *VirtualMachinePublishRequestTargetLocation, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachinePublishRequestTargetLocation_To_v1alpha3_VirtualMachinePublishRequestTargetLocation(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha5_VirtualMachineReadinessProbeSpec(in *VirtualMachineReadinessProbeSpec, out *v1alpha5.VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
-	out.TCPSocket = (*v1alpha5.TCPSocketAction)(unsafe.Pointer(in.TCPSocket))
-	out.GuestHeartbeat = (*v1alpha5.GuestHeartbeatAction)(unsafe.Pointer(in.GuestHeartbeat))
-	out.GuestInfo = *(*[]v1alpha5.GuestInfoAction)(unsafe.Pointer(&in.GuestInfo))
+func autoConvert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha6_VirtualMachineReadinessProbeSpec(in *VirtualMachineReadinessProbeSpec, out *v1alpha6.VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
+	out.TCPSocket = (*v1alpha6.TCPSocketAction)(unsafe.Pointer(in.TCPSocket))
+	out.GuestHeartbeat = (*v1alpha6.GuestHeartbeatAction)(unsafe.Pointer(in.GuestHeartbeat))
+	out.GuestInfo = *(*[]v1alpha6.GuestInfoAction)(unsafe.Pointer(&in.GuestInfo))
 	out.TimeoutSeconds = in.TimeoutSeconds
 	out.PeriodSeconds = in.PeriodSeconds
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha5_VirtualMachineReadinessProbeSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha5_VirtualMachineReadinessProbeSpec(in *VirtualMachineReadinessProbeSpec, out *v1alpha5.VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha5_VirtualMachineReadinessProbeSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha6_VirtualMachineReadinessProbeSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha6_VirtualMachineReadinessProbeSpec(in *VirtualMachineReadinessProbeSpec, out *v1alpha6.VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReadinessProbeSpec_To_v1alpha6_VirtualMachineReadinessProbeSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in *v1alpha5.VirtualMachineReadinessProbeSpec, out *VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in *v1alpha6.VirtualMachineReadinessProbeSpec, out *VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
 	out.TCPSocket = (*TCPSocketAction)(unsafe.Pointer(in.TCPSocket))
 	out.GuestHeartbeat = (*GuestHeartbeatAction)(unsafe.Pointer(in.GuestHeartbeat))
 	out.GuestInfo = *(*[]GuestInfoAction)(unsafe.Pointer(&in.GuestInfo))
@@ -3850,50 +3850,50 @@ func autoConvert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMa
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in *v1alpha5.VirtualMachineReadinessProbeSpec, out *VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in *v1alpha6.VirtualMachineReadinessProbeSpec, out *VirtualMachineReadinessProbeSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReadinessProbeSpec_To_v1alpha3_VirtualMachineReadinessProbeSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(in *VirtualMachineReplicaSet, out *v1alpha5.VirtualMachineReplicaSet, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(in *VirtualMachineReplicaSet, out *v1alpha6.VirtualMachineReplicaSet, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(in *VirtualMachineReplicaSet, out *v1alpha5.VirtualMachineReplicaSet, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(in, out, s)
+// Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(in *VirtualMachineReplicaSet, out *v1alpha6.VirtualMachineReplicaSet, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in *v1alpha5.VirtualMachineReplicaSet, out *VirtualMachineReplicaSet, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in *v1alpha6.VirtualMachineReplicaSet, out *VirtualMachineReplicaSet, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in *v1alpha5.VirtualMachineReplicaSet, out *VirtualMachineReplicaSet, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in, out, s)
+// Convert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in *v1alpha6.VirtualMachineReplicaSet, out *VirtualMachineReplicaSet, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList(in *VirtualMachineReplicaSetList, out *v1alpha5.VirtualMachineReplicaSetList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList(in *VirtualMachineReplicaSetList, out *v1alpha6.VirtualMachineReplicaSetList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
-		*out = make([]v1alpha5.VirtualMachineReplicaSet, len(*in))
+		*out = make([]v1alpha6.VirtualMachineReplicaSet, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha5_VirtualMachineReplicaSet(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachineReplicaSet_To_v1alpha6_VirtualMachineReplicaSet(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3903,18 +3903,18 @@ func autoConvert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachin
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList(in *VirtualMachineReplicaSetList, out *v1alpha5.VirtualMachineReplicaSetList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha5_VirtualMachineReplicaSetList(in, out, s)
+// Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList(in *VirtualMachineReplicaSetList, out *v1alpha6.VirtualMachineReplicaSetList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReplicaSetList_To_v1alpha6_VirtualMachineReplicaSetList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in *v1alpha5.VirtualMachineReplicaSetList, out *VirtualMachineReplicaSetList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in *v1alpha6.VirtualMachineReplicaSetList, out *VirtualMachineReplicaSetList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]VirtualMachineReplicaSet, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachineReplicaSet_To_v1alpha3_VirtualMachineReplicaSet(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -3924,42 +3924,42 @@ func autoConvert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachin
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in *v1alpha5.VirtualMachineReplicaSetList, out *VirtualMachineReplicaSetList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in, out, s)
+// Convert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in *v1alpha6.VirtualMachineReplicaSetList, out *VirtualMachineReplicaSetList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReplicaSetList_To_v1alpha3_VirtualMachineReplicaSetList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec(in *VirtualMachineReplicaSetSpec, out *v1alpha5.VirtualMachineReplicaSetSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec(in *VirtualMachineReplicaSetSpec, out *v1alpha6.VirtualMachineReplicaSetSpec, s conversion.Scope) error {
 	out.Replicas = (*int32)(unsafe.Pointer(in.Replicas))
 	out.DeletePolicy = in.DeletePolicy
 	out.Selector = (*v1.LabelSelector)(unsafe.Pointer(in.Selector))
-	if err := Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec(&in.Template, &out.Template, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec(&in.Template, &out.Template, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec(in *VirtualMachineReplicaSetSpec, out *v1alpha5.VirtualMachineReplicaSetSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha5_VirtualMachineReplicaSetSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec(in *VirtualMachineReplicaSetSpec, out *v1alpha6.VirtualMachineReplicaSetSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReplicaSetSpec_To_v1alpha6_VirtualMachineReplicaSetSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in *v1alpha5.VirtualMachineReplicaSetSpec, out *VirtualMachineReplicaSetSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in *v1alpha6.VirtualMachineReplicaSetSpec, out *VirtualMachineReplicaSetSpec, s conversion.Scope) error {
 	out.Replicas = (*int32)(unsafe.Pointer(in.Replicas))
 	out.DeletePolicy = in.DeletePolicy
 	out.Selector = (*v1.LabelSelector)(unsafe.Pointer(in.Selector))
-	if err := Convert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(&in.Template, &out.Template, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(&in.Template, &out.Template, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in *v1alpha5.VirtualMachineReplicaSetSpec, out *VirtualMachineReplicaSetSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in *v1alpha6.VirtualMachineReplicaSetSpec, out *VirtualMachineReplicaSetSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReplicaSetSpec_To_v1alpha3_VirtualMachineReplicaSetSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus(in *VirtualMachineReplicaSetStatus, out *v1alpha5.VirtualMachineReplicaSetStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus(in *VirtualMachineReplicaSetStatus, out *v1alpha6.VirtualMachineReplicaSetStatus, s conversion.Scope) error {
 	out.Replicas = in.Replicas
 	out.FullyLabeledReplicas = in.FullyLabeledReplicas
 	out.ReadyReplicas = in.ReadyReplicas
@@ -3968,12 +3968,12 @@ func autoConvert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus(in *VirtualMachineReplicaSetStatus, out *v1alpha5.VirtualMachineReplicaSetStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha5_VirtualMachineReplicaSetStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus(in *VirtualMachineReplicaSetStatus, out *v1alpha6.VirtualMachineReplicaSetStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReplicaSetStatus_To_v1alpha6_VirtualMachineReplicaSetStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in *v1alpha5.VirtualMachineReplicaSetStatus, out *VirtualMachineReplicaSetStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in *v1alpha6.VirtualMachineReplicaSetStatus, out *VirtualMachineReplicaSetStatus, s conversion.Scope) error {
 	out.Replicas = in.Replicas
 	out.FullyLabeledReplicas = in.FullyLabeledReplicas
 	out.ReadyReplicas = in.ReadyReplicas
@@ -3982,108 +3982,108 @@ func autoConvert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMach
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in *v1alpha5.VirtualMachineReplicaSetStatus, out *VirtualMachineReplicaSetStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in *v1alpha6.VirtualMachineReplicaSetStatus, out *VirtualMachineReplicaSetStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReplicaSetStatus_To_v1alpha3_VirtualMachineReplicaSetStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha5_VirtualMachineReservedSpec(in *VirtualMachineReservedSpec, out *v1alpha5.VirtualMachineReservedSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha6_VirtualMachineReservedSpec(in *VirtualMachineReservedSpec, out *v1alpha6.VirtualMachineReservedSpec, s conversion.Scope) error {
 	out.ResourcePolicyName = in.ResourcePolicyName
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha5_VirtualMachineReservedSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha5_VirtualMachineReservedSpec(in *VirtualMachineReservedSpec, out *v1alpha5.VirtualMachineReservedSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha5_VirtualMachineReservedSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha6_VirtualMachineReservedSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha6_VirtualMachineReservedSpec(in *VirtualMachineReservedSpec, out *v1alpha6.VirtualMachineReservedSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineReservedSpec_To_v1alpha6_VirtualMachineReservedSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in *v1alpha5.VirtualMachineReservedSpec, out *VirtualMachineReservedSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in *v1alpha6.VirtualMachineReservedSpec, out *VirtualMachineReservedSpec, s conversion.Scope) error {
 	out.ResourcePolicyName = in.ResourcePolicyName
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in *v1alpha5.VirtualMachineReservedSpec, out *VirtualMachineReservedSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in *v1alpha6.VirtualMachineReservedSpec, out *VirtualMachineReservedSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineReservedSpec_To_v1alpha3_VirtualMachineReservedSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(in *VirtualMachineResourceSpec, out *v1alpha5.VirtualMachineResourceSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(in *VirtualMachineResourceSpec, out *v1alpha6.VirtualMachineResourceSpec, s conversion.Scope) error {
 	out.Cpu = in.Cpu
 	out.Memory = in.Memory
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(in *VirtualMachineResourceSpec, out *v1alpha5.VirtualMachineResourceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha5_VirtualMachineResourceSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(in *VirtualMachineResourceSpec, out *v1alpha6.VirtualMachineResourceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineResourceSpec_To_v1alpha6_VirtualMachineResourceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in *v1alpha5.VirtualMachineResourceSpec, out *VirtualMachineResourceSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in *v1alpha6.VirtualMachineResourceSpec, out *VirtualMachineResourceSpec, s conversion.Scope) error {
 	out.Cpu = in.Cpu
 	out.Memory = in.Memory
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in *v1alpha5.VirtualMachineResourceSpec, out *VirtualMachineResourceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in *v1alpha6.VirtualMachineResourceSpec, out *VirtualMachineResourceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineResourceSpec_To_v1alpha3_VirtualMachineResourceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineService_To_v1alpha5_VirtualMachineService(in *VirtualMachineService, out *v1alpha5.VirtualMachineService, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineService_To_v1alpha6_VirtualMachineService(in *VirtualMachineService, out *v1alpha6.VirtualMachineService, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineService_To_v1alpha5_VirtualMachineService is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineService_To_v1alpha5_VirtualMachineService(in *VirtualMachineService, out *v1alpha5.VirtualMachineService, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineService_To_v1alpha5_VirtualMachineService(in, out, s)
+// Convert_v1alpha3_VirtualMachineService_To_v1alpha6_VirtualMachineService is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineService_To_v1alpha6_VirtualMachineService(in *VirtualMachineService, out *v1alpha6.VirtualMachineService, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineService_To_v1alpha6_VirtualMachineService(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineService_To_v1alpha3_VirtualMachineService(in *v1alpha5.VirtualMachineService, out *VirtualMachineService, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineService_To_v1alpha3_VirtualMachineService(in *v1alpha6.VirtualMachineService, out *VirtualMachineService, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineService_To_v1alpha3_VirtualMachineService is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineService_To_v1alpha3_VirtualMachineService(in *v1alpha5.VirtualMachineService, out *VirtualMachineService, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineService_To_v1alpha3_VirtualMachineService(in, out, s)
+// Convert_v1alpha6_VirtualMachineService_To_v1alpha3_VirtualMachineService is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineService_To_v1alpha3_VirtualMachineService(in *v1alpha6.VirtualMachineService, out *VirtualMachineService, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineService_To_v1alpha3_VirtualMachineService(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineServiceList_To_v1alpha5_VirtualMachineServiceList(in *VirtualMachineServiceList, out *v1alpha5.VirtualMachineServiceList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineServiceList_To_v1alpha6_VirtualMachineServiceList(in *VirtualMachineServiceList, out *v1alpha6.VirtualMachineServiceList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineService)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineService)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha5_VirtualMachineServiceList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha5_VirtualMachineServiceList(in *VirtualMachineServiceList, out *v1alpha5.VirtualMachineServiceList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineServiceList_To_v1alpha5_VirtualMachineServiceList(in, out, s)
+// Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha6_VirtualMachineServiceList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineServiceList_To_v1alpha6_VirtualMachineServiceList(in *VirtualMachineServiceList, out *v1alpha6.VirtualMachineServiceList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineServiceList_To_v1alpha6_VirtualMachineServiceList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in *v1alpha5.VirtualMachineServiceList, out *VirtualMachineServiceList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in *v1alpha6.VirtualMachineServiceList, out *VirtualMachineServiceList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineService)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in *v1alpha5.VirtualMachineServiceList, out *VirtualMachineServiceList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in, out, s)
+// Convert_v1alpha6_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in *v1alpha6.VirtualMachineServiceList, out *VirtualMachineServiceList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineServiceList_To_v1alpha3_VirtualMachineServiceList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineServicePort(in *VirtualMachineServicePort, out *v1alpha5.VirtualMachineServicePort, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineServicePort_To_v1alpha6_VirtualMachineServicePort(in *VirtualMachineServicePort, out *v1alpha6.VirtualMachineServicePort, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Protocol = in.Protocol
 	out.Port = in.Port
@@ -4091,12 +4091,12 @@ func autoConvert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineSe
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineServicePort is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineServicePort(in *VirtualMachineServicePort, out *v1alpha5.VirtualMachineServicePort, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineServicePort_To_v1alpha5_VirtualMachineServicePort(in, out, s)
+// Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha6_VirtualMachineServicePort is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineServicePort_To_v1alpha6_VirtualMachineServicePort(in *VirtualMachineServicePort, out *v1alpha6.VirtualMachineServicePort, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineServicePort_To_v1alpha6_VirtualMachineServicePort(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in *v1alpha5.VirtualMachineServicePort, out *VirtualMachineServicePort, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in *v1alpha6.VirtualMachineServicePort, out *VirtualMachineServicePort, s conversion.Scope) error {
 	out.Name = in.Name
 	out.Protocol = in.Protocol
 	out.Port = in.Port
@@ -4104,14 +4104,14 @@ func autoConvert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineSe
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in *v1alpha5.VirtualMachineServicePort, out *VirtualMachineServicePort, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in, out, s)
+// Convert_v1alpha6_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in *v1alpha6.VirtualMachineServicePort, out *VirtualMachineServicePort, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineServicePort_To_v1alpha3_VirtualMachineServicePort(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec(in *VirtualMachineServiceSpec, out *v1alpha5.VirtualMachineServiceSpec, s conversion.Scope) error {
-	out.Type = v1alpha5.VirtualMachineServiceType(in.Type)
-	out.Ports = *(*[]v1alpha5.VirtualMachineServicePort)(unsafe.Pointer(&in.Ports))
+func autoConvert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec(in *VirtualMachineServiceSpec, out *v1alpha6.VirtualMachineServiceSpec, s conversion.Scope) error {
+	out.Type = v1alpha6.VirtualMachineServiceType(in.Type)
+	out.Ports = *(*[]v1alpha6.VirtualMachineServicePort)(unsafe.Pointer(&in.Ports))
 	out.Selector = *(*map[string]string)(unsafe.Pointer(&in.Selector))
 	out.LoadBalancerIP = in.LoadBalancerIP
 	out.LoadBalancerSourceRanges = *(*[]string)(unsafe.Pointer(&in.LoadBalancerSourceRanges))
@@ -4120,12 +4120,12 @@ func autoConvert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineSe
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec(in *VirtualMachineServiceSpec, out *v1alpha5.VirtualMachineServiceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha5_VirtualMachineServiceSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec(in *VirtualMachineServiceSpec, out *v1alpha6.VirtualMachineServiceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineServiceSpec_To_v1alpha6_VirtualMachineServiceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in *v1alpha5.VirtualMachineServiceSpec, out *VirtualMachineServiceSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in *v1alpha6.VirtualMachineServiceSpec, out *VirtualMachineServiceSpec, s conversion.Scope) error {
 	out.Type = VirtualMachineServiceType(in.Type)
 	out.Ports = *(*[]VirtualMachineServicePort)(unsafe.Pointer(&in.Ports))
 	out.Selector = *(*map[string]string)(unsafe.Pointer(&in.Selector))
@@ -4136,91 +4136,91 @@ func autoConvert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineSe
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in *v1alpha5.VirtualMachineServiceSpec, out *VirtualMachineServiceSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in *v1alpha6.VirtualMachineServiceSpec, out *VirtualMachineServiceSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineServiceSpec_To_v1alpha3_VirtualMachineServiceSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus(in *VirtualMachineServiceStatus, out *v1alpha5.VirtualMachineServiceStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha3_LoadBalancerStatus_To_v1alpha5_LoadBalancerStatus(&in.LoadBalancer, &out.LoadBalancer, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus(in *VirtualMachineServiceStatus, out *v1alpha6.VirtualMachineServiceStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha3_LoadBalancerStatus_To_v1alpha6_LoadBalancerStatus(&in.LoadBalancer, &out.LoadBalancer, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus(in *VirtualMachineServiceStatus, out *v1alpha5.VirtualMachineServiceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha5_VirtualMachineServiceStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus(in *VirtualMachineServiceStatus, out *v1alpha6.VirtualMachineServiceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineServiceStatus_To_v1alpha6_VirtualMachineServiceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in *v1alpha5.VirtualMachineServiceStatus, out *VirtualMachineServiceStatus, s conversion.Scope) error {
-	if err := Convert_v1alpha5_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(&in.LoadBalancer, &out.LoadBalancer, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in *v1alpha6.VirtualMachineServiceStatus, out *VirtualMachineServiceStatus, s conversion.Scope) error {
+	if err := Convert_v1alpha6_LoadBalancerStatus_To_v1alpha3_LoadBalancerStatus(&in.LoadBalancer, &out.LoadBalancer, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in *v1alpha5.VirtualMachineServiceStatus, out *VirtualMachineServiceStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in *v1alpha6.VirtualMachineServiceStatus, out *VirtualMachineServiceStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineServiceStatus_To_v1alpha3_VirtualMachineServiceStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy(in *VirtualMachineSetResourcePolicy, out *v1alpha5.VirtualMachineSetResourcePolicy, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy(in *VirtualMachineSetResourcePolicy, out *v1alpha6.VirtualMachineSetResourcePolicy, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy(in *VirtualMachineSetResourcePolicy, out *v1alpha5.VirtualMachineSetResourcePolicy, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha5_VirtualMachineSetResourcePolicy(in, out, s)
+// Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy(in *VirtualMachineSetResourcePolicy, out *v1alpha6.VirtualMachineSetResourcePolicy, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicy_To_v1alpha6_VirtualMachineSetResourcePolicy(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in *v1alpha5.VirtualMachineSetResourcePolicy, out *VirtualMachineSetResourcePolicy, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in *v1alpha6.VirtualMachineSetResourcePolicy, out *VirtualMachineSetResourcePolicy, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in *v1alpha5.VirtualMachineSetResourcePolicy, out *VirtualMachineSetResourcePolicy, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in, out, s)
+// Convert_v1alpha6_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in *v1alpha6.VirtualMachineSetResourcePolicy, out *VirtualMachineSetResourcePolicy, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineSetResourcePolicy_To_v1alpha3_VirtualMachineSetResourcePolicy(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha5_VirtualMachineSetResourcePolicyList(in *VirtualMachineSetResourcePolicyList, out *v1alpha5.VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha6_VirtualMachineSetResourcePolicyList(in *VirtualMachineSetResourcePolicyList, out *v1alpha6.VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineSetResourcePolicy)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineSetResourcePolicy)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha5_VirtualMachineSetResourcePolicyList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha5_VirtualMachineSetResourcePolicyList(in *VirtualMachineSetResourcePolicyList, out *v1alpha5.VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha5_VirtualMachineSetResourcePolicyList(in, out, s)
+// Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha6_VirtualMachineSetResourcePolicyList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha6_VirtualMachineSetResourcePolicyList(in *VirtualMachineSetResourcePolicyList, out *v1alpha6.VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicyList_To_v1alpha6_VirtualMachineSetResourcePolicyList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in *v1alpha5.VirtualMachineSetResourcePolicyList, out *VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in *v1alpha6.VirtualMachineSetResourcePolicyList, out *VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineSetResourcePolicy)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in *v1alpha5.VirtualMachineSetResourcePolicyList, out *VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in, out, s)
+// Convert_v1alpha6_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in *v1alpha6.VirtualMachineSetResourcePolicyList, out *VirtualMachineSetResourcePolicyList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineSetResourcePolicyList_To_v1alpha3_VirtualMachineSetResourcePolicyList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec(in *VirtualMachineSetResourcePolicySpec, out *v1alpha5.VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
-	if err := Convert_v1alpha3_ResourcePoolSpec_To_v1alpha5_ResourcePoolSpec(&in.ResourcePool, &out.ResourcePool, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec(in *VirtualMachineSetResourcePolicySpec, out *v1alpha6.VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
+	if err := Convert_v1alpha3_ResourcePoolSpec_To_v1alpha6_ResourcePoolSpec(&in.ResourcePool, &out.ResourcePool, s); err != nil {
 		return err
 	}
 	out.Folder = in.Folder
@@ -4228,13 +4228,13 @@ func autoConvert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_Virtua
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec(in *VirtualMachineSetResourcePolicySpec, out *v1alpha5.VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha5_VirtualMachineSetResourcePolicySpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec(in *VirtualMachineSetResourcePolicySpec, out *v1alpha6.VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicySpec_To_v1alpha6_VirtualMachineSetResourcePolicySpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in *v1alpha5.VirtualMachineSetResourcePolicySpec, out *VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
-	if err := Convert_v1alpha5_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(&in.ResourcePool, &out.ResourcePool, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in *v1alpha6.VirtualMachineSetResourcePolicySpec, out *VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
+	if err := Convert_v1alpha6_ResourcePoolSpec_To_v1alpha3_ResourcePoolSpec(&in.ResourcePool, &out.ResourcePool, s); err != nil {
 		return err
 	}
 	out.Folder = in.Folder
@@ -4242,43 +4242,43 @@ func autoConvert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_Virtua
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in *v1alpha5.VirtualMachineSetResourcePolicySpec, out *VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in *v1alpha6.VirtualMachineSetResourcePolicySpec, out *VirtualMachineSetResourcePolicySpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineSetResourcePolicySpec_To_v1alpha3_VirtualMachineSetResourcePolicySpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus(in *VirtualMachineSetResourcePolicyStatus, out *v1alpha5.VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
-	out.ResourcePools = *(*[]v1alpha5.ResourcePoolStatus)(unsafe.Pointer(&in.ResourcePools))
-	out.ClusterModules = *(*[]v1alpha5.VSphereClusterModuleStatus)(unsafe.Pointer(&in.ClusterModules))
+func autoConvert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus(in *VirtualMachineSetResourcePolicyStatus, out *v1alpha6.VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
+	out.ResourcePools = *(*[]v1alpha6.ResourcePoolStatus)(unsafe.Pointer(&in.ResourcePools))
+	out.ClusterModules = *(*[]v1alpha6.VSphereClusterModuleStatus)(unsafe.Pointer(&in.ClusterModules))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus(in *VirtualMachineSetResourcePolicyStatus, out *v1alpha5.VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha5_VirtualMachineSetResourcePolicyStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus(in *VirtualMachineSetResourcePolicyStatus, out *v1alpha6.VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineSetResourcePolicyStatus_To_v1alpha6_VirtualMachineSetResourcePolicyStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in *v1alpha5.VirtualMachineSetResourcePolicyStatus, out *VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in *v1alpha6.VirtualMachineSetResourcePolicyStatus, out *VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
 	out.ResourcePools = *(*[]ResourcePoolStatus)(unsafe.Pointer(&in.ResourcePools))
 	out.ClusterModules = *(*[]VSphereClusterModuleStatus)(unsafe.Pointer(&in.ClusterModules))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in *v1alpha5.VirtualMachineSetResourcePolicyStatus, out *VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in *v1alpha6.VirtualMachineSetResourcePolicyStatus, out *VirtualMachineSetResourcePolicyStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineSetResourcePolicyStatus_To_v1alpha3_VirtualMachineSetResourcePolicyStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(in *VirtualMachineSpec, out *v1alpha5.VirtualMachineSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(in *VirtualMachineSpec, out *v1alpha6.VirtualMachineSpec, s conversion.Scope) error {
 	// WARNING: in.Cdrom requires manual conversion: does not exist in peer-type
-	out.Image = (*v1alpha5.VirtualMachineImageRef)(unsafe.Pointer(in.Image))
+	out.Image = (*v1alpha6.VirtualMachineImageRef)(unsafe.Pointer(in.Image))
 	out.ImageName = in.ImageName
 	out.ClassName = in.ClassName
-	out.Affinity = (*v1alpha5.AffinitySpec)(unsafe.Pointer(in.Affinity))
+	out.Affinity = (*v1alpha6.AffinitySpec)(unsafe.Pointer(in.Affinity))
 	if in.Crypto != nil {
 		in, out := &in.Crypto, &out.Crypto
-		*out = new(v1alpha5.VirtualMachineCryptoSpec)
-		if err := Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha5_VirtualMachineCryptoSpec(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineCryptoSpec)
+		if err := Convert_v1alpha3_VirtualMachineCryptoSpec_To_v1alpha6_VirtualMachineCryptoSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4287,33 +4287,33 @@ func autoConvert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(in *
 	out.StorageClass = in.StorageClass
 	if in.Bootstrap != nil {
 		in, out := &in.Bootstrap, &out.Bootstrap
-		*out = new(v1alpha5.VirtualMachineBootstrapSpec)
-		if err := Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineBootstrapSpec)
+		if err := Convert_v1alpha3_VirtualMachineBootstrapSpec_To_v1alpha6_VirtualMachineBootstrapSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
 		out.Bootstrap = nil
 	}
-	out.Network = (*v1alpha5.VirtualMachineNetworkSpec)(unsafe.Pointer(in.Network))
-	out.PowerState = v1alpha5.VirtualMachinePowerState(in.PowerState)
-	out.PowerOffMode = v1alpha5.VirtualMachinePowerOpMode(in.PowerOffMode)
-	out.SuspendMode = v1alpha5.VirtualMachinePowerOpMode(in.SuspendMode)
+	out.Network = (*v1alpha6.VirtualMachineNetworkSpec)(unsafe.Pointer(in.Network))
+	out.PowerState = v1alpha6.VirtualMachinePowerState(in.PowerState)
+	out.PowerOffMode = v1alpha6.VirtualMachinePowerOpMode(in.PowerOffMode)
+	out.SuspendMode = v1alpha6.VirtualMachinePowerOpMode(in.SuspendMode)
 	out.NextRestartTime = in.NextRestartTime
-	out.RestartMode = v1alpha5.VirtualMachinePowerOpMode(in.RestartMode)
+	out.RestartMode = v1alpha6.VirtualMachinePowerOpMode(in.RestartMode)
 	if in.Volumes != nil {
 		in, out := &in.Volumes, &out.Volumes
-		*out = make([]v1alpha5.VirtualMachineVolume, len(*in))
+		*out = make([]v1alpha6.VirtualMachineVolume, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
 	} else {
 		out.Volumes = nil
 	}
-	out.ReadinessProbe = (*v1alpha5.VirtualMachineReadinessProbeSpec)(unsafe.Pointer(in.ReadinessProbe))
-	out.Advanced = (*v1alpha5.VirtualMachineAdvancedSpec)(unsafe.Pointer(in.Advanced))
-	out.Reserved = (*v1alpha5.VirtualMachineReservedSpec)(unsafe.Pointer(in.Reserved))
+	out.ReadinessProbe = (*v1alpha6.VirtualMachineReadinessProbeSpec)(unsafe.Pointer(in.ReadinessProbe))
+	out.Advanced = (*v1alpha6.VirtualMachineAdvancedSpec)(unsafe.Pointer(in.Advanced))
+	out.Reserved = (*v1alpha6.VirtualMachineReservedSpec)(unsafe.Pointer(in.Reserved))
 	out.MinHardwareVersion = in.MinHardwareVersion
 	out.InstanceUUID = in.InstanceUUID
 	out.BiosUUID = in.BiosUUID
@@ -4322,7 +4322,7 @@ func autoConvert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(in *
 	return nil
 }
 
-func autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *v1alpha5.VirtualMachineSpec, out *VirtualMachineSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *v1alpha6.VirtualMachineSpec, out *VirtualMachineSpec, s conversion.Scope) error {
 	out.Image = (*VirtualMachineImageRef)(unsafe.Pointer(in.Image))
 	out.ImageName = in.ImageName
 	out.ClassName = in.ClassName
@@ -4331,7 +4331,7 @@ func autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *
 	if in.Crypto != nil {
 		in, out := &in.Crypto, &out.Crypto
 		*out = new(VirtualMachineCryptoSpec)
-		if err := Convert_v1alpha5_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineCryptoSpec_To_v1alpha3_VirtualMachineCryptoSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4341,7 +4341,7 @@ func autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *
 	if in.Bootstrap != nil {
 		in, out := &in.Bootstrap, &out.Bootstrap
 		*out = new(VirtualMachineBootstrapSpec)
-		if err := Convert_v1alpha5_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineBootstrapSpec_To_v1alpha3_VirtualMachineBootstrapSpec(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4357,7 +4357,7 @@ func autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *
 		in, out := &in.Volumes, &out.Volumes
 		*out = make([]VirtualMachineVolume, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -4380,29 +4380,29 @@ func autoConvert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(in *
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(in *VirtualMachineStatus, out *v1alpha5.VirtualMachineStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineStatus_To_v1alpha6_VirtualMachineStatus(in *VirtualMachineStatus, out *v1alpha6.VirtualMachineStatus, s conversion.Scope) error {
 	out.Class = (*common.LocalObjectRef)(unsafe.Pointer(in.Class))
 	// WARNING: in.Host requires manual conversion: does not exist in peer-type
-	out.PowerState = v1alpha5.VirtualMachinePowerState(in.PowerState)
+	out.PowerState = v1alpha6.VirtualMachinePowerState(in.PowerState)
 	out.Conditions = *(*[]v1.Condition)(unsafe.Pointer(&in.Conditions))
 	if in.Crypto != nil {
 		in, out := &in.Crypto, &out.Crypto
-		*out = new(v1alpha5.VirtualMachineCryptoStatus)
-		if err := Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha5_VirtualMachineCryptoStatus(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineCryptoStatus)
+		if err := Convert_v1alpha3_VirtualMachineCryptoStatus_To_v1alpha6_VirtualMachineCryptoStatus(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
 		out.Crypto = nil
 	}
-	out.Network = (*v1alpha5.VirtualMachineNetworkStatus)(unsafe.Pointer(in.Network))
+	out.Network = (*v1alpha6.VirtualMachineNetworkStatus)(unsafe.Pointer(in.Network))
 	out.UniqueID = in.UniqueID
 	out.BiosUUID = in.BiosUUID
 	out.InstanceUUID = in.InstanceUUID
 	if in.Volumes != nil {
 		in, out := &in.Volumes, &out.Volumes
-		*out = make([]v1alpha5.VirtualMachineVolumeStatus, len(*in))
+		*out = make([]v1alpha6.VirtualMachineVolumeStatus, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -4415,8 +4415,8 @@ func autoConvert_v1alpha3_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(
 	out.HardwareVersion = in.HardwareVersion
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
-		*out = new(v1alpha5.VirtualMachineStorageStatus)
-		if err := Convert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha5_VirtualMachineStorageStatus(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachineStorageStatus)
+		if err := Convert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha6_VirtualMachineStorageStatus(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4425,7 +4425,7 @@ func autoConvert_v1alpha3_VirtualMachineStatus_To_v1alpha5_VirtualMachineStatus(
 	return nil
 }
 
-func autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(in *v1alpha5.VirtualMachineStatus, out *VirtualMachineStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(in *v1alpha6.VirtualMachineStatus, out *VirtualMachineStatus, s conversion.Scope) error {
 	out.Class = (*v1alpha3common.LocalObjectRef)(unsafe.Pointer(in.Class))
 	// WARNING: in.NodeName requires manual conversion: does not exist in peer-type
 	out.PowerState = VirtualMachinePowerState(in.PowerState)
@@ -4433,7 +4433,7 @@ func autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(
 	if in.Crypto != nil {
 		in, out := &in.Crypto, &out.Crypto
 		*out = new(VirtualMachineCryptoStatus)
-		if err := Convert_v1alpha5_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineCryptoStatus_To_v1alpha3_VirtualMachineCryptoStatus(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4447,7 +4447,7 @@ func autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(
 		in, out := &in.Volumes, &out.Volumes
 		*out = make([]VirtualMachineVolumeStatus, len(*in))
 		for i := range *in {
-			if err := Convert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(&(*in)[i], &(*out)[i], s); err != nil {
+			if err := Convert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(&(*in)[i], &(*out)[i], s); err != nil {
 				return err
 			}
 		}
@@ -4461,7 +4461,7 @@ func autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
 		*out = new(VirtualMachineStorageStatus)
-		if err := Convert_v1alpha5_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4476,26 +4476,26 @@ func autoConvert_v1alpha5_VirtualMachineStatus_To_v1alpha3_VirtualMachineStatus(
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha5_VirtualMachineStorageStatus(in *VirtualMachineStorageStatus, out *v1alpha5.VirtualMachineStorageStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineStorageStatus_To_v1alpha6_VirtualMachineStorageStatus(in *VirtualMachineStorageStatus, out *v1alpha6.VirtualMachineStorageStatus, s conversion.Scope) error {
 	// WARNING: in.Usage requires manual conversion: does not exist in peer-type
 	return nil
 }
 
-func autoConvert_v1alpha5_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(in *v1alpha5.VirtualMachineStorageStatus, out *VirtualMachineStorageStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineStorageStatus_To_v1alpha3_VirtualMachineStorageStatus(in *v1alpha6.VirtualMachineStorageStatus, out *VirtualMachineStorageStatus, s conversion.Scope) error {
 	// WARNING: in.Total requires manual conversion: does not exist in peer-type
 	// WARNING: in.Requested requires manual conversion: does not exist in peer-type
 	// WARNING: in.Used requires manual conversion: does not exist in peer-type
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTemplate(in *VirtualMachineTemplate, out *v1alpha5.VirtualMachineTemplate, s conversion.Scope) error {
-	if err := Convert_v1alpha3_NetworkStatus_To_v1alpha5_NetworkStatus(&in.Net, &out.Net, s); err != nil {
+func autoConvert_v1alpha3_VirtualMachineTemplate_To_v1alpha6_VirtualMachineTemplate(in *VirtualMachineTemplate, out *v1alpha6.VirtualMachineTemplate, s conversion.Scope) error {
+	if err := Convert_v1alpha3_NetworkStatus_To_v1alpha6_NetworkStatus(&in.Net, &out.Net, s); err != nil {
 		return err
 	}
 	if in.VM != nil {
 		in, out := &in.VM, &out.VM
-		*out = new(v1alpha5.VirtualMachine)
-		if err := Convert_v1alpha3_VirtualMachine_To_v1alpha5_VirtualMachine(*in, *out, s); err != nil {
+		*out = new(v1alpha6.VirtualMachine)
+		if err := Convert_v1alpha3_VirtualMachine_To_v1alpha6_VirtualMachine(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4504,19 +4504,19 @@ func autoConvert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTempl
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTemplate is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTemplate(in *VirtualMachineTemplate, out *v1alpha5.VirtualMachineTemplate, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineTemplate_To_v1alpha5_VirtualMachineTemplate(in, out, s)
+// Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha6_VirtualMachineTemplate is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineTemplate_To_v1alpha6_VirtualMachineTemplate(in *VirtualMachineTemplate, out *v1alpha6.VirtualMachineTemplate, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineTemplate_To_v1alpha6_VirtualMachineTemplate(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in *v1alpha5.VirtualMachineTemplate, out *VirtualMachineTemplate, s conversion.Scope) error {
-	if err := Convert_v1alpha5_NetworkStatus_To_v1alpha3_NetworkStatus(&in.Net, &out.Net, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in *v1alpha6.VirtualMachineTemplate, out *VirtualMachineTemplate, s conversion.Scope) error {
+	if err := Convert_v1alpha6_NetworkStatus_To_v1alpha3_NetworkStatus(&in.Net, &out.Net, s); err != nil {
 		return err
 	}
 	if in.VM != nil {
 		in, out := &in.VM, &out.VM
 		*out = new(VirtualMachine)
-		if err := Convert_v1alpha5_VirtualMachine_To_v1alpha3_VirtualMachine(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_VirtualMachine_To_v1alpha3_VirtualMachine(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4525,57 +4525,57 @@ func autoConvert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTempl
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in *v1alpha5.VirtualMachineTemplate, out *VirtualMachineTemplate, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in, out, s)
+// Convert_v1alpha6_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in *v1alpha6.VirtualMachineTemplate, out *VirtualMachineTemplate, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineTemplate_To_v1alpha3_VirtualMachineTemplate(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec(in *VirtualMachineTemplateSpec, out *v1alpha5.VirtualMachineTemplateSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec(in *VirtualMachineTemplateSpec, out *v1alpha6.VirtualMachineTemplateSpec, s conversion.Scope) error {
 	if err := commonconversionv1alpha3.Convert_common_ObjectMeta_To_common_ObjectMeta(&in.ObjectMeta, &out.ObjectMeta, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineSpec_To_v1alpha5_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineSpec_To_v1alpha6_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec(in *VirtualMachineTemplateSpec, out *v1alpha5.VirtualMachineTemplateSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha5_VirtualMachineTemplateSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec(in *VirtualMachineTemplateSpec, out *v1alpha6.VirtualMachineTemplateSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineTemplateSpec_To_v1alpha6_VirtualMachineTemplateSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in *v1alpha5.VirtualMachineTemplateSpec, out *VirtualMachineTemplateSpec, s conversion.Scope) error {
-	if err := commonconversionv1alpha5.Convert_common_ObjectMeta_To_common_ObjectMeta(&in.ObjectMeta, &out.ObjectMeta, s); err != nil {
+func autoConvert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in *v1alpha6.VirtualMachineTemplateSpec, out *VirtualMachineTemplateSpec, s conversion.Scope) error {
+	if err := commonconversionv1alpha6.Convert_common_ObjectMeta_To_common_ObjectMeta(&in.ObjectMeta, &out.ObjectMeta, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineSpec_To_v1alpha3_VirtualMachineSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in *v1alpha5.VirtualMachineTemplateSpec, out *VirtualMachineTemplateSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in *v1alpha6.VirtualMachineTemplateSpec, out *VirtualMachineTemplateSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineTemplateSpec_To_v1alpha3_VirtualMachineTemplateSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(in *VirtualMachineVolume, out *v1alpha5.VirtualMachineVolume, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(in *VirtualMachineVolume, out *v1alpha6.VirtualMachineVolume, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource(&in.VirtualMachineVolumeSource, &out.VirtualMachineVolumeSource, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource(&in.VirtualMachineVolumeSource, &out.VirtualMachineVolumeSource, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(in *VirtualMachineVolume, out *v1alpha5.VirtualMachineVolume, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineVolume_To_v1alpha5_VirtualMachineVolume(in, out, s)
+// Convert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(in *VirtualMachineVolume, out *v1alpha6.VirtualMachineVolume, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineVolume_To_v1alpha6_VirtualMachineVolume(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(in *v1alpha5.VirtualMachineVolume, out *VirtualMachineVolume, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(in *v1alpha6.VirtualMachineVolume, out *VirtualMachineVolume, s conversion.Scope) error {
 	out.Name = in.Name
-	if err := Convert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(&in.VirtualMachineVolumeSource, &out.VirtualMachineVolumeSource, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(&in.VirtualMachineVolumeSource, &out.VirtualMachineVolumeSource, s); err != nil {
 		return err
 	}
 	// WARNING: in.Removable requires manual conversion: does not exist in peer-type
@@ -4588,33 +4588,33 @@ func autoConvert_v1alpha5_VirtualMachineVolume_To_v1alpha3_VirtualMachineVolume(
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha5_VirtualMachineVolumeCryptoStatus(in *VirtualMachineVolumeCryptoStatus, out *v1alpha5.VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha6_VirtualMachineVolumeCryptoStatus(in *VirtualMachineVolumeCryptoStatus, out *v1alpha6.VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
 	out.ProviderID = in.ProviderID
 	out.KeyID = in.KeyID
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha5_VirtualMachineVolumeCryptoStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha5_VirtualMachineVolumeCryptoStatus(in *VirtualMachineVolumeCryptoStatus, out *v1alpha5.VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha5_VirtualMachineVolumeCryptoStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha6_VirtualMachineVolumeCryptoStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha6_VirtualMachineVolumeCryptoStatus(in *VirtualMachineVolumeCryptoStatus, out *v1alpha6.VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineVolumeCryptoStatus_To_v1alpha6_VirtualMachineVolumeCryptoStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in *v1alpha5.VirtualMachineVolumeCryptoStatus, out *VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in *v1alpha6.VirtualMachineVolumeCryptoStatus, out *VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
 	out.ProviderID = in.ProviderID
 	out.KeyID = in.KeyID
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in *v1alpha5.VirtualMachineVolumeCryptoStatus, out *VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in *v1alpha6.VirtualMachineVolumeCryptoStatus, out *VirtualMachineVolumeCryptoStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineVolumeCryptoStatus_To_v1alpha3_VirtualMachineVolumeCryptoStatus(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource(in *VirtualMachineVolumeSource, out *v1alpha5.VirtualMachineVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource(in *VirtualMachineVolumeSource, out *v1alpha6.VirtualMachineVolumeSource, s conversion.Scope) error {
 	if in.PersistentVolumeClaim != nil {
 		in, out := &in.PersistentVolumeClaim, &out.PersistentVolumeClaim
-		*out = new(v1alpha5.PersistentVolumeClaimVolumeSource)
-		if err := Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha5_PersistentVolumeClaimVolumeSource(*in, *out, s); err != nil {
+		*out = new(v1alpha6.PersistentVolumeClaimVolumeSource)
+		if err := Convert_v1alpha3_PersistentVolumeClaimVolumeSource_To_v1alpha6_PersistentVolumeClaimVolumeSource(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4623,16 +4623,16 @@ func autoConvert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineV
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource(in *VirtualMachineVolumeSource, out *v1alpha5.VirtualMachineVolumeSource, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha5_VirtualMachineVolumeSource(in, out, s)
+// Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource(in *VirtualMachineVolumeSource, out *v1alpha6.VirtualMachineVolumeSource, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineVolumeSource_To_v1alpha6_VirtualMachineVolumeSource(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in *v1alpha5.VirtualMachineVolumeSource, out *VirtualMachineVolumeSource, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in *v1alpha6.VirtualMachineVolumeSource, out *VirtualMachineVolumeSource, s conversion.Scope) error {
 	if in.PersistentVolumeClaim != nil {
 		in, out := &in.PersistentVolumeClaim, &out.PersistentVolumeClaim
 		*out = new(PersistentVolumeClaimVolumeSource)
-		if err := Convert_v1alpha5_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(*in, *out, s); err != nil {
+		if err := Convert_v1alpha6_PersistentVolumeClaimVolumeSource_To_v1alpha3_PersistentVolumeClaimVolumeSource(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -4641,15 +4641,15 @@ func autoConvert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineV
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in *v1alpha5.VirtualMachineVolumeSource, out *VirtualMachineVolumeSource, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in, out, s)
+// Convert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in *v1alpha6.VirtualMachineVolumeSource, out *VirtualMachineVolumeSource, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineVolumeSource_To_v1alpha3_VirtualMachineVolumeSource(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(in *VirtualMachineVolumeStatus, out *v1alpha5.VirtualMachineVolumeStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(in *VirtualMachineVolumeStatus, out *v1alpha6.VirtualMachineVolumeStatus, s conversion.Scope) error {
 	out.Name = in.Name
-	out.Type = v1alpha5.VolumeType(in.Type)
-	out.Crypto = (*v1alpha5.VirtualMachineVolumeCryptoStatus)(unsafe.Pointer(in.Crypto))
+	out.Type = v1alpha6.VolumeType(in.Type)
+	out.Crypto = (*v1alpha6.VirtualMachineVolumeCryptoStatus)(unsafe.Pointer(in.Crypto))
 	out.Limit = (*resource.Quantity)(unsafe.Pointer(in.Limit))
 	out.Used = (*resource.Quantity)(unsafe.Pointer(in.Used))
 	out.Attached = in.Attached
@@ -4658,12 +4658,12 @@ func autoConvert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineV
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(in *VirtualMachineVolumeStatus, out *v1alpha5.VirtualMachineVolumeStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha5_VirtualMachineVolumeStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(in *VirtualMachineVolumeStatus, out *v1alpha6.VirtualMachineVolumeStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineVolumeStatus_To_v1alpha6_VirtualMachineVolumeStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(in *v1alpha5.VirtualMachineVolumeStatus, out *VirtualMachineVolumeStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineVolumeStatus(in *v1alpha6.VirtualMachineVolumeStatus, out *VirtualMachineVolumeStatus, s conversion.Scope) error {
 	out.Name = in.Name
 	// WARNING: in.ControllerBusNumber requires manual conversion: does not exist in peer-type
 	// WARNING: in.ControllerType requires manual conversion: does not exist in peer-type
@@ -4681,102 +4681,102 @@ func autoConvert_v1alpha5_VirtualMachineVolumeStatus_To_v1alpha3_VirtualMachineV
 	return nil
 }
 
-func autoConvert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha5_VirtualMachineWebConsoleRequest(in *VirtualMachineWebConsoleRequest, out *v1alpha5.VirtualMachineWebConsoleRequest, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha6_VirtualMachineWebConsoleRequest(in *VirtualMachineWebConsoleRequest, out *v1alpha6.VirtualMachineWebConsoleRequest, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha5_VirtualMachineWebConsoleRequest is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha5_VirtualMachineWebConsoleRequest(in *VirtualMachineWebConsoleRequest, out *v1alpha5.VirtualMachineWebConsoleRequest, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha5_VirtualMachineWebConsoleRequest(in, out, s)
+// Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha6_VirtualMachineWebConsoleRequest is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha6_VirtualMachineWebConsoleRequest(in *VirtualMachineWebConsoleRequest, out *v1alpha6.VirtualMachineWebConsoleRequest, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequest_To_v1alpha6_VirtualMachineWebConsoleRequest(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in *v1alpha5.VirtualMachineWebConsoleRequest, out *VirtualMachineWebConsoleRequest, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in *v1alpha6.VirtualMachineWebConsoleRequest, out *VirtualMachineWebConsoleRequest, s conversion.Scope) error {
 	out.ObjectMeta = in.ObjectMeta
-	if err := Convert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(&in.Spec, &out.Spec, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
 	}
-	if err := Convert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(&in.Status, &out.Status, s); err != nil {
+	if err := Convert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(&in.Status, &out.Status, s); err != nil {
 		return err
 	}
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in *v1alpha5.VirtualMachineWebConsoleRequest, out *VirtualMachineWebConsoleRequest, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in, out, s)
+// Convert_v1alpha6_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in *v1alpha6.VirtualMachineWebConsoleRequest, out *VirtualMachineWebConsoleRequest, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineWebConsoleRequest_To_v1alpha3_VirtualMachineWebConsoleRequest(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha5_VirtualMachineWebConsoleRequestList(in *VirtualMachineWebConsoleRequestList, out *v1alpha5.VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha6_VirtualMachineWebConsoleRequestList(in *VirtualMachineWebConsoleRequestList, out *v1alpha6.VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]v1alpha5.VirtualMachineWebConsoleRequest)(unsafe.Pointer(&in.Items))
+	out.Items = *(*[]v1alpha6.VirtualMachineWebConsoleRequest)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha5_VirtualMachineWebConsoleRequestList is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha5_VirtualMachineWebConsoleRequestList(in *VirtualMachineWebConsoleRequestList, out *v1alpha5.VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha5_VirtualMachineWebConsoleRequestList(in, out, s)
+// Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha6_VirtualMachineWebConsoleRequestList is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha6_VirtualMachineWebConsoleRequestList(in *VirtualMachineWebConsoleRequestList, out *v1alpha6.VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestList_To_v1alpha6_VirtualMachineWebConsoleRequestList(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in *v1alpha5.VirtualMachineWebConsoleRequestList, out *VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in *v1alpha6.VirtualMachineWebConsoleRequestList, out *VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
 	out.Items = *(*[]VirtualMachineWebConsoleRequest)(unsafe.Pointer(&in.Items))
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in *v1alpha5.VirtualMachineWebConsoleRequestList, out *VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in, out, s)
+// Convert_v1alpha6_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in *v1alpha6.VirtualMachineWebConsoleRequestList, out *VirtualMachineWebConsoleRequestList, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineWebConsoleRequestList_To_v1alpha3_VirtualMachineWebConsoleRequestList(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec(in *VirtualMachineWebConsoleRequestSpec, out *v1alpha5.VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec(in *VirtualMachineWebConsoleRequestSpec, out *v1alpha6.VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
 	out.Name = in.Name
 	out.PublicKey = in.PublicKey
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec(in *VirtualMachineWebConsoleRequestSpec, out *v1alpha5.VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha5_VirtualMachineWebConsoleRequestSpec(in, out, s)
+// Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec(in *VirtualMachineWebConsoleRequestSpec, out *v1alpha6.VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestSpec_To_v1alpha6_VirtualMachineWebConsoleRequestSpec(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in *v1alpha5.VirtualMachineWebConsoleRequestSpec, out *VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in *v1alpha6.VirtualMachineWebConsoleRequestSpec, out *VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
 	out.Name = in.Name
 	out.PublicKey = in.PublicKey
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in *v1alpha5.VirtualMachineWebConsoleRequestSpec, out *VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in, out, s)
+// Convert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in *v1alpha6.VirtualMachineWebConsoleRequestSpec, out *VirtualMachineWebConsoleRequestSpec, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineWebConsoleRequestSpec_To_v1alpha3_VirtualMachineWebConsoleRequestSpec(in, out, s)
 }
 
-func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus(in *VirtualMachineWebConsoleRequestStatus, out *v1alpha5.VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
+func autoConvert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus(in *VirtualMachineWebConsoleRequestStatus, out *v1alpha6.VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
 	out.Response = in.Response
 	out.ExpiryTime = in.ExpiryTime
 	out.ProxyAddr = in.ProxyAddr
 	return nil
 }
 
-// Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus is an autogenerated conversion function.
-func Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus(in *VirtualMachineWebConsoleRequestStatus, out *v1alpha5.VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha5_VirtualMachineWebConsoleRequestStatus(in, out, s)
+// Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus is an autogenerated conversion function.
+func Convert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus(in *VirtualMachineWebConsoleRequestStatus, out *v1alpha6.VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha3_VirtualMachineWebConsoleRequestStatus_To_v1alpha6_VirtualMachineWebConsoleRequestStatus(in, out, s)
 }
 
-func autoConvert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in *v1alpha5.VirtualMachineWebConsoleRequestStatus, out *VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
+func autoConvert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in *v1alpha6.VirtualMachineWebConsoleRequestStatus, out *VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
 	out.Response = in.Response
 	out.ExpiryTime = in.ExpiryTime
 	out.ProxyAddr = in.ProxyAddr
 	return nil
 }
 
-// Convert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus is an autogenerated conversion function.
-func Convert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in *v1alpha5.VirtualMachineWebConsoleRequestStatus, out *VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
-	return autoConvert_v1alpha5_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in, out, s)
+// Convert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus is an autogenerated conversion function.
+func Convert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in *v1alpha6.VirtualMachineWebConsoleRequestStatus, out *VirtualMachineWebConsoleRequestStatus, s conversion.Scope) error {
+	return autoConvert_v1alpha6_VirtualMachineWebConsoleRequestStatus_To_v1alpha3_VirtualMachineWebConsoleRequestStatus(in, out, s)
 }

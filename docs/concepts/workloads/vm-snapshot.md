@@ -17,7 +17,7 @@ A VirtualMachineSnapshots is a namespace-scoped Kubernetes resource that:
 A snapshot which doesn't include VM memory:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineSnapshot
 metadata:
   name: snap-1
@@ -31,7 +31,7 @@ spec:
 A snapshot which includes VM memory:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineSnapshot
 metadata:
   name: snap-2
@@ -46,7 +46,7 @@ spec:
 A snapshot which specifies a Quiesce timeout:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineSnapshot
 metadata:
   name: snap-3
@@ -65,7 +65,7 @@ spec:
 Set the `spec.currentSnapshotName` on the VM to revert to a snapshot:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm

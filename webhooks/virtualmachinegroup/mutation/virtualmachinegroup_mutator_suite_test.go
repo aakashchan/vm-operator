@@ -24,7 +24,7 @@ var suite = builder.NewTestSuiteForMutatingWebhookWithContext(
 		}),
 	mutation.AddToManager,
 	mutation.NewMutator,
-	"default.mutating.virtualmachinegroup.v1alpha5.vmoperator.vmware.com",
+	"default.mutating.virtualmachinegroup.v1alpha6.vmoperator.vmware.com",
 )
 
 func TestWebhook(t *testing.T) {

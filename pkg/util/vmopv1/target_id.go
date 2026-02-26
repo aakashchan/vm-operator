@@ -7,7 +7,7 @@ package vmopv1
 import (
 	"fmt"
 
-	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 )
 
 // TargetID is the controller:bus:slot target ID at which a device is located.

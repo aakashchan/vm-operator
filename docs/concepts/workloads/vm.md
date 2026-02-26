@@ -164,7 +164,7 @@ Controllers support different controller sharing modes for specialized workloads
 Controllers can be explicitly configured in the `spec.hardware` section:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -359,7 +359,7 @@ Additionally, an administrator might also define certain policies in a `VirtualM
 For an example, consider the following VM Class:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineClass
 metadata:
   name: my-vm-class
@@ -449,7 +449,7 @@ A VM may be encrypted with either:
 By default, `spec.crypto.useDefaultKeyProvider` is true, meaning that if there is a default key provider and the VM has an encryption storage class and/or vTPM, the VM will be subject to some level of encryption. For example, if there was a default key provider present, it would be used to encrypt the following VM:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -465,7 +465,7 @@ spec:
 It is also possible to set `spec.crypto.encryptionClassName` to the name of an `EncryptionClass` resource in the same namespace as the VM. This resource specifies the provider and key ID used to encrypt workloads. For example, the following VM would be deployed and encrypted using the `EncryptionClass` named `my-encryption-class`:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -640,7 +640,7 @@ There are several options which may be used to influence the guest's global netw
 The field `spec.network.interfaces` describes one or more network interfaces to add to the VM, ex.:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -664,7 +664,7 @@ If `spec.network.interfaces` is not specified when deploying a VM, a default net
 The `VirtualMachineClass` used to deploy a VM determines the type for the VM's network adapters. If the number of interfaces for a `VirtualMachine` exceeds the number of interfaces in a `VirtualMachineClass`, the `VirtualVmxnet3` type is used for the additional interfaces. For example, consider the following `VirtualMachineClass` that specifies two different network interfaces:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineClass
 metadata:
   name: my-vm-class
@@ -691,7 +691,7 @@ spec:
 What happens when the following VM is deployed with the above class?
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -741,7 +741,7 @@ There are several options which may be used to influence the guest's per-interfa
 Deploying a VM also normally means bootstrapping the guest with a valid network configuration. But what if the guest does not include a bootstrap engine, or the one included is not supported by VM Operator? Enter `status.network.config`.  Normally a Kubernetes resource's status contains _observed_ state. However, in the case of the VM's `status.network.config` field, the data represents the _intended_ network configuration. For example, the following YAML illustrates a VM deployed with a single network interface:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -1088,7 +1088,7 @@ status:
 To map a `spec.volumes` entry to this disk, specify:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -1123,7 +1123,7 @@ For an image with multiple disks:
 # - Disk 0: SCSI 0:0 (20Gi boot disk)
 # - Disk 1: SCSI 0:1 (50Gi data disk)
 
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -1181,7 +1181,7 @@ The following steps describe how to provide additional storage with [PersistentV
 2. Update the VM's `spec.volumes` field with a new volume that references the PVC:
 
     ```yaml
-    apiVersion: vmoperator.vmware.com/v1alpha5
+    apiVersion: vmoperator.vmware.com/v1alpha6
     kind: VirtualMachine
     metadata:
       name: my-vm
@@ -1490,7 +1490,7 @@ metadata:
   name: disk-<uuid>
   namespace: <vm-namespace>
   ownerReferences:
-  - apiVersion: vmoperator.vmware.com/v1alpha5
+  - apiVersion: vmoperator.vmware.com/v1alpha6
     blockOwnerDeletion: true
     controller: true
     kind: VirtualMachine
@@ -1783,7 +1783,7 @@ vSphere policies provide a way to apply compute and tag policies to VMs. These p
 The field `spec.policies` may be used to specify one or more policies to apply to a VM. Each policy reference includes the API version, kind, and name of the policy object:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm
@@ -1889,7 +1889,7 @@ The above affinity/anti-affinity settings are available with the following rules
 The following is an example of VM affinity that uses the topologyKey field to indicate the VM affinity rule applies to the Zone scope:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm-1
@@ -1917,7 +1917,7 @@ spec:
 The following example shows VM anti-affinity at the host level, ensuring VMs with the label `tier: database` are distributed across different hosts:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: database-vm-1
@@ -1944,7 +1944,7 @@ VirtualMachine Groups provide a way to manage multiple VMs as a single unit, ena
 A VM becomes a member of a group by setting its `spec.groupName` field to the name of a VirtualMachineGroup in the same namespace:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: web-server-1
@@ -1968,7 +1968,7 @@ When a VM joins a group:
 The VirtualMachineGroup resource defines how a collection of VMs should be managed:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: web-tier-group
@@ -2016,7 +2016,7 @@ Example use cases:
 VirtualMachineGroups can be hierarchical - a group can belong to another group by setting its own `spec.groupName` field:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineGroup
 metadata:
   name: database-group
@@ -2134,7 +2134,7 @@ Schema upgrades are tracked using three annotations on each `VirtualMachine`:
 | Annotation | Description |
 |------------|-------------|
 | `vmoperator.vmware.com/upgraded-to-build-version` | The build version of VM Operator when the VM was last upgraded |
-| `vmoperator.vmware.com/upgraded-to-schema-version` | The API schema version when the VM was last upgraded (e.g., `v1alpha5`) |
+| `vmoperator.vmware.com/upgraded-to-schema-version` | The API schema version when the VM was last upgraded (e.g., `v1alpha6`) |
 | `vmoperator.vmware.com/upgraded-to-feature-version` | A bitmask tracking which feature-specific upgrades have been applied |
 
 A VM is considered fully upgraded when all three annotations match the current runtime values. Until then, certain operations may be skipped or restricted.
@@ -2287,7 +2287,7 @@ Example output for a fully upgraded VM:
 ```json
 {
   "vmoperator.vmware.com/upgraded-to-build-version": "v1.2.3",
-  "vmoperator.vmware.com/upgraded-to-schema-version": "v1alpha5",
+  "vmoperator.vmware.com/upgraded-to-schema-version": "v1alpha6",
   "vmoperator.vmware.com/upgraded-to-feature-version": "7"
 }
 ```
@@ -2301,7 +2301,7 @@ This uses the provider APIs to take a snapshot of the VM
 ### Creating a Snapshot
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachineSnapshot
 metadata:
   name: snap-2
@@ -2317,7 +2317,7 @@ Once a snapshot is created, the VM can be reverted to the snapshot by
 specifying `spec.currentSnapshotName` to the desired snapshot.
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm

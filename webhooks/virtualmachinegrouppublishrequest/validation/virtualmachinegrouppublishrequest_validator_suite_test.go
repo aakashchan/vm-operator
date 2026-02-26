@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	WebhookName = "default.validating.virtualmachinegrouppublishrequest.v1alpha5.vmoperator.vmware.com"
+	WebhookName = "default.validating.virtualmachinegrouppublishrequest.v1alpha6.vmoperator.vmware.com"
 )
 
 // suite is used for unit and integration testing this webhook.

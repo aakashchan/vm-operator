@@ -143,7 +143,7 @@ The selected placement recommendation provides:
 VMs can influence zone placement through labels:
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5
+apiVersion: vmoperator.vmware.com/v1alpha6
 kind: VirtualMachine
 metadata:
   name: my-vm

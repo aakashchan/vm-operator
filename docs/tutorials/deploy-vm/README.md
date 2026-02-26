@@ -5,7 +5,7 @@ This page reviews the different components, workflows, and decisions related to 
 ## The VirtualMachine API
 
 ```yaml
-apiVersion: vmoperator.vmware.com/v1alpha5 # (1)
+apiVersion: vmoperator.vmware.com/v1alpha6 # (1)
 kind: VirtualMachine # (2)
 metadata:
   name:      my-vm # (3)
@@ -27,7 +27,7 @@ spec:
         allowGuestControl: true
 ```
 
-1.  :wave: The field `apiVersion` indicates the resource's schema, ex. `vmoperator.vmware.com`, and version, ex.`v1alpha5`.
+1.  :wave: The field `apiVersion` indicates the resource's schema, ex. `vmoperator.vmware.com`, and version, ex.`v1alpha6`.
 
 2.  :wave: The field `kind` specifies the kind of resource, ex. `VirtualMachine`.
 
