@@ -143,68 +143,35 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
     # ConfigSpec deviceChange with virtual device types (govmomi vim25/types)
     # -------------------------------------------------------------------------
     {
-        "id": "configspec-vgpu-vmiop",
+        "id": "vmclass-vgpu-invalid-profile",
         "category": CAT_PLACEMENT,
-        "description": "configSpec.deviceChange: add VirtualPCIPassthrough with VirtualPCIPassthroughVmiopBackingInfo (non-existent vGPU)",
+        "description": "VMClass first-class vgpuDevices with non-existent profile (was configSpec vGPU)",
         "vm_spec_override": {},
         "class_spec_override": {
-            "hardware": {"cpus": 2, "memory": "4Gi"},
-            "policies": {"resources": {}},
-            "configSpec": {
-                "_typeName": "VirtualMachineConfigSpec",
-                "numCPUs": 2,
-                "memoryMB": 4096,
-                "deviceChange": [
-                    {
-                        "_typeName": "VirtualDeviceConfigSpec",
-                        "operation": "add",
-                        "device": {
-                            "_typeName": "VirtualPCIPassthrough",
-                            "key": -1,
-                            "backing": {
-                                "_typeName": "VirtualPCIPassthroughVmiopBackingInfo",
-                                "vgpu": "non-existent-vgpu-profile",
-                            },
-                        },
-                    },
-                ],
+            "hardware": {
+                "cpus": 2,
+                "memory": "4Gi",
+                "devices": {"vgpuDevices": [{"profileName": "non-existent-vgpu-profile"}]},
             },
+            "policies": {"resources": {}},
         },
     },
     {
-        "id": "configspec-dynamic-pci",
+        "id": "vmclass-dynamic-pci-invalid",
         "category": CAT_PLACEMENT,
-        "description": "configSpec.deviceChange: add VirtualPCIPassthrough with VirtualPCIPassthroughDynamicBackingInfo (invalid vendor/device)",
+        "description": "VMClass first-class dynamicDirectPathIODevices with invalid vendorId/deviceId (was configSpec)",
         "vm_spec_override": {},
         "class_spec_override": {
-            "hardware": {"cpus": 2, "memory": "4Gi"},
-            "policies": {"resources": {}},
-            "configSpec": {
-                "_typeName": "VirtualMachineConfigSpec",
-                "numCPUs": 2,
-                "memoryMB": 4096,
-                "deviceChange": [
-                    {
-                        "_typeName": "VirtualDeviceConfigSpec",
-                        "operation": "add",
-                        "device": {
-                            "_typeName": "VirtualPCIPassthrough",
-                            "key": -1,
-                            "backing": {
-                                "_typeName": "VirtualPCIPassthroughDynamicBackingInfo",
-                                "deviceName": "",
-                                "allowedDevice": [
-                                    {
-                                        "_typeName": "VirtualPCIPassthroughAllowedDevice",
-                                        "vendorId": 0,
-                                        "deviceId": 0,
-                                    },
-                                ],
-                            },
-                        },
-                    },
-                ],
+            "hardware": {
+                "cpus": 2,
+                "memory": "4Gi",
+                "devices": {
+                    "dynamicDirectPathIODevices": [
+                        {"vendorID": 0, "deviceID": 0},
+                    ],
+                },
             },
+            "policies": {"resources": {}},
         },
     },
     {
@@ -282,6 +249,545 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
                 ],
             },
         },
+    },
+    {
+        "id": "configspec-extraconfig-huge",
+        "category": CAT_POWER_ON,
+        "description": "configSpec with large extraConfig (numa, sched, svga, etc.)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 32, "memory": "128Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 32,
+                "memoryMB": 131072,
+                "firmware": "efi",
+                "extraConfig": [
+                    {"_typeName": "OptionValue", "key": "numa.nodeAffinity", "value": {"_typeName": "string", "_value": "0"}},
+                    {"_typeName": "OptionValue", "key": "numa.vcpu.preferHT", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "numa.autosize.vcpu.preferHT", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "numa.vcpu.maxPerVirtualNode", "value": {"_typeName": "string", "_value": "8"}},
+                    {"_typeName": "OptionValue", "key": "sched.mem.pshare.enable", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "sched.cpu.min", "value": {"_typeName": "string", "_value": "0"}},
+                    {"_typeName": "OptionValue", "key": "sched.cpu.shares", "value": {"_typeName": "string", "_value": "normal"}},
+                    {"_typeName": "OptionValue", "key": "sched.mem.shares", "value": {"_typeName": "string", "_value": "normal"}},
+                    {"_typeName": "OptionValue", "key": "mem.hostpref", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "mem.prealloc", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "svga.numDisplays", "value": {"_typeName": "string", "_value": "1"}},
+                    {"_typeName": "OptionValue", "key": "svga.autodetect", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "vhv.enable", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "vhv.allow", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "isolation.tools.copy.disable", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "isolation.tools.paste.disable", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "isolation.tools.setGUIOptions.enable", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "mce.enable", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "hypervisor.cpuid.v0", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "cpuid.0.eax", "value": {"_typeName": "string", "_value": "0000:0000:0000:0000:0000:0000:0000:1011"}},
+                    {"_typeName": "OptionValue", "key": "cpuid.0.ebx", "value": {"_typeName": "string", "_value": "0111:0101:0110:1110:0110:0101:0100:0111"}},
+                    {"_typeName": "OptionValue", "key": "cpuid.0.ecx", "value": {"_typeName": "string", "_value": "0110:1100:0110:0101:0111:0100:0110:1110"}},
+                    {"_typeName": "OptionValue", "key": "cpuid.0.edx", "value": {"_typeName": "string", "_value": "0100:1001:0110:0101:0110:1110:0110:1001"}},
+                    {"_typeName": "OptionValue", "key": "vmci0.unrestricted", "value": {"_typeName": "string", "_value": "false"}},
+                    {"_typeName": "OptionValue", "key": "ethernet0.virtualDev", "value": {"_typeName": "string", "_value": "e1000e"}},
+                    {"_typeName": "OptionValue", "key": "guestOS.detailed.data", "value": {"_typeName": "string", "_value": "linux"}},
+                    {"_typeName": "OptionValue", "key": "tools.upgrade.policy", "value": {"_typeName": "string", "_value": "manual"}},
+                    {"_typeName": "OptionValue", "key": "powerType.powerOff", "value": {"_typeName": "string", "_value": "soft"}},
+                    {"_typeName": "OptionValue", "key": "powerType.powerOn", "value": {"_typeName": "string", "_value": "soft"}},
+                    {"_typeName": "OptionValue", "key": "powerType.suspend", "value": {"_typeName": "string", "_value": "soft"}},
+                    {"_typeName": "OptionValue", "key": "replay.supported", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "softPowerOff", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "keyboard.virtualSync", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "msg.autoanswer", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "uuid.bios", "value": {"_typeName": "string", "_value": "56 4d 41 2a 00 00 00 00-00 00 00 00 00 00 00 00"}},
+                    {"_typeName": "OptionValue", "key": "uuid.location", "value": {"_typeName": "string", "_value": "56 4d 41 2a 00 00 00 00-00 00 00 00 00 00 00 00"}},
+                    {"_typeName": "OptionValue", "key": "migrate.hostLog", "value": {"_typeName": "string", "_value": ""}},
+                    {"_typeName": "OptionValue", "key": "vmx.buildType", "value": {"_typeName": "string", "_value": "release"}},
+                    {"_typeName": "OptionValue", "key": "cleanShutdown", "value": {"_typeName": "string", "_value": "TRUE"}},
+                    {"_typeName": "OptionValue", "key": "tools.remindInstall", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "toolsInstallManager.lastInstallError", "value": {"_typeName": "string", "_value": ""}},
+                    {"_typeName": "OptionValue", "key": "toolsInstallManager.updateCounter", "value": {"_typeName": "string", "_value": "0"}},
+                    {"_typeName": "OptionValue", "key": "monitor.allow_legacy_APIC", "value": {"_typeName": "string", "_value": "FALSE"}},
+                    {"_typeName": "OptionValue", "key": "vm.genid", "value": {"_typeName": "string", "_value": "-1"}},
+                    {"_typeName": "OptionValue", "key": "vm.genidX", "value": {"_typeName": "string", "_value": "-1"}},
+                    {"_typeName": "OptionValue", "key": "vmx.allowNested", "value": {"_typeName": "string", "_value": "TRUE"}},
+                ],
+            },
+        },
+    },
+    # -------------------------------------------------------------------------
+    # createVm.py-style: basic VM create (power state, guest ID)
+    # -------------------------------------------------------------------------
+    {
+        "id": "vm-power-state-off",
+        "category": CAT_POWER_ON,
+        "description": "VM with powerState PoweredOff (createVm-style)",
+        "vm_spec_override": {"powerState": "PoweredOff"},
+        "class_spec_override": None,
+    },
+    {
+        "id": "vm-guest-id-invalid",
+        "category": CAT_VALIDATION,
+        "description": "VM with invalid/unsupported guestID (createVm-style)",
+        "vm_spec_override": {"guestID": "invalidGuestId"},
+        "class_spec_override": None,
+    },
+    # -------------------------------------------------------------------------
+    # createVmWithVDiskFormat.py-style: virtual disk format (thin/thick/eagerZeroed)
+    # -------------------------------------------------------------------------
+    {
+        "id": "configspec-disk-flatver2-thin",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add VirtualDisk with FlatVer2 thin backing",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "thinProvisioned": True,
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-disk-flatver2-thick",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add VirtualDisk with FlatVer2 thick backing",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "thinProvisioned": False,
+                                "eagerZeroed": False,
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-disk-flatver2-eagerzeroed",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add VirtualDisk with FlatVer2 eagerZeroedThick",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "thinProvisioned": False,
+                                "eagerZeroed": True,
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-disk-backing-invalid-mode",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add VirtualDisk with invalid diskMode (createVmWithVDiskFormat-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "diskMode": "InvalidDiskMode",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+
+    {
+        "id": "configspec-cpu-hotadd",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: cpuHotAddEnabled true (createVmHwTest-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "cpuHotAddEnabled": True,
+            },
+        },
+    },
+    {
+        "id": "configspec-memory-hotadd",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: memoryHotAddEnabled true (createVmHwTest-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "memoryHotAddEnabled": True,
+            },
+        },
+    },
+    {
+        "id": "vmclass-cpu-memory-zero",
+        "category": CAT_VALIDATION,
+        "description": "VMClass first-class hardware.cpus 0, memory 0Gi (invalid, createVmHwTest-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 0, "memory": "0Gi"},
+            "policies": {"resources": {}},
+        },
+    },
+    {
+        "id": "configspec-disk-unsupported-format",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: VirtualDisk with unsupported virtualDiskFormat (createVmWithVDiskFormat-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "virtualDiskFormat": "native_123",
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "thinProvisioned": True,
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-version-invalid",
+        "category": CAT_VALIDATION,
+        "description": "configSpec: invalid hardware version vmx-0 (createVmHwTest-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "version": "vmx-0",
+            },
+        },
+    },
+    {
+        "id": "vm-boot-options-network-ip6",
+        "category": CAT_POWER_ON,
+        "description": "VM first-class bootOptions.networkBootProtocol IP6 (reconfigureBootOption-style)",
+        "vm_spec_override": {
+            "bootOptions": {"networkBootProtocol": "IP6"},
+        },
+        "class_spec_override": None,
+    },
+    {
+        "id": "configspec-nic-invalid-backing",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add NIC with invalid backing (invalidNetDeviceChangeClone-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualE1000",
+                            "key": -1,
+                            "addressType": "Generated",
+                            "backing": {
+                                "_typeName": "VirtualEthernetCardNetworkBackingInfo",
+                                "network": "",
+                                "deviceName": "",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-cdrom-add-invalid",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: add VirtualCdrom with invalid backing (cloneInvalidCdrom-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualCdrom",
+                            "key": -1,
+                            "controllerKey": 200,
+                            "unitNumber": 0,
+                            "backing": {
+                                "_typeName": "VirtualCdromIsoBackingInfo",
+                                "fileName": "",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-disk-rdm-backing",
+        "category": CAT_PLACEMENT,
+        "description": "configSpec: add VirtualDisk with RDM backing (createRdmBackedDiskOnNfs-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskRawDiskMappingVer1BackingInfo",
+                                "compatibilityMode": "physicalMode",
+                                "deviceName": "",
+                                "lunUuid": "invalid-rdm-lun",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-duplicate-disk-unit",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: two disks with same controllerKey and unitNumber (reconfigureDuplicateDiskKey-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 0,
+                            "capacityInKB": 1048576,
+                            "backing": {"_typeName": "VirtualDiskFlatVer2BackingInfo", "thinProvisioned": True},
+                        },
+                    },
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -2,
+                            "controllerKey": 1000,
+                            "unitNumber": 0,
+                            "capacityInKB": 1048576,
+                            "backing": {"_typeName": "VirtualDiskFlatVer2BackingInfo", "thinProvisioned": True},
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-vnuma",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: vNUMA extraConfig only (vnumaClone-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 4, "memory": "8Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 4,
+                "memoryMB": 8192,
+                "extraConfig": [
+                    {"_typeName": "OptionValue", "key": "numa.nodeAffinity", "value": {"_typeName": "string", "_value": "0"}},
+                    {"_typeName": "OptionValue", "key": "numa.autosize", "value": {"_typeName": "string", "_value": "true"}},
+                    {"_typeName": "OptionValue", "key": "numa.vcpu.maxPerVirtualNode", "value": {"_typeName": "string", "_value": "4"}},
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-latency-sensitivity",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: latency sensitivity extraConfig (latencySensivity-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "extraConfig": [
+                    {"_typeName": "OptionValue", "key": "latency.sensitivity", "value": {"_typeName": "string", "_value": "high"}},
+                ],
+            },
+        },
+    },
+    {
+        "id": "configspec-disk-sharing-multiwriter",
+        "category": CAT_POWER_ON,
+        "description": "configSpec: VirtualDisk with sharingMultiWriter (block-bus-sharing-style)",
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualDisk",
+                            "key": -1,
+                            "controllerKey": 1000,
+                            "unitNumber": 1,
+                            "capacityInKB": 1048576,
+                            "backing": {
+                                "_typeName": "VirtualDiskFlatVer2BackingInfo",
+                                "thinProvisioned": False,
+                                "diskMode": "independent_persistent",
+                                "sharing": "sharingMultiWriter",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    {
+        "id": "vm-name-too-long",
+        "category": CAT_VALIDATION,
+        "description": "VM metadata.name over 253 chars (vmname-style)",
+        "vm_spec_override": {},
+        "class_spec_override": None,
+        "vm_name_override": "a" * 260,
     },
 ]
 
@@ -489,6 +995,7 @@ class RunResult:
     error_message: str = ""
     vm_manifest: dict = field(default_factory=dict)
     class_manifest: dict | None = None
+    config_spec_validation: dict | None = None  # Result from ConfigSpecValidator when used
 
 
 class KubeRunner:
@@ -598,6 +1105,170 @@ class KubeRunner:
         return False, last_reason or "timeout"
 
 
+# -----------------------------------------------------------------------------
+# ConfigSpecValidator: verify configSpec was applied via pyVmomi
+# -----------------------------------------------------------------------------
+def _option_value_to_str(opt: Any) -> str:
+    """Convert pyVmomi OptionValue.value or similar to string for comparison."""
+    if opt is None:
+        return ""
+    if hasattr(opt, "_value"):
+        return str(getattr(opt, "_value", opt))
+    if hasattr(opt, "value"):
+        v = getattr(opt, "value", None)
+        if hasattr(v, "_value"):
+            return str(getattr(v, "_value", v))
+        return str(v) if v is not None else ""
+    return str(opt)
+
+
+def _extra_config_to_dict(extra_config: list[Any] | None) -> dict[str, str]:
+    """Convert list of OptionValue (pyVmomi or dict with key/value) to key -> value dict."""
+    out: dict[str, str] = {}
+    if not extra_config:
+        return out
+    for item in extra_config:
+        if isinstance(item, dict):
+            key = item.get("key", "")
+            val = item.get("value")
+            if isinstance(val, dict) and "_value" in val:
+                out[key] = str(val["_value"])
+            else:
+                out[key] = str(val) if val is not None else ""
+        else:
+            key = getattr(item, "key", "")
+            out[key] = _option_value_to_str(getattr(item, "value", None))
+    return out
+
+
+class ConfigSpecValidator:
+    """
+    Validates that a VM's vSphere configuration matches the expected configSpec
+    using pyVmomi (SOAP API). Use when a VM was created with a VMClass configSpec
+    to verify the backend applied it.
+    """
+
+    def __init__(self, service_instance: Any) -> None:
+        """
+        Args:
+            service_instance: pyVmomi ServiceInstance (e.g. from VCenterClient.si).
+        """
+        self.si = service_instance
+
+    def _get_vm_by_name(self, vm_name: str) -> Any | None:
+        """Find a VM in the inventory by name. Returns the VM object or None."""
+        try:
+            from pyVmomi import vim
+        except ImportError as e:
+            raise RuntimeError("pyVmomi is required for ConfigSpec validation. pip install pyvmomi") from e
+        content = self.si.RetrieveContent()
+        container = content.viewManager.CreateContainerView(
+            content.rootFolder, [vim.VirtualMachine], True
+        )
+        try:
+            for vm in container.view:
+                if vm.name == vm_name:
+                    return vm
+        finally:
+            container.Destroy()
+        return None
+
+    def validate(self, vm_name: str, expected_config_spec: dict[str, Any]) -> dict[str, Any]:
+        """
+        Compare the VM's actual config (numCPUs, memoryMB, extraConfig) with the
+        expected configSpec. Returns a JSON-serializable result dict with:
+          applied: bool
+          message: str
+          mismatches: list[str]
+          expected: dict (snapshot of what we expected)
+          actual: dict (snapshot of what we read from the VM)
+        """
+        try:
+            from pyVmomi import vim
+        except ImportError as e:
+            raise RuntimeError("pyVmomi is required for ConfigSpec validation. pip install pyvmomi") from e
+
+        result: dict[str, Any] = {
+            "applied": False,
+            "message": "",
+            "mismatches": [],
+            "expected": {},
+            "actual": {},
+        }
+        vm = self._get_vm_by_name(vm_name)
+        if not vm:
+            result["message"] = f"VM '{vm_name}' not found in vCenter"
+            return result
+
+        config = vm.config
+        if not config:
+            result["message"] = "VM has no config (invalid or not yet created)"
+            return result
+
+        expected = result["expected"]
+        actual = result["actual"]
+        mismatches = result["mismatches"]
+
+        # numCPUs
+        want_cpus = expected_config_spec.get("numCPUs")
+        if want_cpus is not None:
+            expected["numCPUs"] = want_cpus
+            got_cpus = getattr(config.hardware, "numCPU", None)
+            actual["numCPUs"] = got_cpus
+            if got_cpus != want_cpus:
+                mismatches.append(f"numCPUs: expected {want_cpus}, got {got_cpus}")
+
+        # memoryMB
+        want_mb = expected_config_spec.get("memoryMB")
+        if want_mb is not None:
+            expected["memoryMB"] = want_mb
+            got_mb = getattr(config.hardware, "memoryMB", None)
+            actual["memoryMB"] = got_mb
+            if got_mb != want_mb:
+                mismatches.append(f"memoryMB: expected {want_mb}, got {got_mb}")
+
+        # extraConfig: compare key/value
+        want_extra = expected_config_spec.get("extraConfig")
+        if want_extra is not None:
+            want_extra_dict: dict[str, str] = {}
+            for entry in want_extra:
+                if isinstance(entry, dict):
+                    key = entry.get("key", "")
+                    val = entry.get("value")
+                    if isinstance(val, dict) and "_value" in val:
+                        want_extra_dict[key] = str(val["_value"])
+                    else:
+                        want_extra_dict[key] = str(val) if val is not None else ""
+                else:
+                    key = getattr(entry, "key", "")
+                    want_extra_dict[key] = _option_value_to_str(getattr(entry, "value", None))
+            expected["extraConfig"] = want_extra_dict
+            raw_extra = getattr(config, "extraConfig", None) or []
+            actual["extraConfig"] = _extra_config_to_dict(raw_extra)
+            for k, v in want_extra_dict.items():
+                if k not in actual["extraConfig"]:
+                    mismatches.append(f"extraConfig['{k}']: expected '{v}', missing on VM")
+                elif actual["extraConfig"][k] != v:
+                    mismatches.append(
+                        f"extraConfig['{k}']: expected '{v}', got '{actual['extraConfig'][k]}'"
+                    )
+
+        # deviceChange: record add count and actual device count (exact match is hard)
+        want_devices = expected_config_spec.get("deviceChange")
+        if want_devices is not None:
+            add_ops = [
+                d for d in want_devices
+                if isinstance(d, dict) and d.get("operation") == "add"
+            ]
+            expected["deviceChange_add_count"] = len(add_ops)
+            raw_devices = getattr(config.hardware, "device", None) or []
+            actual["device_count"] = len(raw_devices)
+
+        result["applied"] = len(mismatches) == 0
+        result["message"] = "ConfigSpec applied" if result["applied"] else "; ".join(mismatches)
+        return result
+
+
 def run_single_test(
     runner: KubeRunner,
     factory: ManifestFactory,
@@ -608,10 +1279,12 @@ def run_single_test(
     test_entry: dict[str, Any],
     artifacts_dir: Path,
     timeout: int = VM_TERMINAL_WAIT_TIMEOUT,
+    keep_vm: bool = False,
+    vc_si: Any = None,
 ) -> RunResult:
-    """Run one test from the registry: create VM (and optional class), wait, capture, cleanup (with manifest save)."""
+    """Run one test from the registry: create VM (and optional class), wait, capture, cleanup (with manifest save). If keep_vm True, VM and VMClass are not deleted."""
     test_id = test_entry["id"]
-    vm_name = f"fuzz-{test_id}-{uuid.uuid4().hex[:8]}"
+    vm_name = test_entry.get("vm_name_override") or f"fuzz-{test_id}-{uuid.uuid4().hex[:8]}"
     vm_spec_override = test_entry.get("vm_spec_override") or {}
     class_spec_override = test_entry.get("class_spec_override")
     created_class_name: str | None = None
@@ -681,6 +1354,22 @@ def run_single_test(
         ) if result.events else "No events"
         result.observed_category = categorize_reasons(result.conditions, result.events)
 
+        # Optional: validate configSpec was applied via pyVmomi when vCenter SI is provided
+        if vc_si and result.success and class_spec_override:
+            config_spec = class_spec_override.get("configSpec")
+            if config_spec:
+                try:
+                    validator = ConfigSpecValidator(vc_si)
+                    result.config_spec_validation = validator.validate(vm_name, config_spec)
+                except Exception as e:
+                    result.config_spec_validation = {
+                        "applied": False,
+                        "message": str(e),
+                        "mismatches": [],
+                        "expected": {},
+                        "actual": {},
+                    }
+
     finally:
         # Save live VM/VMClass state before deletion (for debugging)
         test_artifacts = artifacts_dir / test_id
@@ -689,10 +1378,11 @@ def run_single_test(
         if live_vm:
             with open(test_artifacts / "vm_live.yaml", "w") as f:
                 yaml.dump(live_vm, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
-        # 100% cleanup: delete VM then VMClass
-        runner.delete_vm(namespace, vm_name)
-        if created_class_name:
-            runner.delete_vmclass(namespace, created_class_name)
+        # Cleanup: delete VM then VMClass unless --no-delete
+        if not keep_vm:
+            runner.delete_vm(namespace, vm_name)
+            if created_class_name:
+                runner.delete_vmclass(namespace, created_class_name)
     return result
 
 
@@ -706,12 +1396,51 @@ def _failure_or_error_text(result: RunResult) -> str:
     return result.error_message or ""
 
 
-def render_html_report(results: list[RunResult], output_path: Path, registry: list[dict]) -> None:
-    """Write a standalone HTML file with test results and failure/error messages."""
+def _result_to_status_dict(r: RunResult) -> dict:
+    """Build a JSON-serializable dict with complete status for a single result."""
+    d = {
+        "test_id": r.test_id,
+        "vm_name": r.vm_name,
+        "class_name": r.class_name,
+        "success": r.success,
+        "phase": r.phase,
+        "observed_category": r.observed_category,
+        "error_message": r.error_message,
+        "conditions": r.conditions,
+        "conditions_text": r.conditions_text,
+        "events": r.events,
+        "events_text": r.events_text,
+        "vm_manifest": r.vm_manifest,
+        "class_manifest": r.class_manifest,
+    }
+    if r.config_spec_validation is not None:
+        d["config_spec_validation"] = r.config_spec_validation
+    return d
+
+
+def render_json_report(results: list[RunResult], output_path: Path) -> None:
+    """Write report with complete status for each result in JSON format."""
+    payload = {
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "results": [_result_to_status_dict(r) for r in results],
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, default=str),
+        encoding="utf-8",
+    )
+
+
+def render_html_report(
+    results: list[RunResult], output_path: Path, registry: list[dict], json_report_path: Path | None = None
+) -> None:
+    """Write a standalone HTML file with test results, failure/error messages, and complete status as JSON."""
     rows = []
     for r in results:
         art_link = f"{r.test_id}/"
         failure_text = _failure_or_error_text(r)
+        status_json = json.dumps(_result_to_status_dict(r), indent=2, default=str)
+        status_json_escaped = _escape(status_json)
         rows.append(
             f"""
             <tr>
@@ -719,9 +1448,14 @@ def render_html_report(results: list[RunResult], output_path: Path, registry: li
               <td>{r.phase}</td>
               <td>{'Yes' if r.success else 'No'}</td>
               <td><pre>{_escape(failure_text)}</pre></td>
+              <td><details><summary>Show</summary><pre class="status-json">{status_json_escaped}</pre></details></td>
               <td><a href="{art_link}">artifacts</a></td>
             </tr>"""
         )
+
+    json_link = ""
+    if json_report_path and json_report_path.exists():
+        json_link = f'  <p><a href="{json_report_path.name}">Full report (JSON)</a></p>\n'
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -734,10 +1468,12 @@ def render_html_report(results: list[RunResult], output_path: Path, registry: li
     th, td {{ border: 1px solid #ccc; padding: 0.5rem; text-align: left; }}
     th {{ background: #f0f0f0; }}
     pre {{ margin: 0; font-size: 0.85em; white-space: pre-wrap; max-width: 600px; }}
+    pre.status-json {{ max-height: 20em; overflow: auto; font-size: 0.75em; }}
   </style>
 </head>
 <body>
   <h1>VM Operator Fuzzer Report</h1>
+{json_link}
   <table>
     <thead>
       <tr>
@@ -745,6 +1481,7 @@ def render_html_report(results: list[RunResult], output_path: Path, registry: li
         <th>Phase</th>
         <th>Terminal</th>
         <th>Failure / Error</th>
+        <th>Status (JSON)</th>
         <th>Artifacts</th>
       </tr>
     </thead>
@@ -824,15 +1561,19 @@ def main() -> int:
     )
     parser.add_argument("--tests", default="", help="Comma-separated test ids to run (default: all)")
     parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=1,
-        help="Number of scenarios per batch; each batch uses a new SupervisorClient (default: 1)",
-    )
-    parser.add_argument(
         "--run-all",
         action="store_true",
         help="Run all scenarios regardless of previous runs. If not set, scenarios that completed successfully in a prior run are skipped.",
+    )
+    parser.add_argument(
+        "--no-delete",
+        action="store_true",
+        help="Do not delete VM or VMClass after each scenario (default: delete after run).",
+    )
+    parser.add_argument(
+        "--validate-configspec",
+        action="store_true",
+        help="Validate configSpec was applied on the VM using pyVmomi (keeps vCenter connection open during run).",
     )
 
     # ovf-deploy-test path (vCenter + Supervisor)
@@ -875,13 +1616,16 @@ def main() -> int:
         root_password,
     )
     vc.connect()
+    vc_connected_for_validation = bool(args.validate_configspec)
     try:
         supervisor_ip, supervisor_password = vc.get_supervisor_credentials()
     except RuntimeError as e:
         print(f"ERROR: {e}")
         return 1
     finally:
-        vc.disconnect()
+        if not vc_connected_for_validation:
+            vc.disconnect()
+            vc = None
 
     # One-off supervisor for namespace check and VM class discovery; then disconnect.
     _supervisor = _SupervisorClient(supervisor_ip, supervisor_password)
@@ -936,75 +1680,81 @@ def main() -> int:
             print("All selected scenarios were already run successfully. Use --run-all to run everything.")
             return 0
 
-    batch_size = max(1, int(args.batch_size))
-    batches = [
-        registry[i : i + batch_size]
-        for i in range(0, len(registry), batch_size)
-    ]
     factory = ManifestFactory(args.api_version)
-
-    results: list[RunResult] = []
-    for batch_idx, batch in enumerate[list[dict[str, Any]]](batches):
-        # Each batch uses its own SupervisorClient (no sharing across batches).
-        supervisor = _SupervisorClient(supervisor_ip, supervisor_password)
-        supervisor.connect()
-        try:
-            runner = KubeRunner(supervisor)
-            for entry in batch:
-                print(f"\nRunning: {entry['id']} ({entry.get('category', '')}) [batch {batch_idx + 1}/{len(batches)}] ...")
-                try:
-                    res = run_single_test(
-                        runner,
-                        factory,
-                        args.namespace,
-                        args.vmi,
-                        base_class_name,
-                        args.storage_class,
-                        entry,
-                        artifacts_dir,
-                        args.timeout,
+    supervisor = _SupervisorClient(supervisor_ip, supervisor_password)
+    supervisor.connect()
+    try:
+        runner = KubeRunner(supervisor)
+        results: list[RunResult] = []
+        for entry in registry:
+            print(f"\nRunning: {entry['id']} ({entry.get('category', '')}) ...")
+            try:
+                vc_si = vc.si if (vc_connected_for_validation and vc) else None
+                res = run_single_test(
+                    runner,
+                    factory,
+                    args.namespace,
+                    args.vmi,
+                    base_class_name,
+                    args.storage_class,
+                    entry,
+                    artifacts_dir,
+                    args.timeout,
+                    keep_vm=args.no_delete,
+                    vc_si=vc_si,
+                )
+                results.append(res)
+                if res.success and not args.run_all:
+                    successful_ids.add(res.test_id)
+                    _save_success_history(artifacts_dir, successful_ids)
+                print(f"  Phase: {res.phase}")
+                print(f"  Category: {res.observed_category}")
+                print(f"  Terminal: {'Yes' if res.success else 'No'}")
+                if res.error_message:
+                    print(f"  Error/Reason: {res.error_message[:300]}")
+                if res.conditions_text:
+                    print("  Conditions:")
+                    for line in res.conditions_text.strip().split("\n"):
+                        print(f"    {line}")
+                else:
+                    print("  Conditions: (none)")
+                if res.events_text:
+                    print("  Events:")
+                    for line in res.events_text.strip().split("\n")[:10]:
+                        print(f"    {line}")
+                    if len(res.events_text.strip().split("\n")) > 10:
+                        print("    ...")
+                if res.config_spec_validation is not None:
+                    v = res.config_spec_validation
+                    applied = v.get("applied", False)
+                    print(f"  ConfigSpec (pyVmomi): {'Applied' if applied else 'Not applied'}")
+                    if not applied and v.get("message"):
+                        print(f"    {v['message']}")
+                print(f"  Artifacts: {artifacts_dir / res.test_id}")
+            except Exception as e:
+                print(f"  -> ERROR: {e}")
+                results.append(
+                    RunResult(
+                        test_id=entry["id"],
+                        vm_name="",
+                        class_name=None,
+                        success=False,
+                        error_message=str(e),
                     )
-                    results.append(res)
-                    if res.success and not args.run_all:
-                        successful_ids.add(res.test_id)
-                        _save_success_history(artifacts_dir, successful_ids)
-                    print(f"  Phase: {res.phase}")
-                    print(f"  Category: {res.observed_category}")
-                    print(f"  Terminal: {'Yes' if res.success else 'No'}")
-                    if res.error_message:
-                        print(f"  Error/Reason: {res.error_message[:300]}")
-                    if res.conditions_text:
-                        print("  Conditions:")
-                        for line in res.conditions_text.strip().split("\n"):
-                            print(f"    {line}")
-                    else:
-                        print("  Conditions: (none)")
-                    if res.events_text:
-                        print("  Events:")
-                        for line in res.events_text.strip().split("\n")[:10]:
-                            print(f"    {line}")
-                        if len(res.events_text.strip().split("\n")) > 10:
-                            print("    ...")
-                    print(f"  Artifacts: {artifacts_dir / res.test_id}")
-                except Exception as e:
-                    print(f"  -> ERROR: {e}")
-                    results.append(
-                        RunResult(
-                            test_id=entry["id"],
-                            vm_name="",
-                            class_name=None,
-                            success=False,
-                            error_message=str(e),
-                        )
-                    )
-        finally:
-            supervisor.disconnect()
+                )
+    finally:
+        supervisor.disconnect()
+        if vc_connected_for_validation and vc:
+            vc.disconnect()
 
     out_path = Path(args.output) if args.output else artifacts_dir / "fuzzer_report.html"
+    json_path = out_path.with_suffix(".json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    render_html_report(results, out_path, registry)
+    render_json_report(results, json_path)
+    render_html_report(results, out_path, registry, json_report_path=json_path)
     print(f"\nOutput folder: {artifacts_dir}")
-    print(f"Report: {out_path}")
+    print(f"Report (HTML): {out_path}")
+    print(f"Report (JSON): {json_path}")
     return 0
 
 
