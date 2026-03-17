@@ -35,6 +35,7 @@ Requirements:
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import sys
 import time
@@ -978,6 +979,120 @@ def categorize_reasons(conditions: list[dict], events: list[dict]) -> str:
 
 
 # -----------------------------------------------------------------------------
+# vCenter task capture (during VM wait)
+# -----------------------------------------------------------------------------
+def _task_info_to_dict(info: Any, obj_ref: Any = None) -> dict[str, Any]:
+    """Build a JSON-serializable dict from a TaskInfo object."""
+    start_time = getattr(info, "startTime", None)
+    start_ts = start_time if (start_time is not None and hasattr(start_time, "isoformat")) else None
+    complete_time = getattr(info, "completeTime", None)
+    err = getattr(info, "error", None)
+    err_str = getattr(err, "msg", None) or str(err) if err is not None else ""
+    desc = getattr(info, "description", None)
+    desc_msg = getattr(desc, "message", "") or "" if (desc is not None and hasattr(desc, "message")) else ""
+    start_str = start_ts.isoformat() if (start_ts is not None and hasattr(start_ts, "isoformat")) else (str(start_ts) if start_ts else "")
+    complete_str = complete_time.isoformat() if (complete_time is not None and hasattr(complete_time, "isoformat")) else (str(complete_time) if complete_time else "")
+    return {
+        "key": str(obj_ref) if obj_ref is not None else "",
+        "name": getattr(info, "name", "") or "",
+        "state": getattr(info, "state", "") or "",
+        "startTime": start_str,
+        "completeTime": complete_str,
+        "entityName": getattr(info, "entityName", "") or "",
+        "error": err_str,
+        "description": desc_msg,
+    }
+
+
+def get_vcenter_tasks(
+    service_instance: Any,
+    since_timestamp: float,
+    entity_name: str | None = None,
+) -> list[dict[str, Any]]:
+    """Query vCenter TaskManager for recent tasks. No time-based filtering.
+    When entity_name is set, only tasks whose entityName matches are returned; otherwise all recent tasks.
+    Uses TraversalSpec from TaskManager.recentTask first, then falls back to iterating recentTask.
+    """
+    try:
+        from pyVmomi import vim
+    except ImportError:
+        return []
+    if not service_instance:
+        return []
+    out: list[dict[str, Any]] = []
+
+    def add_task_info(info: Any, obj_ref: Any) -> None:
+        # Name-based filter only: include only when entity_name is unset or matches
+        if entity_name:
+            task_entity = getattr(info, "entityName", "") or ""
+            if task_entity != entity_name:
+                return
+        out.append(_task_info_to_dict(info, obj_ref))
+
+    try:
+        content = service_instance.RetrieveContent()
+        task_manager = content.taskManager
+        pc = content.propertyCollector
+
+        # Method 1: TraversalSpec from TaskManager.recentTask
+        try:
+            traversal = vim.PropertyCollector.TraversalSpec()
+            traversal.name = "recentTask"
+            traversal.path = "recentTask"
+            traversal.skip = False
+            traversal.type = vim.TaskManager
+
+            obj_spec = vim.PropertyCollector.ObjectSpec()
+            obj_spec.obj = task_manager
+            obj_spec.skip = False
+            obj_spec.selectSet = [traversal]
+
+            prop_spec = vim.PropertyCollector.PropertySpec()
+            prop_spec.type = vim.Task
+            prop_spec.pathSet = ["info"]
+
+            filter_spec = vim.PropertyCollector.FilterSpec()
+            filter_spec.objectSet = [obj_spec]
+            filter_spec.propSet = [prop_spec]
+
+            result = pc.RetrieveContents([filter_spec])
+            for obj_content in result:
+                obj_ref = getattr(obj_content, "obj", None)
+                for prop in getattr(obj_content, "propSet", []) or []:
+                    if getattr(prop, "name", "") != "info":
+                        continue
+                    info = getattr(prop, "val", None)
+                    if not info:
+                        continue
+                    add_task_info(info, obj_ref)
+                if not (getattr(obj_content, "propSet", []) or []):
+                    for prop in getattr(obj_content, "propset", []) or []:
+                        if getattr(prop, "name", "") != "info":
+                            continue
+                        info = getattr(prop, "val", None)
+                        if not info:
+                            continue
+                        add_task_info(info, obj_ref)
+        except Exception:
+            pass
+
+        # Method 2: iterate recentTask and read task.info directly (fallback)
+        if not out:
+            recent = getattr(task_manager, "recentTask", None) or []
+            for task in recent:
+                try:
+                    info = getattr(task, "info", None)
+                    if not info:
+                        continue
+                    add_task_info(info, task)
+                except Exception:
+                    continue
+    except Exception:
+        pass
+    return out
+
+
+# -----------------------------------------------------------------------------
 # KubeRunner: apply, watch, capture status/events, delete
 # -----------------------------------------------------------------------------
 @dataclass
@@ -996,6 +1111,7 @@ class RunResult:
     vm_manifest: dict = field(default_factory=dict)
     class_manifest: dict | None = None
     config_spec_validation: dict | None = None  # Result from ConfigSpecValidator when used
+    vcenter_tasks: list[dict] = field(default_factory=list)  # vCenter tasks captured during wait
 
 
 class KubeRunner:
@@ -1058,49 +1174,40 @@ class KubeRunner:
         namespace: str,
         vm_name: str,
         timeout: int = VM_TERMINAL_WAIT_TIMEOUT,
+        vc_si: Any = None,
+        vcenter_tasks_out: list[dict] | None = None,
     ) -> tuple[bool, str]:
-        """Poll VM until it reaches a terminal state, or timeout (at most 5 min). Returns (reached, last_reason).
-        Terminal: status.phase in (Created, Running, Failed, Unknown), or v1alpha5/v1alpha6 without phase:
-        VirtualMachineCreated condition True (VM created) or any condition status False (failure).
+        """Poll VM until all condition.status are True, or timeout after 5 min. Returns (reached, last_reason).
+        Success only when every condition has status True; otherwise keep polling until deadline.
         """
+        deadline_secs = min(timeout, VM_TERMINAL_WAIT_TIMEOUT)
         start = time.time()
         last_reason = ""
-        while time.time() - start < timeout:
+        seen_task_keys: set[str] = set()
+        while time.time() - start < deadline_secs:
+            # Capture vCenter tasks during wait (if vc_si and list provided)
+            if vc_si and vcenter_tasks_out is not None:
+                for t in get_vcenter_tasks(vc_si, start, entity_name=vm_name):
+                    key = t.get("key", "")
+                    if key and key not in seen_task_keys:
+                        seen_task_keys.add(key)
+                        vcenter_tasks_out.append(t)
             vm = self.get_vm(namespace, vm_name)
             if vm:
                 status = vm.get("status", {})
-                phase = status.get("phase", "")
                 conditions = status.get("conditions", [])
                 if not conditions:
                     time.sleep(POLL_INTERVAL)
                     continue
-                # APIs that set phase (e.g. v1alpha1)
-                if phase in ("Created", "Running", "Failed", "Unknown"):
-                    reason = getattr(
-                        self.supervisor, "get_vm_status_reason", lambda ns, n: ""
-                    )(namespace, vm_name)
-                    if not reason:
-                        for c in conditions:
-                            if c.get("status") == "False":
-                                reason = c.get("reason", "") or c.get("message", "")
-                                break
-                    return True, reason or phase
-                # v1alpha5/v1alpha6: no status.phase; use conditions
-                created_ok = any(
-                    c.get("type") == "VirtualMachineCreated" and c.get("status") == "True"
-                    for c in conditions
-                )
-                any_failed = any(c.get("status") == "False" for c in conditions)
-                if created_ok or any_failed:
-                    for c in conditions:
-                        if c.get("status") == "False":
-                            last_reason = c.get("reason") or c.get("message", "")
-                            break
-                    return True, last_reason or ("Created" if created_ok else "Failed")
-                # Build last_reason for timeout message
+                # Success only when all conditions have status True
+                all_true = all(c.get("status") == "True" for c in conditions)
+                if all_true:
+                    return True, "All conditions True"
+                # Keep last failure reason for timeout message
                 for c in conditions:
                     if c.get("status") == "False":
-                        last_reason = c.get("reason") or c.get("message") or last_reason
+                        last_reason = c.get("reason") or c.get("message", "")
+                        break
             time.sleep(POLL_INTERVAL)
         return False, last_reason or "timeout"
 
@@ -1331,9 +1438,17 @@ def run_single_test(
             time.sleep(2)
 
         runner.apply_manifest(vm_manifest)
-        reached, reason = runner.wait_until_terminal(namespace, vm_name, timeout)
+        vcenter_tasks_list: list[dict] = []
+        reached, reason = runner.wait_until_terminal(
+            namespace,
+            vm_name,
+            timeout,
+            vc_si=vc_si,
+            vcenter_tasks_out=vcenter_tasks_list if vc_si else None,
+        )
         result.success = reached
         result.error_message = reason
+        result.vcenter_tasks = vcenter_tasks_list
 
         vm = runner.get_vm(namespace, vm_name)
         if vm:
@@ -1378,6 +1493,10 @@ def run_single_test(
         if live_vm:
             with open(test_artifacts / "vm_live.yaml", "w") as f:
                 yaml.dump(live_vm, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+        # Write vm_tasks.json when vCenter was connected for task capture (even if empty)
+        if vc_si:
+            with open(test_artifacts / "vm_tasks.json", "w") as f:
+                json.dump(result.vcenter_tasks, f, indent=2, default=str)
         # Cleanup: delete VM then VMClass unless --no-delete
         if not keep_vm:
             runner.delete_vm(namespace, vm_name)
@@ -1415,6 +1534,8 @@ def _result_to_status_dict(r: RunResult) -> dict:
     }
     if r.config_spec_validation is not None:
         d["config_spec_validation"] = r.config_spec_validation
+    if r.vcenter_tasks:
+        d["vcenter_tasks"] = r.vcenter_tasks
     return d
 
 
@@ -1441,6 +1562,9 @@ def render_html_report(
         failure_text = _failure_or_error_text(r)
         status_json = json.dumps(_result_to_status_dict(r), indent=2, default=str)
         status_json_escaped = _escape(status_json)
+        art_label = "artifacts"
+        if r.vcenter_tasks:
+            art_label = f"artifacts (vCenter tasks: {len(r.vcenter_tasks)})"
         rows.append(
             f"""
             <tr>
@@ -1449,7 +1573,7 @@ def render_html_report(
               <td>{'Yes' if r.success else 'No'}</td>
               <td><pre>{_escape(failure_text)}</pre></td>
               <td><details><summary>Show</summary><pre class="status-json">{status_json_escaped}</pre></details></td>
-              <td><a href="{art_link}">artifacts</a></td>
+              <td><a href="{art_link}">{_escape(art_label)}</a></td>
             </tr>"""
         )
 
@@ -1559,7 +1683,8 @@ def main() -> int:
         default="",
         help="HTML report path override (default: <output-dir>/fuzzer_report.html)",
     )
-    parser.add_argument("--tests", default="", help="Comma-separated test ids to run (default: all)")
+    parser.add_argument("--test", default="", help="Run only this single test by id (e.g. --test configspec-extraconfig-huge)")
+    parser.add_argument("--tests", default="", help="Comma-separated test ids to run (default: all). Ignored if --test is set.")
     parser.add_argument(
         "--run-all",
         action="store_true",
@@ -1574,6 +1699,11 @@ def main() -> int:
         "--validate-configspec",
         action="store_true",
         help="Validate configSpec was applied on the VM using pyVmomi (keeps vCenter connection open during run).",
+    )
+    parser.add_argument(
+        "--capture-vcenter-tasks",
+        action="store_true",
+        help="Capture vCenter tasks for the VM during the wait-for-terminal period (keeps vCenter connection open; writes vm_tasks.json per test).",
     )
 
     # ovf-deploy-test path (vCenter + Supervisor)
@@ -1616,7 +1746,7 @@ def main() -> int:
         root_password,
     )
     vc.connect()
-    vc_connected_for_validation = bool(args.validate_configspec)
+    vc_connected_for_validation = bool(args.validate_configspec or args.capture_vcenter_tasks)
     try:
         supervisor_ip, supervisor_password = vc.get_supervisor_credentials()
     except RuntimeError as e:
@@ -1653,10 +1783,14 @@ def main() -> int:
     finally:
         _supervisor.disconnect()
 
-    # Filter registry by --tests
+    # Filter registry by --test (single id) or --tests (comma-separated ids)
     registry = list(INITIAL_PAYLOADS)
-    if args.tests:
-        want = {t.strip() for t in args.tests.split(",") if t.strip()}
+    test_filter = (args.test or args.tests or "").strip()
+    if test_filter:
+        if args.test:
+            want = {test_filter}
+        else:
+            want = {t.strip() for t in args.tests.split(",") if t.strip()}
         registry = [e for e in registry if e["id"] in want]
         if not registry:
             print("ERROR: No matching test ids.")
