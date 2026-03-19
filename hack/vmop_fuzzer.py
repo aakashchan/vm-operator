@@ -86,6 +86,10 @@ CAT_GUEST_TIMEOUT = "GUEST_TIMEOUT"
 CAT_INFRA = "INFRA"
 CAT_UNKNOWN = "UNKNOWN"
 
+# Annotation to disable Fast Deploy for a VM (use deployOVF/createVM path instead).
+# Value must be anything other than "direct" or "linked" per vmoperator.vmware.com/fast-deploy.
+FAST_DEPLOY_DISABLED_ANNOTATION = {"vmoperator.vmware.com/fast-deploy": "disabled"}
+
 # -----------------------------------------------------------------------------
 # TestRegistry: data-driven list of test cases
 # -----------------------------------------------------------------------------
@@ -180,6 +184,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec.deviceChange: add VirtualDisk with zero capacity (invalid)",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -340,6 +345,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 thin backing",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -373,6 +379,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 thick backing",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -407,6 +414,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 eagerZeroedThick",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -441,6 +449,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with invalid diskMode (createVmWithVDiskFormat-style)",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -516,6 +525,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: VirtualDisk with unsupported virtualDiskFormat (createVmWithVDiskFormat-style)",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -637,6 +647,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_PLACEMENT,
         "description": "configSpec: add VirtualDisk with RDM backing (createRdmBackedDiskOnNfs-style)",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -752,6 +763,7 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: VirtualDisk with sharingMultiWriter (block-bus-sharing-style)",
         "vm_spec_override": {},
+        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -830,6 +842,7 @@ class ManifestFactory:
         storage_class: str = "wcpglobal-storage-profile",
         power_state: str = "PoweredOn",
         guest_id: str = "vmwarePhoton64Guest",
+        vm_metadata_override: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         base_spec: dict[str, Any] = {
             "imageName": image_name,
@@ -839,10 +852,13 @@ class ManifestFactory:
             "guestID": guest_id,
         }
         spec = _deep_merge(base_spec, vm_spec_override)
+        metadata: dict[str, Any] = {"name": name, "namespace": namespace}
+        if vm_metadata_override:
+            metadata = _deep_merge(metadata, vm_metadata_override)
         return {
             "apiVersion": self.api_prefix,
             "kind": "VirtualMachine",
-            "metadata": {"name": name, "namespace": namespace},
+            "metadata": metadata,
             "spec": spec,
         }
 
@@ -1404,6 +1420,7 @@ def run_single_test(
         created_class_name = None
 
     class_name = created_class_name or base_class_name
+    vm_metadata_override = test_entry.get("vm_metadata_override") or {}
     vm_manifest = factory.vm_manifest(
         name=vm_name,
         namespace=namespace,
@@ -1411,6 +1428,7 @@ def run_single_test(
         class_name=class_name,
         vm_spec_override=vm_spec_override,
         storage_class=storage_class,
+        vm_metadata_override=vm_metadata_override or None,
     )
 
     result = RunResult(
