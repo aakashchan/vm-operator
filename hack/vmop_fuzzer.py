@@ -184,7 +184,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec.deviceChange: add VirtualDisk with zero capacity (invalid)",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -345,7 +344,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 thin backing",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -379,7 +377,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 thick backing",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -414,7 +411,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with FlatVer2 eagerZeroedThick",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -449,7 +445,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: add VirtualDisk with invalid diskMode (createVmWithVDiskFormat-style)",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -525,7 +520,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: VirtualDisk with unsupported virtualDiskFormat (createVmWithVDiskFormat-style)",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -647,7 +641,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_PLACEMENT,
         "description": "configSpec: add VirtualDisk with RDM backing (createRdmBackedDiskOnNfs-style)",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
@@ -763,7 +756,6 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "category": CAT_POWER_ON,
         "description": "configSpec: VirtualDisk with sharingMultiWriter (block-bus-sharing-style)",
         "vm_spec_override": {},
-        "vm_metadata_override": {"annotations": FAST_DEPLOY_DISABLED_ANNOTATION},
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "4Gi"},
             "policies": {"resources": {}},
