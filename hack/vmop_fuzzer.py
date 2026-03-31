@@ -18,18 +18,19 @@ Architecture:
   - Reporter: standalone HTML with CSS tabs/filters and links to hack/artifacts/{test_id}/.
 
 Usage:
-  # With ovf-deploy-test (vCenter + Supervisor via decryptK8Pwd):
+  # Direct Supervisor mode — if you already have the control-plane IP & password:
+  python hack/vmop_fuzzer.py --vmi <vmi-name> --supervisor-ip <sv-ip> --supervisor-password <pwd> --namespace <ns>
+
+  # vCenter mode — credentials discovered automatically via decryptK8Pwd.py:
   python hack/vmop_fuzzer.py --vmi <vmi-name> --vcenter <vc-ip> --vcenter-password <pwd> --namespace <ns>
 
-  # API version and namespace:
-  python hack/vmop_fuzzer.py --vmi my-image --api-version v1alpha6 --namespace my-ns ...
-
-  # Optional: kubeconfig (if not using vCenter/Supervisor path)
-  python hack/vmop_fuzzer.py --vmi my-image --kubeconfig /path/to/kubeconfig --namespace my-ns
+  # Both modes accept --api-version, --storage-class, --vm-class, --timeout, etc.
+  # Add --validate-configspec or --capture-vcenter-tasks to enable vCenter features
+  # (these require --vcenter/--vcenter-password even in direct Supervisor mode).
 
 Requirements:
-  pip install pyyaml
-  For ovf-deploy-test path: run from hack/ovf-deploy-test or set PYTHONPATH to it.
+  pip install pyyaml paramiko          # always required
+  pip install pyVmomi                  # required for --validate-configspec / --capture-vcenter-tasks / vCenter mode
 """
 
 from __future__ import annotations
@@ -44,28 +45,250 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import re
+import ssl
+
 import yaml
 
-# -----------------------------------------------------------------------------
-# Path setup for ovf-deploy-test (SupervisorClient / VCenterClient)
-# -----------------------------------------------------------------------------
-_HACK_DIR = Path(__file__).resolve().parent
-_OVF_DEPLOY_DIR = _HACK_DIR / "ovf-deploy-test"
-if str(_OVF_DEPLOY_DIR) not in sys.path:
-    sys.path.insert(0, str(_OVF_DEPLOY_DIR))
-
-_SupervisorClient = None
-_VCenterClient = None
-_DEFAULT_VCENTER_USER = "administrator@vsphere.local"
+# Optional third-party dependencies — fail fast only when actually used.
+try:
+    import paramiko as _paramiko  # pip install paramiko
+    _HAS_PARAMIKO = True
+except ImportError:
+    _paramiko = None  # type: ignore[assignment]
+    _HAS_PARAMIKO = False
 
 try:
-    from ovf_deploy_test import (  # type: ignore[import-untyped]
-        VCenterClient as _VCenterClient,
-        SupervisorClient as _SupervisorClient,
-        DEFAULT_VCENTER_USER as _DEFAULT_VCENTER_USER,
-    )
+    from pyVim.connect import SmartConnect as _SmartConnect, Disconnect as _Disconnect  # pip install pyVmomi
+    _HAS_PYVMOMI = True
 except ImportError:
-    pass
+    _SmartConnect = _Disconnect = None  # type: ignore[assignment]
+    _HAS_PYVMOMI = False
+
+_HACK_DIR = Path(__file__).resolve().parent
+
+DEFAULT_VCENTER_USER = "administrator@vsphere.local"
+
+
+# -----------------------------------------------------------------------------
+# SupervisorClient — SSH client for the WCP Supervisor control-plane node
+# -----------------------------------------------------------------------------
+class SupervisorClient:
+    """SSH client for the WCP Supervisor control-plane node.
+
+    Provides ``run_kubectl`` (with automatic SSH reconnect) and
+    ``namespace_exists`` — all that the fuzzer needs from the Supervisor.
+
+    Requires: ``pip install paramiko``
+    """
+
+    def __init__(self, host: str, password: str, user: str = "root") -> None:
+        if not _HAS_PARAMIKO:
+            raise RuntimeError(
+                "paramiko is required for Supervisor SSH access. "
+                "pip install paramiko"
+            )
+        self.host = host
+        self.user = user
+        self.password = password
+        self.ssh: Any = None
+
+    def connect(self) -> None:
+        print(f"Connecting to Supervisor {self.host} via SSH...")
+        self._open_ssh()
+        print("  Connected to Supervisor")
+
+    def _open_ssh(self) -> None:
+        if self.ssh:
+            try:
+                self.ssh.close()
+            except Exception:
+                pass
+        client = _paramiko.SSHClient()
+        client.set_missing_host_key_policy(_paramiko.AutoAddPolicy())
+        client.connect(
+            hostname=self.host,
+            username=self.user,
+            password=self.password,
+            look_for_keys=False,
+            allow_agent=False,
+        )
+        self.ssh = client
+
+    def disconnect(self) -> None:
+        if self.ssh:
+            self.ssh.close()
+            self.ssh = None
+            print("Disconnected from Supervisor")
+
+    def run_kubectl(self, args: str, check: bool = True) -> tuple[str, str, int]:
+        """Run ``kubectl <args>`` over SSH. Returns (stdout, stderr, exit_code)."""
+        cmd = f"kubectl {args}"
+        stdout_str = stderr_str = ""
+        exit_code = 1
+        # SSHException is a subclass of Exception, not OSError, so capture all
+        # three common disconnect types.
+        _exc = (_paramiko.SSHException, EOFError, OSError)
+        for attempt in range(2):
+            try:
+                _, stdout, stderr = self.ssh.exec_command(cmd)
+                exit_code = stdout.channel.recv_exit_status()
+                stdout_str = stdout.read().decode()
+                stderr_str = stderr.read().decode()
+                break
+            except _exc as e:
+                if attempt == 0:
+                    print(f"  SSH connection lost ({e}), reconnecting...")
+                    self._open_ssh()
+                else:
+                    raise RuntimeError(
+                        f"SSH connection failed after reconnect: {e}"
+                    ) from e
+        if check and exit_code != 0:
+            raise RuntimeError(f"kubectl command failed: {cmd}\n{stderr_str}")
+        return stdout_str, stderr_str, exit_code
+
+    def namespace_exists(self, namespace: str) -> bool:
+        _, _, rc = self.run_kubectl(f"get namespace {namespace}", check=False)
+        return rc == 0
+
+
+# -----------------------------------------------------------------------------
+# VCenterClient — minimal vCenter client for credential discovery + pyVmomi SI
+# -----------------------------------------------------------------------------
+class VCenterClient:
+    """Minimal vCenter client used by the fuzzer for two purposes:
+
+    1. **Supervisor credential discovery** (vCenter mode):
+       SSH to vCenter as root and run ``decryptK8Pwd.py`` to obtain the
+       Supervisor control-plane IP and root password.
+
+    2. **pyVmomi ServiceInstance** (``--validate-configspec``,
+       ``--capture-vcenter-tasks``):
+       ``self.si`` is the raw ``vim.ServiceInstance`` used by
+       ``ConfigSpecValidator`` and ``get_vcenter_tasks``.
+
+    Only the methods actually consumed by the fuzzer are kept here; all
+    content-library, OVF-deploy, and VM-power operations from
+    ``ovf_deploy_test.py`` are intentionally omitted.
+
+    Requires: ``pip install pyVmomi paramiko``
+    """
+
+    def __init__(
+        self,
+        host: str,
+        user: str,
+        password: str,
+        root_password: str | None = None,
+    ) -> None:
+        self.host = host
+        self.user = user
+        self.password = password
+        self.root_password = root_password or password
+        self.si: Any = None   # vim.ServiceInstance (pyVmomi)
+        self.ssh: Any = None  # paramiko.SSHClient (vCenter root SSH)
+
+    def connect(self, ssh: bool = True) -> None:
+        """Connect to vCenter via SOAP API and optionally via SSH.
+
+        ``ssh=True``  — also open a root SSH session for ``get_supervisor_credentials``.
+        ``ssh=False`` — SOAP only (``self.si``); used when vCenter is needed
+                       only for pyVmomi features, not credential discovery.
+        """
+        if not _HAS_PYVMOMI:
+            raise RuntimeError(
+                "pyVmomi is required for vCenter mode. pip install pyVmomi"
+            )
+        print(f"Connecting to vCenter {self.host}...")
+        ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        self.si = _SmartConnect(
+            host=self.host,
+            user=self.user,
+            pwd=self.password,
+            sslContext=ctx,
+        )
+        print("  Connected to vCenter via SOAP API")
+        if ssh:
+            self._create_ssh_session()
+
+    def _create_ssh_session(self) -> None:
+        if not _HAS_PARAMIKO:
+            raise RuntimeError(
+                "paramiko is required for vCenter SSH access. pip install paramiko"
+            )
+        print("  Connecting to vCenter via SSH (root)...")
+        client = _paramiko.SSHClient()
+        client.set_missing_host_key_policy(_paramiko.AutoAddPolicy())
+        client.connect(
+            hostname=self.host,
+            username="root",
+            password=self.root_password,
+            look_for_keys=False,
+            allow_agent=False,
+        )
+        self.ssh = client
+        print("  Connected to vCenter via SSH")
+
+    def disconnect(self) -> None:
+        if self.ssh:
+            try:
+                self.ssh.close()
+            except Exception:
+                pass
+            self.ssh = None
+        if self.si:
+            _Disconnect(self.si)
+            self.si = None
+            print("Disconnected from vCenter")
+
+    def get_supervisor_credentials(self) -> tuple[str, str]:
+        """Retrieve Supervisor IP and root password via ``decryptK8Pwd.py``.
+
+        Runs ``/usr/lib/vmware-wcp/decryptK8Pwd.py`` on the vCenter node over
+        SSH and parses ``IP: <ip>`` / ``PWD: <pwd>`` from its output.
+        """
+        print("Retrieving Supervisor credentials from vCenter...")
+        _, stdout, _ = self.ssh.exec_command(
+            "/usr/lib/vmware-wcp/decryptK8Pwd.py"
+        )
+        output = stdout.read().decode()
+        exit_code = stdout.channel.recv_exit_status()
+        if exit_code == 0 and output:
+            sv_ip = sv_pwd = None
+            for line in output.strip().splitlines():
+                line = line.strip()
+                if line.startswith("IP:"):
+                    sv_ip = line.split(":", 1)[1].strip()
+                elif line.startswith("PWD:"):
+                    sv_pwd = line.split(":", 1)[1].strip()
+            if sv_ip and sv_pwd:
+                print(f"  Supervisor IP: {sv_ip}")
+                print(f"  Supervisor password: {'*' * len(sv_pwd)}")
+                return sv_ip, sv_pwd
+        sv_ip = self._get_supervisor_ip_from_api()
+        if sv_ip:
+            raise RuntimeError(
+                f"Found Supervisor IP {sv_ip} from vCenter but could not retrieve "
+                "its password via decryptK8Pwd.py. "
+                "Provide --supervisor-ip / --supervisor-password directly."
+            )
+        raise RuntimeError(
+            "Could not retrieve Supervisor credentials from vCenter. "
+            "Ensure WCP is enabled and "
+            "/usr/lib/vmware-wcp/decryptK8Pwd.py is available."
+        )
+
+    def _get_supervisor_ip_from_api(self) -> str | None:
+        _, stdout, _ = self.ssh.exec_command(
+            "grep -r 'control-plane' /etc/vmware-wcp/ 2>/dev/null | head -1 || "
+            "cat /etc/vmware-wcp/wcpsvc.yaml 2>/dev/null | grep -i 'address' | head -1"
+        )
+        output = stdout.read().decode().strip()
+        m = re.search(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", output)
+        return m.group(1) if m else None
 
 # -----------------------------------------------------------------------------
 # Constants
@@ -794,6 +1017,89 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "class_spec_override": None,
         "vm_name_override": "a" * 260,
     },
+    # -------------------------------------------------------------------------
+    # Placement: zone-level VM anti-affinity (single-zone failure)
+    # -------------------------------------------------------------------------
+    # How it works:
+    #   1. An "anchor" prereq VM is created first with label fuzz-zone-role=anchor.
+    #      vm-operator converts that K8s label into a vSphere TagSpec when calling
+    #      folder.CreateVM (genConfigSpecTagSpecsFromVMLabels in affinity.go).
+    #   2. Once the anchor VM is physically created in vSphere (VirtualMachineCreated=True),
+    #      the test VM is submitted.
+    #   3. The test VM carries a VmToVmGroupsAntiAffinity placement policy
+    #      (RequiredDuringScheduling, topology: zone) matching the anchor label.
+    #      PlaceVmsXCluster sees the anchor's tag in the only zone → no candidates.
+    #   4. VirtualMachinePlacementReady=False is expected.
+    #
+    # In multi-zone setups this test will PASS (the blocked VM lands in another zone).
+    {
+        "id": "zone-anti-affinity-required",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "Required zone-level VM anti-affinity via VirtualMachineGroup: "
+            "'anchor' VM and 'blocked' VM are submitted simultaneously so the VMG "
+            "controller places both in a single PlaceVmsXCluster call. "
+            "DRS sees anchor's TagSpec (fuzz-zone-role:anchor) and blocked's "
+            "VmToVmGroupsAntiAffinity policy together — anchor occupies the only zone, "
+            "leaving no viable zone for blocked. "
+            "Expects VirtualMachinePlacementReady=False for the blocked VM in "
+            "single-zone setups. "
+            "NOTE: TagSpecs are placement hints, not actual vSphere tag operations. "
+            "Anti-affinity only works when both VMs are in the same PlaceVmsXCluster "
+            "request. Waiting for the anchor to be created first (VirtualMachineCreated=True) "
+            "causes it to acquire a UniqueID, which makes the VMG controller exclude it "
+            "from subsequent group placement calls — breaking the constraint."
+        ),
+        "vm_group": True,
+        # prereq_no_wait=True: submit the anchor and immediately submit the blocked VM
+        # without waiting for VirtualMachineCreated=True on the anchor.
+        # Both VMs must have no UniqueID when the VMG controller first runs
+        # reconcilePlacement so they are included in the same PlaceVmsXCluster call.
+        # DO NOT set pin_prereq_to_first_zone: the topology.kubernetes.io/zone label
+        # causes getVMForPlacement() to return nil for that VM (line 693 of VMG controller),
+        # which excludes the anchor from the group placement call and breaks the constraint.
+        "prereq_no_wait": True,
+        "prereq_vm": {
+            "metadata_override": {"labels": {"fuzz-zone-role": "anchor"}},
+            "vm_spec_override": {},  # groupName injected automatically by run_single_test
+        },
+        # Test VM: has required zone anti-affinity against the anchor label.
+        # spec.groupName is injected automatically by run_single_test when vm_group=True.
+        "vm_spec_override": {
+            "affinity": {
+                "vmAntiAffinity": {
+                    "requiredDuringSchedulingPreferredDuringExecution": [
+                        {
+                            "topologyKey": "topology.kubernetes.io/zone",
+                            "labelSelector": {
+                                "matchLabels": {"fuzz-zone-role": "anchor"},
+                            },
+                        },
+                    ],
+                },
+            },
+        },
+        "vm_metadata_override": {"labels": {"fuzz-zone-role": "blocked"}},
+        "class_spec_override": None,
+    },
+    # -------------------------------------------------------------------------
+    # Placement: memory too large for any available host
+    # -------------------------------------------------------------------------
+    # hardware.memory uses a Kubernetes resource quantity. 1000000Gi ≈ 1 PiB —
+    # no real host can satisfy this, so PlaceVmsXCluster must return no candidates.
+    {
+        "id": "vmclass-huge-memory-hardware",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "VMClass hardware.memory=1000000Gi (≈1 PiB) — no host can satisfy "
+            "placement; expects VirtualMachinePlacementReady=False"
+        ),
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "1000000Gi"},
+            "policies": {"resources": {}},
+        },
+    },
 ]
 
 
@@ -831,7 +1137,7 @@ class ManifestFactory:
         image_name: str,
         class_name: str,
         vm_spec_override: dict[str, Any],
-        storage_class: str = "wcpglobal-storage-profile",
+        storage_class: str = "wcpglobal-storage-profile-latebinding",
         power_state: str = "PoweredOn",
         guest_id: str = "vmwarePhoton64Guest",
         vm_metadata_override: dict[str, Any] | None = None,
@@ -929,6 +1235,30 @@ class ManifestFactory:
             "kind": "VirtualMachineClass",
             "metadata": {"name": name, "namespace": namespace},
             "spec": spec,
+        }
+
+    def vmgroup_manifest(
+        self,
+        name: str,
+        namespace: str,
+        member_names: list[str],
+        member_kind: str = "VirtualMachine",
+    ) -> dict[str, Any]:
+        """Build a VirtualMachineGroup manifest.
+
+        All members are placed in one BootOrder entry (no power-on delay).
+        The group controller uses spec.bootOrder[].members as the authoritative
+        member list for both reconciliation and placement; VMs must appear here
+        AND carry spec.groupName pointing at this group.
+        """
+        members = [{"name": m, "kind": member_kind} for m in member_names]
+        return {
+            "apiVersion": self.api_prefix,
+            "kind": "VirtualMachineGroup",
+            "metadata": {"name": name, "namespace": namespace},
+            "spec": {
+                "bootOrder": [{"members": members}],
+            },
         }
 
 
@@ -1122,6 +1452,33 @@ class RunResult:
     vcenter_tasks: list[dict] = field(default_factory=list)  # vCenter tasks captured during wait
 
 
+# Zone topology label key (same as corev1.LabelTopologyZone in Go)
+_LABEL_TOPOLOGY_ZONE = "topology.kubernetes.io/zone"
+
+
+@dataclass
+class ZoneInfo:
+    """Zone topology information from a Zone (namespaced) or AvailabilityZone (cluster-scoped) CR.
+
+    Zone CR (FSS_WCP_WORKLOAD_DOMAIN_ISOLATION enabled):
+      spec.managedVMs.poolMoIDs  — ResourcePool MoIDs for VMs in this zone/namespace
+      spec.managedVMs.folderMoID — Folder MoID for VMs in this zone/namespace
+      spec.availabilityZoneReference — parent cluster-scoped AZ name
+
+    AvailabilityZone CR (legacy, cluster-scoped):
+      spec.namespaces[ns].poolMoIDs / poolMoId — ResourcePool MoID(s)
+      spec.namespaces[ns].folderMoId            — Folder MoID
+      spec.clusterComputeResourceMoIDs          — CCR MoIDs
+    """
+    name: str
+    cr_type: str                          # "Zone" or "AvailabilityZone"
+    pool_mo_ids: list[str] = field(default_factory=list)
+    folder_mo_id: str = ""
+    cluster_mo_ids: list[str] = field(default_factory=list)
+    spec: dict = field(default_factory=dict)
+    status: dict = field(default_factory=dict)
+
+
 class KubeRunner:
     """Apply/Watch/Delete VM (and optional VMClass); capture status.conditions and events."""
 
@@ -1129,12 +1486,27 @@ class KubeRunner:
         self.supervisor = supervisor_client
 
     def apply_manifest(self, manifest: dict) -> None:
-        """Apply a single manifest (VM or VMClass) via kubectl."""
+        """Apply a single manifest (VM or VMClass) via kubectl.
+
+        Uses the same SSH reconnect pattern as SupervisorClient.run_kubectl()
+        so that a dropped SSH connection is transparently recovered from.
+        """
         yaml_content = yaml.dump(manifest, default_flow_style=False, sort_keys=False)
         cmd = f"cat <<'VMEOF' | kubectl apply -f -\n{yaml_content}\nVMEOF"
-        stdin, stdout, stderr = self.supervisor.ssh.exec_command(cmd)
-        exit_code = stdout.channel.recv_exit_status()
-        err = stderr.read().decode()
+        exit_code = 1
+        err = ""
+        for attempt in range(2):
+            try:
+                stdin, stdout, stderr = self.supervisor.ssh.exec_command(cmd)
+                exit_code = stdout.channel.recv_exit_status()
+                err = stderr.read().decode()
+                break
+            except (EOFError, OSError) as e:
+                if attempt == 0 and hasattr(self.supervisor, "_open_ssh"):
+                    print(f"  SSH connection lost ({e}), reconnecting...")
+                    self.supervisor._open_ssh()
+                else:
+                    raise RuntimeError(f"SSH connection failed after reconnect: {e}") from e
         if exit_code != 0:
             raise RuntimeError(f"kubectl apply failed: {err}")
 
@@ -1176,6 +1548,89 @@ class KubeRunner:
             f"delete vmclass -n {namespace} {class_name} --ignore-not-found --wait=false",
             check=False,
         )
+
+    def delete_vmgroup(self, namespace: str, group_name: str) -> None:
+        self.supervisor.run_kubectl(
+            f"delete vmg -n {namespace} {group_name} --ignore-not-found --wait=false",
+            check=False,
+        )
+
+    def discover_zones(self, namespace: str) -> list[ZoneInfo]:
+        """Discover available zones from Zone (WDI) or AvailabilityZone CRs.
+
+        Tries namespaced Zone CRs first (FSS_WCP_WORKLOAD_DOMAIN_ISOLATION enabled);
+        falls back to cluster-scoped AvailabilityZone CRs.  Returns an empty list
+        when neither resource type is available or parseable.
+
+        Zone CR fields used:
+          spec.managedVMs.poolMoIDs  — RP MoIDs for VM workloads in this zone/ns
+          spec.managedVMs.folderMoID — Folder MoID for VM workloads
+          spec.availabilityZoneReference.name — parent AZ name
+
+        AvailabilityZone CR fields used (per namespace):
+          spec.namespaces[ns].poolMoIDs / poolMoId  — RP MoID(s)
+          spec.namespaces[ns].folderMoId             — Folder MoID
+          spec.clusterComputeResourceMoIDs           — CCR MoIDs
+        """
+        # --- Namespaced Zone CRs (WorkloadDomainIsolation) ---
+        out, _, rc = self.supervisor.run_kubectl(
+            f"get zone -n {namespace} -o json",
+            check=False,
+        )
+        if rc == 0 and out:
+            try:
+                data = json.loads(out)
+                zones: list[ZoneInfo] = []
+                for item in data.get("items", []):
+                    spec = item.get("spec", {})
+                    managed_vms = spec.get("managedVMs", {})
+                    zones.append(ZoneInfo(
+                        name=item["metadata"]["name"],
+                        cr_type="Zone",
+                        pool_mo_ids=managed_vms.get("poolMoIDs", []),
+                        folder_mo_id=managed_vms.get("folderMoID", ""),
+                        cluster_mo_ids=[],
+                        spec=spec,
+                        status=item.get("status", {}),
+                    ))
+                if zones:
+                    return zones
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+        # --- Cluster-scoped AvailabilityZone CRs (legacy) ---
+        out, _, rc = self.supervisor.run_kubectl(
+            "get availabilityzone -o json",
+            check=False,
+        )
+        if rc == 0 and out:
+            try:
+                data = json.loads(out)
+                zones = []
+                for item in data.get("items", []):
+                    spec = item.get("spec", {})
+                    ns_info = spec.get("namespaces", {}).get(namespace, {})
+                    pool_mo_ids = ns_info.get("poolMoIDs", [])
+                    if not pool_mo_ids and ns_info.get("poolMoId"):
+                        pool_mo_ids = [ns_info["poolMoId"]]
+                    cluster_mo_ids = spec.get("clusterComputeResourceMoIDs", [])
+                    if not cluster_mo_ids and spec.get("clusterComputeResourceMoId"):
+                        cluster_mo_ids = [spec["clusterComputeResourceMoId"]]
+                    zones.append(ZoneInfo(
+                        name=item["metadata"]["name"],
+                        cr_type="AvailabilityZone",
+                        pool_mo_ids=pool_mo_ids,
+                        folder_mo_id=ns_info.get("folderMoId", ""),
+                        cluster_mo_ids=cluster_mo_ids,
+                        spec=spec,
+                        status=item.get("status", {}),
+                    ))
+                if zones:
+                    return zones
+            except (json.JSONDecodeError, KeyError):
+                pass
+
+        return []
 
     def wait_until_terminal(
         self,
@@ -1384,6 +1839,31 @@ class ConfigSpecValidator:
         return result
 
 
+_PREREQ_VM_CREATED_TIMEOUT = 120  # seconds to wait for prereq VM to be created in vSphere
+
+
+def _wait_for_prereq_vm(runner: KubeRunner, namespace: str, vm_name: str) -> bool:
+    """
+    Wait for a prerequisite VM to be Created in vSphere (VirtualMachineCreated=True).
+
+    VM labels become vSphere tags only after the VM is physically created via
+    folder.CreateVM (see genConfigSpecTagSpecsFromVMLabels). The anti-affinity
+    placement policy for the *test* VM evaluates against those tags, so we must
+    wait here before submitting the test VM.
+
+    Returns True when the condition is observed, False on timeout.
+    """
+    start = time.time()
+    while time.time() - start < _PREREQ_VM_CREATED_TIMEOUT:
+        vm = runner.get_vm(namespace, vm_name)
+        if vm:
+            for cond in vm.get("status", {}).get("conditions", []):
+                if cond.get("type") == "VirtualMachineCreated" and cond.get("status") == "True":
+                    return True
+        time.sleep(POLL_INTERVAL)
+    return False
+
+
 def run_single_test(
     runner: KubeRunner,
     factory: ManifestFactory,
@@ -1396,13 +1876,35 @@ def run_single_test(
     timeout: int = VM_TERMINAL_WAIT_TIMEOUT,
     keep_vm: bool = False,
     vc_si: Any = None,
+    zones: list[ZoneInfo] | None = None,
 ) -> RunResult:
     """Run one test from the registry: create VM (and optional class), wait, capture, cleanup (with manifest save). If keep_vm True, VM and VMClass are not deleted."""
     test_id = test_entry["id"]
     vm_name = test_entry.get("vm_name_override") or f"fuzz-{test_id}-{uuid.uuid4().hex[:8]}"
-    vm_spec_override = test_entry.get("vm_spec_override") or {}
+    vm_spec_override = dict(test_entry.get("vm_spec_override") or {})
     class_spec_override = test_entry.get("class_spec_override")
     created_class_name: str | None = None
+
+    # Optional prerequisite VM — created before the test VM and deleted after.
+    prereq_vm_def: dict[str, Any] | None = test_entry.get("prereq_vm")
+    prereq_vm_name: str | None = None
+
+    # VirtualMachineGroup support.
+    # The admission webhook enforces: spec.affinity requires spec.groupName != "".
+    # When vm_group=True the fuzzer creates a VMG CR listing both VMs, then injects
+    # spec.groupName into each VM's spec so both are linked to the group.
+    # The group controller drives placement for all members together, which allows
+    # DRS to evaluate the inter-VM anti-affinity constraint across the group.
+    use_vm_group = bool(test_entry.get("vm_group"))
+    created_group_name: str | None = None
+
+    if use_vm_group:
+        created_group_name = f"fuzz-vmg-{test_id}-{uuid.uuid4().hex[:8]}"
+        vm_spec_override["groupName"] = created_group_name
+        # Pre-generate the prereq VM name here (before the try block) so
+        # the group manifest can list it by name alongside the test VM.
+        if prereq_vm_def:
+            prereq_vm_name = f"fuzz-pre-{test_id}-{uuid.uuid4().hex[:8]}"
 
     if class_spec_override:
         created_class_name = f"fuzz-class-{test_id}-{uuid.uuid4().hex[:8]}"
@@ -1446,6 +1948,71 @@ def run_single_test(
         if class_manifest:
             runner.apply_manifest(class_manifest)
             time.sleep(2)
+
+        # Create VirtualMachineGroup before VMs.
+        # Both VMs must be declared in spec.bootOrder[].members so the group
+        # controller can reconcile them and drive placement together.
+        # The group is created first so that when VMs set spec.groupName the
+        # group already exists and the GroupLinked condition can be satisfied.
+        if created_group_name:
+            member_names = [vm_name]
+            if prereq_vm_name:
+                member_names = [prereq_vm_name, vm_name]
+            group_manifest = factory.vmgroup_manifest(created_group_name, namespace, member_names)
+            with open(test_artifacts / "vmgroup.yaml", "w") as f:
+                yaml.dump(group_manifest, f, default_flow_style=False, sort_keys=False)
+            runner.apply_manifest(group_manifest)
+            print(f"  VMGroup: created {created_group_name} with members {member_names}")
+            time.sleep(2)
+
+        # Create and wait for the prerequisite VM before applying the test VM.
+        # The prereq must be physically created in vSphere so that its labels are
+        # materialised as vSphere tags before PlaceVmsXCluster evaluates the
+        # anti-affinity policy for the test VM.
+        if prereq_vm_def:
+            # prereq_vm_name is pre-generated above when use_vm_group=True so the
+            # group manifest can list it; otherwise generate a random name here.
+            if prereq_vm_name is None:
+                prereq_vm_name = f"fuzz-pre-{test_id}-{uuid.uuid4().hex[:8]}"
+
+            prereq_metadata_override = dict(prereq_vm_def.get("metadata_override") or {})
+
+            prereq_spec_override = dict(prereq_vm_def.get("vm_spec_override") or {})
+            if use_vm_group and created_group_name:
+                prereq_spec_override["groupName"] = created_group_name
+
+            prereq_manifest = factory.vm_manifest(
+                name=prereq_vm_name,
+                namespace=namespace,
+                image_name=image_name,
+                class_name=class_name,
+                vm_spec_override=prereq_spec_override,
+                storage_class=storage_class,
+                vm_metadata_override=prereq_metadata_override or None,
+            )
+            with open(test_artifacts / "prereq_vm.yaml", "w") as f:
+                yaml.dump(prereq_manifest, f, default_flow_style=False, sort_keys=False)
+            runner.apply_manifest(prereq_manifest)
+
+            if test_entry.get("prereq_no_wait"):
+                # Both anchor and blocked must land in the SAME PlaceVmsXCluster call so
+                # DRS evaluates the anti-affinity as a unit (TagSpecs are placement hints,
+                # not real vSphere tag operations — they only work when both VMs are sent
+                # together).  Waiting for VirtualMachineCreated=True would let the anchor
+                # acquire a UniqueID, causing the VMG controller to exclude it from the
+                # next group placement call (getVMForPlacement:UniqueID != "").
+                # By proceeding immediately, both VMs are pending when the VMG controller
+                # first reconciles, so both appear in a single PlaceVmsXCluster request.
+                print(f"  Prereq VM: submitted {prereq_vm_name} — proceeding immediately (no wait)")
+            else:
+                print(f"  Prereq VM: creating {prereq_vm_name} (waiting for vSphere tag materialisation)...")
+                if _wait_for_prereq_vm(runner, namespace, prereq_vm_name):
+                    print(f"  Prereq VM: created and tags set — proceeding with test VM")
+                else:
+                    print(
+                        f"  Prereq VM: WARNING — {prereq_vm_name} not created within "
+                        f"{_PREREQ_VM_CREATED_TIMEOUT}s; anti-affinity test may not fail as expected"
+                    )
 
         runner.apply_manifest(vm_manifest)
         vcenter_tasks_list: list[dict] = []
@@ -1507,11 +2074,25 @@ def run_single_test(
         if vc_si:
             with open(test_artifacts / "vm_tasks.json", "w") as f:
                 json.dump(result.vcenter_tasks, f, indent=2, default=str)
-        # Cleanup: delete VM then VMClass unless --no-delete
+        # Save live VMGroup state for debugging (vmgroup_live.yaml)
+        if created_group_name:
+            vmg_out, _, _ = runner.supervisor.run_kubectl(
+                f"get vmg -n {namespace} {created_group_name} -o yaml",
+                check=False,
+            )
+            if vmg_out:
+                with open(test_artifacts / "vmgroup_live.yaml", "w") as f:
+                    f.write(vmg_out)
+        # Cleanup: delete VM then VMClass unless --no-delete; always delete prereq VM
+        # and VMGroup (VMs must go first so owner-reference GC doesn't race with us).
         if not keep_vm:
             runner.delete_vm(namespace, vm_name)
             if created_class_name:
                 runner.delete_vmclass(namespace, created_class_name)
+        if prereq_vm_name:
+            runner.delete_vm(namespace, prereq_vm_name)
+        if created_group_name:
+            runner.delete_vmgroup(namespace, created_group_name)
     return result
 
 
@@ -1716,59 +2297,88 @@ def main() -> int:
         help="Capture vCenter tasks for the VM during the wait-for-terminal period (keeps vCenter connection open; writes vm_tasks.json per test).",
     )
 
-    # ovf-deploy-test path (vCenter + Supervisor)
-    parser.add_argument("--vcenter", help="vCenter host (required for Supervisor path)")
-    parser.add_argument("--vcenter-user", default=_DEFAULT_VCENTER_USER, help="vCenter user")
-    parser.add_argument("--vcenter-password", help="vCenter password")
-    parser.add_argument("--vcenter-root-password", help="vCenter root SSH password (default: same as vcenter-password)")
+    # Direct Supervisor path — connect straight to Supervisor without going through vCenter.
+    # Use when you already have the Supervisor control-plane IP and password (e.g. from a
+    # previous run of decryptK8Pwd.py, or from a pre-provisioned environment).
+    parser.add_argument("--supervisor-ip", help="Supervisor control-plane IP (direct mode; skips vCenter credential discovery)")
+    parser.add_argument("--supervisor-password", help="Supervisor SSH password (direct mode)")
+    parser.add_argument("--supervisor-user", default="root", help="Supervisor SSH user (default: root)")
+
+    # vCenter path (Supervisor credentials via decryptK8Pwd.py on the vCenter node).
+    # Required when --supervisor-ip/--supervisor-password are not provided.
+    # Also required for --validate-configspec and --capture-vcenter-tasks even in direct mode.
+    parser.add_argument("--vcenter", help="vCenter host (required when not using --supervisor-ip)")
+    parser.add_argument("--vcenter-user", default=DEFAULT_VCENTER_USER, help="vCenter user")
+    parser.add_argument("--vcenter-password", help="vCenter API password")
+    parser.add_argument("--vcenter-root-password", help="vCenter root SSH password for decryptK8Pwd.py (default: same as vcenter-password)")
 
     args = parser.parse_args()
 
     # Resolve base VM class: from args or we must discover (requires Supervisor)
     base_class_name = args.vm_class.strip()
-    use_supervisor = bool(args.vcenter and args.vcenter_password)
-    if use_supervisor and not base_class_name and _SupervisorClient:
-        # Discover first available VMClass in namespace
-        try:
-            out, _, rc = None, None, 1
-            # Run kubectl via a one-off client if we have not connected yet; we connect below
-            pass
-        except Exception:
-            pass
-        # We'll set base_class_name after we have supervisor
-    if not use_supervisor:
-        if not base_class_name:
-            print("ERROR: Without --vcenter/--vcenter-password we need --vm-class to be set.")
-            return 1
-        print("ERROR: kubeconfig-only mode not implemented; use --vcenter and --vcenter-password with ovf-deploy-test.")
-        return 1
 
-    if not _SupervisorClient or not _VCenterClient:
-        print("ERROR: ovf_deploy_test not found. Run from hack/ovf-deploy-test or set PYTHONPATH to it.")
-        return 1
-
-    # Connect: vCenter -> Supervisor credentials -> SupervisorClient
-    root_password = args.vcenter_root_password or args.vcenter_password
-    vc = _VCenterClient(
-        args.vcenter,
-        args.vcenter_user,
-        args.vcenter_password,
-        root_password,
+    # Determine connection mode:
+    #   Direct mode  – --supervisor-ip + --supervisor-password provided.
+    #   vCenter mode – --vcenter + --vcenter-password provided (uses decryptK8Pwd.py).
+    # Both modes can coexist: --supervisor-ip skips credential discovery while
+    # --vcenter is still used for --validate-configspec / --capture-vcenter-tasks.
+    use_direct_supervisor = bool(
+        getattr(args, "supervisor_ip", None) and getattr(args, "supervisor_password", None)
     )
-    vc.connect()
-    vc_connected_for_validation = bool(args.validate_configspec or args.capture_vcenter_tasks)
-    try:
-        supervisor_ip, supervisor_password = vc.get_supervisor_credentials()
-    except RuntimeError as e:
-        print(f"ERROR: {e}")
-        return 1
-    finally:
-        if not vc_connected_for_validation:
-            vc.disconnect()
-            vc = None
+    use_vcenter = bool(args.vcenter and args.vcenter_password)
 
-    # One-off supervisor for namespace check and VM class discovery; then disconnect.
-    _supervisor = _SupervisorClient(supervisor_ip, supervisor_password)
+    if not use_direct_supervisor and not use_vcenter:
+        print(
+            "ERROR: Provide Supervisor credentials via one of:\n"
+            "  --supervisor-ip <IP> --supervisor-password <PWD>   (direct Supervisor mode)\n"
+            "  --vcenter <VC> --vcenter-password <PWD>            (vCenter credential discovery)"
+        )
+        return 1
+
+    if not _HAS_PARAMIKO:
+        print("ERROR: paramiko is required. pip install paramiko")
+        return 1
+
+    if use_vcenter and not _HAS_PYVMOMI:
+        print("ERROR: pyVmomi is required for vCenter mode. pip install pyVmomi")
+        return 1
+
+    # Resolve Supervisor IP / password.
+    vc: Any = None
+    vc_connected_for_validation = False
+
+    if use_direct_supervisor:
+        # Use credentials provided directly — no vCenter SSH required.
+        supervisor_ip: str = args.supervisor_ip
+        supervisor_password: str = args.supervisor_password
+        supervisor_user: str = getattr(args, "supervisor_user", "root") or "root"
+        print(f"Using direct Supervisor connection: {supervisor_ip} (user: {supervisor_user})")
+
+        # Optionally connect to vCenter for validation / task capture.
+        if use_vcenter and (args.validate_configspec or args.capture_vcenter_tasks):
+            root_password = args.vcenter_root_password or args.vcenter_password
+            vc = VCenterClient(args.vcenter, args.vcenter_user, args.vcenter_password, root_password)
+            vc.connect(ssh=False)
+            vc_connected_for_validation = True
+    else:
+        # vCenter path: connect to vCenter, run decryptK8Pwd.py to retrieve Supervisor creds.
+        supervisor_user = "root"
+        root_password = args.vcenter_root_password or args.vcenter_password
+        vc = VCenterClient(args.vcenter, args.vcenter_user, args.vcenter_password, root_password)
+        vc.connect()
+        vc_connected_for_validation = bool(args.validate_configspec or args.capture_vcenter_tasks)
+        try:
+            supervisor_ip, supervisor_password = vc.get_supervisor_credentials()
+        except RuntimeError as e:
+            print(f"ERROR: {e}")
+            return 1
+        finally:
+            if not vc_connected_for_validation:
+                vc.disconnect()
+                vc = None
+
+    # One-off SupervisorClient for namespace check and VMClass discovery; then disconnect.
+    _supervisor = SupervisorClient(supervisor_ip, supervisor_password, supervisor_user)
     _supervisor.connect()
     try:
         if not _supervisor.namespace_exists(args.namespace):
@@ -1825,10 +2435,56 @@ def main() -> int:
             return 0
 
     factory = ManifestFactory(args.api_version)
-    supervisor = _SupervisorClient(supervisor_ip, supervisor_password)
+    supervisor = SupervisorClient(supervisor_ip, supervisor_password, supervisor_user)
     supervisor.connect()
     try:
         runner = KubeRunner(supervisor)
+
+        # Discover zone topology before running tests.
+        # Used to:
+        #  1. Print cluster topology for context/diagnostics.
+        #  2. Pin prereq VMs to a known zone (pin_prereq_to_first_zone).
+        #  3. Save zones.json to the artifacts dir for reference.
+        zones = runner.discover_zones(args.namespace)
+        if zones:
+            print(f"\nDiscovered {len(zones)} zone(s) in namespace '{args.namespace}':")
+            for z in zones:
+                print(f"  [{z.cr_type}] {z.name}")
+                if z.pool_mo_ids:
+                    print(f"    PoolMoIDs:    {z.pool_mo_ids}")
+                if z.folder_mo_id:
+                    print(f"    FolderMoID:   {z.folder_mo_id}")
+                if z.cluster_mo_ids:
+                    print(f"    ClusterMoIDs: {z.cluster_mo_ids}")
+                if z.status:
+                    print(f"    Status:       {z.status}")
+            if len(zones) == 1:
+                print(
+                    f"  NOTE: single zone detected — zone-anti-affinity tests are "
+                    f"expected to trigger VirtualMachinePlacementReady=False"
+                )
+            zones_path = artifacts_dir / "zones.json"
+            with open(zones_path, "w") as _zf:
+                json.dump(
+                    [
+                        {
+                            "name": z.name,
+                            "cr_type": z.cr_type,
+                            "pool_mo_ids": z.pool_mo_ids,
+                            "folder_mo_id": z.folder_mo_id,
+                            "cluster_mo_ids": z.cluster_mo_ids,
+                            "spec": z.spec,
+                            "status": z.status,
+                        }
+                        for z in zones
+                    ],
+                    _zf,
+                    indent=2,
+                )
+            print(f"  Zone info saved: {zones_path}")
+        else:
+            print(f"\nWARNING: No zones discovered in namespace '{args.namespace}'")
+
         results: list[RunResult] = []
         for entry in registry:
             print(f"\nRunning: {entry['id']} ({entry.get('category', '')}) ...")
@@ -1846,6 +2502,7 @@ def main() -> int:
                     args.timeout,
                     keep_vm=args.no_delete,
                     vc_si=vc_si,
+                    zones=zones,
                 )
                 results.append(res)
                 if res.success and not args.run_all:
