@@ -168,10 +168,6 @@ class VCenterClient:
        ``self.si`` is the raw ``vim.ServiceInstance`` used by
        ``ConfigSpecValidator`` and ``get_vcenter_tasks``.
 
-    Only the methods actually consumed by the fuzzer are kept here; all
-    content-library, OVF-deploy, and VM-power operations from
-    ``ovf_deploy_test.py`` are intentionally omitted.
-
     Requires: ``pip install pyVmomi paramiko``
     """
 
@@ -1098,6 +1094,315 @@ INITIAL_PAYLOADS: list[dict[str, Any]] = [
         "class_spec_override": {
             "hardware": {"cpus": 2, "memory": "1000000Gi"},
             "policies": {"resources": {}},
+        },
+    },
+    # =========================================================================
+    # DevicesSupportedByHost scenarios
+    # vmCompatTestFunctions.cpp::DevicesSupportedByHost (line 2399)
+    #
+    # Calls ConfigOptionValidate::DeviceSupported() per-device against the
+    # host's ConfigOption.  If a device TYPE is absent from the host's
+    # supported device option list (optTypes), DRS returns a hard error fault
+    # during PlaceVmsXCluster with PlacementType=createAndPowerOn.
+    # =========================================================================
+    # -------------------------------------------------------------------------
+    # DevicesSupportedByHost: VirtualNVDIMM (persistent memory / PMem)
+    # -------------------------------------------------------------------------
+    # Requires: ESX host with physical PMem DIMMs (NVDIMM-N / Intel Optane DCPMM).
+    # VirtualNVDIMMController + VirtualNVDIMM are absent from the ConfigOption
+    # optTypes on standard compute hosts → DevicesSupportedByHost raises a
+    # NotSupported fault → DRS returns a faults entry.
+    # VirtualNVDIMMController is deprecated as of vSphere 9.0 API; on 9.0+
+    # this may surface as a CAT_VALIDATION admission error before placement.
+    # Expected: VirtualMachinePlacementReady=False.
+    # -------------------------------------------------------------------------
+    {
+        "id": "configspec-nvdimm-device",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "DevicesSupportedByHost: VirtualNVDIMMController + VirtualNVDIMM (PMem) in "
+            "configSpec. ConfigOptionValidate::DeviceSupported fails because VirtualNVDIMM "
+            "is absent from the host's ConfigOption optTypes on non-PMem hosts. "
+            "Triggers NotSupported fault during PlaceVmsXCluster createAndPowerOn "
+            "compat check (vmCompatTestFunctions.cpp::DevicesSupportedByHost). "
+            "vSphere 9.0+ marks VirtualNVDIMMController deprecated; may surface as "
+            "a validation fault there. "
+            "Expected: VirtualMachinePlacementReady=False."
+        ),
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualNVDIMMController",
+                            "key": -300,
+                            "busNumber": 0,
+                        },
+                    },
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "fileOperation": "create",
+                        "device": {
+                            "_typeName": "VirtualNVDIMM",
+                            "key": -301,
+                            "controllerKey": -300,
+                            "unitNumber": 0,
+                            "capacityInMB": 1024,
+                            "backing": {
+                                "_typeName": "VirtualNVDIMMBackingInfo",
+                                "fileName": "",
+                            },
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    # -------------------------------------------------------------------------
+    # DevicesSupportedByHost: VirtualSriovEthernetCard (SR-IOV NIC passthrough)
+    # -------------------------------------------------------------------------
+    # Requires: Physical NIC with SR-IOV capability enabled in BIOS and ESX.
+    # DevicesSupportedByHost skips backing checks for VirtualEthernetCard
+    # subtypes (ignoreBackingCheck = IsA<VirtualEthernetCard>(device) in
+    # ConfigOptionValidate::DeviceSupported), so omitting sriovBacking is fine —
+    # the device TYPE check alone triggers the fault on non-SR-IOV hosts.
+    # Expected: VirtualMachinePlacementReady=False if no SR-IOV NIC on hosts.
+    # -------------------------------------------------------------------------
+    {
+        "id": "configspec-sriov-nic",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "DevicesSupportedByHost: VirtualSriovEthernetCard in configSpec. "
+            "SR-IOV NIC type must appear in the host's ConfigOption optTypes; "
+            "hosts without SR-IOV-capable physical NICs will not list it. "
+            "Backing is deliberately omitted — ConfigOptionValidate::DeviceSupported "
+            "skips backing checks for VirtualEthernetCard subtypes "
+            "(vmCompatTestFunctions.cpp::DevicesSupportedByHost, ignoreBackingCheck). "
+            "Expected: VirtualMachinePlacementReady=False on non-SR-IOV hosts."
+        ),
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualSriovEthernetCard",
+                            "key": -1,
+                            "addressType": "Generated",
+                            "wakeOnLanEnabled": False,
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    # -------------------------------------------------------------------------
+    # DevicesSupportedByHost: VirtualTPM (virtual Trusted Platform Module)
+    # -------------------------------------------------------------------------
+    # Requires: vCenter Key Provider configured + ESX host with TPM 2.0 chip.
+    # Without a Key Provider, vTPM add is rejected by the admission webhook or
+    # by ESX with a NotSupported / InvalidDeviceSpec fault before placement.
+    # When a Key Provider exists but the host ConfigOption does not list
+    # VirtualTPM in its device option types, DevicesSupportedByHost blocks.
+    # efi firmware is required alongside vTPM.
+    # Expected: VirtualMachinePlacementReady=False or webhook ValidationError.
+    # -------------------------------------------------------------------------
+    {
+        "id": "configspec-vtpm-device",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "DevicesSupportedByHost: VirtualTPM device in configSpec. "
+            "vTPM requires a vCenter Key Provider configured and the destination "
+            "ESX host to support TPM 2.0. Without a Key Provider the request is "
+            "rejected (InvalidDeviceSpec / NotSupported fault). "
+            "When a Key Provider exists but no host supports vTPM, "
+            "ConfigOptionValidate::DeviceSupported blocks placement "
+            "(vmCompatTestFunctions.cpp::DevicesSupportedByHost). "
+            "EFI firmware is set alongside vTPM as required by the vSphere API. "
+            "Expected: VirtualMachinePlacementReady=False (or admission webhook error)."
+        ),
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "firmware": "efi",
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualTPM",
+                            "key": -1,
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    # =========================================================================
+    # DevicesSupportedByGuest scenario
+    # vmCompatTestFunctions.cpp::DevicesSupportedByGuest (line 2539)
+    #
+    # IMPORTANT: This check is completely skipped for DRS:
+    #   if (vmOp->GetTestOptions()->IsForDRS()) { return; }
+    # Even in the non-DRS power-on path it only generates WARNINGS
+    # (HandleBadDeviceType called with forceWarning=true), never hard errors.
+    # Consequence: this check NEVER blocks PlaceVmsXCluster placement and
+    # NEVER prevents actual power-on.  This scenario documents that behavior.
+    # =========================================================================
+    # guestID=winXPProGuest + VirtualNVMEController:
+    # Windows XP has no NVMe driver; ConfigOptionValidate::VirtualDiskSupported
+    # would warn about NVMe controller incompatibility with the guest. But since
+    # DRS skips DevicesSupportedByGuest entirely, placement is unaffected.
+    # Expected: Placement SUCCEEDS; VM may fail to boot for OS/image reasons
+    # unrelated to compat checks (missing drivers, image mismatch, etc.).
+    # -------------------------------------------------------------------------
+    {
+        "id": "configspec-nvme-old-win",
+        "category": CAT_POWER_ON,
+        "description": (
+            "DevicesSupportedByGuest: VirtualNVMEController + guestID=winXPProGuest. "
+            "Windows XP has no NVMe driver; ConfigOptionValidate::VirtualDiskSupported "
+            "would flag the controller as incompatible with the guest OS. "
+            "HOWEVER: DevicesSupportedByGuest is completely skipped for DRS — "
+            "'if (vmOp->GetTestOptions()->IsForDRS()) { return; }' at line 2542 "
+            "of vmCompatTestFunctions.cpp — and even in the non-DRS power-on path "
+            "it only generates warnings (HandleBadDeviceType forceWarning=true), "
+            "never hard errors. "
+            "This scenario verifies that guest-device incompatibility NEVER blocks "
+            "PlaceVmsXCluster (placement succeeds). "
+            "Expected: Placement SUCCEEDS; VM may fail to power on for OS/image reasons."
+        ),
+        "vm_spec_override": {
+            "guestID": "winXPProGuest",
+        },
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "deviceChange": [
+                    {
+                        "_typeName": "VirtualDeviceConfigSpec",
+                        "operation": "add",
+                        "device": {
+                            "_typeName": "VirtualNVMEController",
+                            "key": -300,
+                            "busNumber": 0,
+                        },
+                    },
+                ],
+            },
+        },
+    },
+    # =========================================================================
+    # GuestRequirementsSupportedByHost scenario
+    # vmCompatTestFunctions.cpp::GuestRequirementsSupportedByHost (line 2594)
+    #
+    # Checks: osDescriptor->IsSmcRequired() && !destHwInfo->IsSmcPresent()
+    # All darwin* (macOS) guestIds have IsSmcRequired()==true.
+    # Standard x86 vSphere hosts have IsSmcPresent()==false.
+    # For PlaceVmsXCluster createAndPowerOn: VM powerState is poweredOn →
+    # UnsupportedGuest fault is added as a hard ERROR (not warning).
+    #
+    # Note: if darwin21_64Guest is absent from the host ConfigOption guest list,
+    # GuestSupported() fails first with the same UnsupportedGuest fault —
+    # net outcome is identical regardless of which sub-check fires.
+    # =========================================================================
+    {
+        "id": "vm-guest-id-macos-smc",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "GuestRequirementsSupportedByHost: guestID=darwin21_64Guest (macOS Monterey). "
+            "GuestRequirementsSupportedByHost checks osDescriptor->IsSmcRequired() "
+            "(true for all darwin guestIds) against destHwInfo->IsSmcPresent() "
+            "(false on standard x86 vSphere hardware). "
+            "For PlaceVmsXCluster createAndPowerOn the VM state is poweredOn and "
+            "forceWarning=false, so UnsupportedGuest is a hard error — not a warning. "
+            "If darwin21_64Guest is absent from the host ConfigOption, GuestSupported() "
+            "fires the same UnsupportedGuest fault one level up. "
+            "Expected: VirtualMachinePlacementReady=False with UnsupportedGuest."
+        ),
+        "vm_spec_override": {
+            "guestID": "darwin21_64Guest",
+        },
+        "class_spec_override": None,
+    },
+    # =========================================================================
+    # DatastoreSupported scenario
+    # vmCompatTestFunctions.cpp::DatastoreSupported (line 2788)
+    #
+    # Checks each destination datastore against
+    # destVmConfigOption->GetDatastore()->GetUnsupportedVolumes() for the
+    # VM's hardware version.  Three trigger paths:
+    #
+    # 1. VMFS3 EOL: host capability vmfs3EOLSupported=true + VMFS 3 datastore
+    #    → UnsupportedDatastore fault (rare: VMFS 3 essentially retired).
+    #
+    # 2. NAS filesystem type: unsupportedVolumes for the vmx version lists
+    #    NFS or NFS41 as unsupported.  Very old vmx versions (vmx-4) predate
+    #    NFS 4.1; their ConfigOption entry may list NFS41 as unsupported. If
+    #    the storage policy resolves to an NFS 4.1 datastore the fault fires.
+    #
+    # 3. VVol disk descriptor version: VirtualDiskVersionSupported() checks
+    #    disk.version vs host.maxVirtualDiskDescVersionSupported. Determined
+    #    by backing on the datastore — not settable from configSpec alone.
+    #
+    # This scenario uses version=vmx-4. On modern ESX hosts
+    # VirtualHardwareVersionSupported will likely fail first (vmx-4 < host
+    # minimum).  DatastoreSupported fires independently only if vmx-4 IS a
+    # recognized version but the environment uses NFS 4.1 or VVol storage.
+    # =========================================================================
+    {
+        "id": "configspec-old-hwversion-datastore",
+        "category": CAT_PLACEMENT,
+        "description": (
+            "DatastoreSupported: configSpec.version=vmx-4 (VMware Workstation 4 era). "
+            "DatastoreSupported checks the host ConfigOption unsupportedVolumes list "
+            "for the VM's hardware version against the placement datastores. "
+            "vmx-4's ConfigOption on modern ESX may list NFS41 as unsupported; if "
+            "the storage policy resolves to an NFS 4.1 datastore, UnsupportedDatastore "
+            "fault is raised during PlaceVmsXCluster "
+            "(vmCompatTestFunctions.cpp::DatastoreSupported, line 2788). "
+            "On most modern hosts VirtualHardwareVersionSupported fails first "
+            "(vmx-4 below the host minimum supported version). "
+            "DatastoreSupported fires independently only when vmx-4 is recognized "
+            "but carries NFS/VVol datastore restrictions (environment-dependent). "
+            "Expected: VirtualMachinePlacementReady=False "
+            "(VirtualHardwareVersionSupported or DatastoreSupported UnsupportedDatastore)."
+        ),
+        "vm_spec_override": {},
+        "class_spec_override": {
+            "hardware": {"cpus": 2, "memory": "4Gi"},
+            "policies": {"resources": {}},
+            "configSpec": {
+                "_typeName": "VirtualMachineConfigSpec",
+                "numCPUs": 2,
+                "memoryMB": 4096,
+                "version": "vmx-4",
+            },
         },
     },
 ]
