@@ -85,9 +85,6 @@ spec:
       {{- if .ControllerType }}
       controllerType: {{.ControllerType}}
       {{- end}}
-      {{- if .ControllerType }}
-      controllerType: {{.ControllerType}}
-      {{- end}}
       {{- if .UnitNumber }}
       unitNumber: {{.UnitNumber}}
       {{- end}}

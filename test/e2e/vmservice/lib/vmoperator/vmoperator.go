@@ -14,6 +14,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"github.com/vmware/govmomi/vim25"
 
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -23,13 +24,14 @@ import (
 	ctrlclient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	netopv1alpha1 "github.com/vmware-tanzu/net-operator-api/api/v1alpha1"
+	vpcv1alpha1 "github.com/vmware-tanzu/nsx-operator/pkg/apis/vpc/v1alpha1"
 
 	vmopv1a1 "github.com/vmware-tanzu/vm-operator/api/v1alpha1"
 	vmopv1a2 "github.com/vmware-tanzu/vm-operator/api/v1alpha2"
 	vmopv1a3 "github.com/vmware-tanzu/vm-operator/api/v1alpha3"
 	vmopv1a5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
+	vmopv1a6 "github.com/vmware-tanzu/vm-operator/api/v1alpha6"
 	ncpv1alpha1 "github.com/vmware-tanzu/vm-operator/external/ncp/api/v1alpha1"
-	vpcv1alpha1 "github.com/vmware-tanzu/vm-operator/external/nsx-operator/api/vpc/v1alpha1"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/framework"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/manifestbuilders"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/utils"
@@ -126,7 +128,7 @@ func WaitForVirtualMachineImageCacheReady(ctx context.Context,
 		g.Expect(false).To(BeTrue(),
 			"VirtualMachineConditionImageCacheReady condition not yet present on VM %s/%s",
 			ns, vmName)
-	}, config.GetIntervals("default", "default/wait-virtual-machine-image-creation")...).
+	}, config.GetIntervals("default", "wait-virtual-machine-image-creation")...).
 		Should(Succeed(), "Timed out waiting for VirtualMachine %s/%s image cache to be ready", ns, vmName)
 }
 
@@ -572,6 +574,38 @@ func WaitForVirtualMachineImageStatusDisks(ctx context.Context, config *framewor
 		fmt.Sprintf("failed to wait for vm image %s to have Status.Disks populated", imageName))
 }
 
+// WaitForOVFVirtualMachineImageReady waits for a namespace-scoped OVF VirtualMachineImage to
+// have both Status.Disks and Status.ProviderContentVersion populated.
+//
+// Use this (instead of WaitForVirtualMachineImageStatusDisks) when the caller is about to create
+// a VM from the image and FastDeploy is enabled: the validating webhook rejects VMs whose OVF
+// image has an empty ProviderContentVersion. For Inventory-CL images (type=VM) ProviderContentVersion
+// is never set by the controller, but the webhook already skips the check for non-OVF images,
+// so WaitForVirtualMachineImageStatusDisks is sufficient there.
+func WaitForOVFVirtualMachineImageReady(ctx context.Context, config *framework.Config,
+	client ctrlclient.Client, namespace, imageName string) {
+	vmImageRegistryFss := utils.IsFssEnabled(ctx, client,
+		config.GetVariable("VMOPNamespace"),
+		config.GetVariable("VMOPDeploymentName"),
+		config.GetVariable("VMOPManagerCommand"),
+		config.GetVariable("EnvFSSVMImageRegistry"))
+	if !vmImageRegistryFss {
+		namespace = ""
+	}
+
+	objKey := ctrlclient.ObjectKey{Name: imageName, Namespace: namespace}
+
+	Eventually(func(g Gomega) {
+		vmi := &vmopv1a3.VirtualMachineImage{}
+		g.Expect(client.Get(ctx, objKey, vmi)).To(Succeed())
+		g.Expect(vmi.Status.Disks).ToNot(BeEmpty())
+		// ProviderContentVersion must be non-empty before the validating webhook
+		// will allow a VM referencing this OVF image to be created.
+		g.Expect(vmi.Status.ProviderContentVersion).ToNot(BeEmpty())
+	}, config.GetIntervals("default", "wait-virtual-machine-image-creation")...).Should(Succeed(),
+		fmt.Sprintf("failed to wait for OVF vm image %s to have Status.Disks and Status.ProviderContentVersion populated", imageName))
+}
+
 // Utility function to get a ClusterVirtualMachineImage k8s object's name by its display name.
 func WaitForClusterVirtualMachineImageName(ctx context.Context, config *framework.Config,
 	client ctrlclient.Client, imageDisplayName string) (string, error) {
@@ -823,6 +857,9 @@ func VerifyVirtualMachineWebConsoleRequestStatus(ctx context.Context, config *co
 
 func DeleteVirtualMachinePublishRequest(ctx context.Context, client ctrlclient.Client, ns, vmPubName string) {
 	vmPub, err := utils.GetVirtualMachinePublishRequest(ctx, client, ns, vmPubName)
+	if apierrors.IsNotFound(err) {
+		return
+	}
 	Expect(err).ToNot(HaveOccurred())
 	Expect(client.Delete(ctx, vmPub)).To(Succeed())
 }
@@ -1347,4 +1384,58 @@ func VerifyVMDeleted(
 		return false
 	}, vmSvcE2EConfig.GetIntervals("default", "wait-virtual-machine-deletion")...).Should(BeTrue(),
 		"Timed out waiting for VirtualMachine to be deleted")
+}
+
+// EventuallyBootDiskStoragePolicyMatchesVMStorageClass polls until the boot
+// disk identified in vm.Status.Volumes has a vSphere storage profile whose
+// corresponding Kubernetes StorageClass name matches vm.Spec.StorageClass.
+//
+// Boot disk identification uses FindBootDiskVolumeStatus (Classic → non-
+// removable spec entry → first spec entry).  The profile is resolved via PBM
+// QueryAssociatedProfiles using the disk's backing UUID and the VM's MoID
+// (status.uniqueID).  The profile ID is then mapped to a StorageClass name
+// via the "storagePolicyID" parameter on StorageClass objects in the cluster.
+//
+// The caller must supply an authenticated vimClient (vim25.Client) so that
+// this helper can reach vSphere without establishing its own connection.
+func EventuallyBootDiskStoragePolicyMatchesVMStorageClass(
+	ctx context.Context,
+	vmSvcE2EConfig *config.E2EConfig,
+	vimClient *vim25.Client,
+	k8sClient ctrlclient.Client,
+	namespace, name string,
+) {
+	GinkgoHelper()
+
+	Eventually(func(g Gomega) {
+		vm, err := utils.GetVirtualMachineA6(ctx, k8sClient, namespace, name)
+		g.Expect(err).NotTo(HaveOccurred())
+
+		g.Expect(vm.Spec.StorageClass).NotTo(BeEmpty(),
+			"VirtualMachine %s/%s must set spec.storageClass for boot disk assertion",
+			namespace, name)
+
+		g.Expect(vm.Status.UniqueID).NotTo(BeEmpty(),
+			"VirtualMachine %s/%s has no status.uniqueID yet; VM may not be powered on",
+			namespace, name)
+
+		boot := utils.FindBootDiskVolumeStatus(vm)
+		g.Expect(boot).NotTo(BeNil(),
+			"no boot disk found in status.volumes for VirtualMachine %s/%s", namespace, name)
+
+		if boot.Type == vmopv1a6.VolumeTypeManaged {
+			g.Expect(boot.DiskUUID).NotTo(BeEmpty(),
+				"boot disk %q in VirtualMachine %s/%s has no diskUUID yet", boot.Name, namespace, name)
+		}
+
+		scName, err := utils.StorageClassNameForBootDisk(
+			ctx, vimClient, k8sClient, vm, boot)
+		g.Expect(err).NotTo(HaveOccurred(),
+			"StorageClassNameForBootDisk failed for boot disk %q on VirtualMachine %s/%s",
+			boot.Name, namespace, name)
+
+		g.Expect(scName).To(Equal(vm.Spec.StorageClass),
+			"boot disk %q storage policy StorageClass %q does not match spec.storageClass %q on VirtualMachine %s/%s",
+			boot.Name, scName, vm.Spec.StorageClass, namespace, name)
+	}, vmSvcE2EConfig.GetIntervals("default", "wait-virtual-machine-creation")...).Should(Succeed())
 }

@@ -101,7 +101,7 @@ WEBHOOK_ROOT      ?= $(MANIFEST_ROOT)/webhook
 RBAC_ROOT         ?= $(MANIFEST_ROOT)/rbac
 
 # Image URL to use all building/pushing image targets
-BASE_IMAGE ?= gcr.io/distroless/base-debian12
+BASE_IMAGE ?= mirror.gcr.io/library/photon:5.0
 IMAGE ?= vmoperator-controller
 IMAGE_TAG ?= latest
 IMG ?= ${IMAGE}:${IMAGE_TAG}
@@ -112,6 +112,9 @@ E2E_IMAGE ?= vmoperator-e2e
 E2E_IMG ?= ${E2E_IMAGE}:${IMAGE_TAG}
 
 E2E_KUBECTL_VERSION ?= v1.36.0
+
+PACKER_PLUGIN_VSPHERE_REPO ?= https://github.com/vmware/packer-plugin-vsphere.git
+PACKER_PLUGIN_VSPHERE_REF  ?= v2.1.1
 
 # Code coverage files
 COVERAGE_FILE ?= cover.out
@@ -312,6 +315,7 @@ GOLANGCI_LINT_ABS_PATH := $(abspath $(GOLANGCI_LINT))
 GO_MOD_DIRS_TO_LINT := $(GO_MOD_DIRS)
 GO_MOD_DIRS_TO_LINT := $(filter-out ./external%,$(GO_MOD_DIRS_TO_LINT))
 GO_MOD_DIRS_TO_LINT := $(filter-out ./hack/tools%,$(GO_MOD_DIRS_TO_LINT))
+GO_MOD_DIRS_TO_LINT := $(filter-out ./api-docs%,$(GO_MOD_DIRS_TO_LINT))
 GO_LINT_DIR_TARGETS := $(addprefix lint-,$(GO_MOD_DIRS_TO_LINT))
 
 .PHONY: $(GO_LINT_DIR_TARGETS)
@@ -958,6 +962,15 @@ e2e-image-build: ## Build E2E test container image
 		echo "Downloading kubectl $(E2E_KUBECTL_VERSION)..."; \
 		curl -fsSL "https://dl.k8s.io/release/$(E2E_KUBECTL_VERSION)/bin/linux/amd64/kubectl" -o kubectl && chmod +x kubectl; \
 	fi
+	@# Stage packer-plugin-vsphere source into the build context so the Dockerfile
+	@# can compile it without needing git credentials inside the Docker build.
+	@# Re-clone if the directory is absent or the checked-out ref doesn't match.
+	@if [ ! -d packer-plugin-vsphere-src ] || \
+	    ! git -C packer-plugin-vsphere-src describe --tags --exact-match 2>/dev/null | grep -qF "$(PACKER_PLUGIN_VSPHERE_REF)"; then \
+		echo "Cloning packer-plugin-vsphere $(PACKER_PLUGIN_VSPHERE_REF)..."; \
+		rm -rf packer-plugin-vsphere-src; \
+		git clone --depth=1 --branch $(PACKER_PLUGIN_VSPHERE_REF) $(PACKER_PLUGIN_VSPHERE_REPO) packer-plugin-vsphere-src; \
+	fi
 	$(CRI_BIN) build \
 	  -f Dockerfile.e2e \
 	  -t "$(E2E_IMAGE):$(IMAGE_TAG)" \
@@ -994,7 +1007,7 @@ e2e-image-remove: ## Remove E2E test container image
 #   LABEL_FILTER           - Ginkgo label filter (e.g., "smoke", "!extended-functional")
 #   FLAKE_ATTEMPTS         - Number of retry attempts for flaky tests
 #   E2E_PREBUILT_BINARY    - Path to `go test -c` output (default: $(ROOT_DIR)e2e-tests)
-#   E2E_ARTIFACT_FOLDER    - Directory for test artifacts/logs (default: test_logs)
+#   E2E_ARTIFACT_FOLDER    - Directory for test artifacts/logs (default: /tmp/test_logs)
 #   E2E_ARGS               - Override all e2e binary arguments (e.g. from CI pipelines)
 
 E2E_PREBUILT_BINARY ?= $(ROOT_DIR)e2e-tests
@@ -1008,39 +1021,29 @@ test-e2e: ## Run e2e tests (auto-detect: prebuilt binary if available, else gink
 	fi
 
 .PHONY: test-e2e-prebuilt
-test-e2e-prebuilt: ## Run e2e tests using precompiled binary. Used by the E2E container image.
-	@test -x "$(E2E_PREBUILT_BINARY)" || { echo "error: $(E2E_PREBUILT_BINARY) missing or not executable. Run: cd test/e2e/vmservice && go test -c -o ../../../e2e-tests ."; exit 1; }
-	@echo "Running E2E tests (prebuilt $(E2E_PREBUILT_BINARY))..."
-	@$(eval GINKGO_ARGS := --ginkgo.v --ginkgo.junit-report=$(or $(E2E_ARTIFACT_FOLDER),.)/test-results.xml)
-	@$(eval E2E_ARGS := -e2e.e2e-config="$(ROOT_DIR)test/e2e/vmservice/config/wcp.yaml" -e2e.artifactFolder=$(or $(E2E_ARTIFACT_FOLDER),test_logs))
-	$(if $(TEST_FOCUS),$(eval GINKGO_ARGS += --ginkgo.focus="$(TEST_FOCUS)"))
-	$(if $(TEST_SKIP),$(eval GINKGO_ARGS += --ginkgo.skip="$(TEST_SKIP)"))
-	$(if $(LABEL_FILTER),$(eval GINKGO_ARGS += --ginkgo.label-filter="$(LABEL_FILTER)"))
-	$(if $(FLAKE_ATTEMPTS),$(eval GINKGO_ARGS += --ginkgo.flake-attempts=$(FLAKE_ATTEMPTS)))
-	$(if $(E2E_NAMESPACE),$(eval export E2E_NAMESPACE=$(E2E_NAMESPACE)))
-	$(E2E_PREBUILT_BINARY) $(E2E_ARGS) $(GINKGO_ARGS)
+test-e2e-prebuilt: ## Run e2e tests using precompiled binary
+	@test -x "$(E2E_PREBUILT_BINARY)" || { echo "error: $(E2E_PREBUILT_BINARY) missing or not executable."; exit 1; }
+	@ROOT_DIR=$(ROOT_DIR) \
+	    E2E_PREBUILT_BINARY=$(E2E_PREBUILT_BINARY) \
+	    E2E_ARTIFACT_FOLDER=$(E2E_ARTIFACT_FOLDER) \
+	    ./hack/e2e/run-e2e.sh prebuilt
 
 .PHONY: test-e2e-ginkgo
 test-e2e-ginkgo: | $(GINKGO)
 test-e2e-ginkgo: ## Run e2e tests using ginkgo CLI (compile + run)
-	@echo "Running E2E tests (ginkgo compile)..."
-	@$(eval GINKGO_ARGS := -v --junit-report=$(or $(E2E_ARTIFACT_FOLDER),.)/test-results.xml)
-	@$(eval E2E_ARGS := -e2e.e2e-config="$(ROOT_DIR)test/e2e/vmservice/config/wcp.yaml" -e2e.artifactFolder=$(or $(E2E_ARTIFACT_FOLDER),test_logs))
-	$(if $(TEST_FOCUS),$(eval GINKGO_ARGS += --focus="$(TEST_FOCUS)"))
-	$(if $(TEST_SKIP),$(eval GINKGO_ARGS += --skip="$(TEST_SKIP)"))
-	$(if $(LABEL_FILTER),$(eval GINKGO_ARGS += --label-filter="$(LABEL_FILTER)"))
-	$(if $(FLAKE_ATTEMPTS),$(eval GINKGO_ARGS += --flake-attempts=$(FLAKE_ATTEMPTS)))
-	$(if $(E2E_NAMESPACE),$(eval export E2E_NAMESPACE=$(E2E_NAMESPACE)))
-	$(GINKGO) $(GINKGO_ARGS) ./test/e2e/vmservice/... -- $(E2E_ARGS)
+	@ROOT_DIR=$(ROOT_DIR) \
+	    GINKGO_BIN=$(GINKGO) \
+	    E2E_ARTIFACT_FOLDER=$(E2E_ARTIFACT_FOLDER) \
+	    ./hack/e2e/run-e2e.sh ginkgo
 
 .PHONY: e2e-smoke
 e2e-smoke: ## Run e2e smoke tests
-	$(MAKE) test-e2e LABEL_FILTER="smoke"
+	$(MAKE) test-e2e LABEL_FILTER="smoke && !experimental"
 
 .PHONY: e2e-core
 e2e-core: ## Run e2e core functional tests
-	$(MAKE) test-e2e LABEL_FILTER="!smoke && !extended-functional"
+	$(MAKE) test-e2e LABEL_FILTER="!smoke && !extended-functional && !experimental"
 
 .PHONY: e2e-extended
 e2e-extended: ## Run e2e extended functional tests
-	$(MAKE) test-e2e LABEL_FILTER="extended-functional"
+	$(MAKE) test-e2e LABEL_FILTER="extended-functional && !experimental"

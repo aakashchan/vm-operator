@@ -87,6 +87,22 @@ func restore_v1alpha6_VirtualMachineNetworkInterfaces(dst, src *vmopv1.VirtualMa
 	}
 }
 
+// Convert_v1alpha6_VirtualMachineCPUAllocationStatus_To_v1alpha5_VirtualMachineCPUAllocationStatus drops
+// v1alpha6 fields that do not exist in v1alpha5; they are preserved via MarshalData on ConvertFrom.
+func Convert_v1alpha6_VirtualMachineCPUAllocationStatus_To_v1alpha5_VirtualMachineCPUAllocationStatus(
+	in *vmopv1.VirtualMachineCPUAllocationStatus, out *VirtualMachineCPUAllocationStatus, s apiconversion.Scope) error {
+
+	return autoConvert_v1alpha6_VirtualMachineCPUAllocationStatus_To_v1alpha5_VirtualMachineCPUAllocationStatus(in, out, s)
+}
+
+// Convert_v1alpha6_VirtualMachineMemoryAllocationStatus_To_v1alpha5_VirtualMachineMemoryAllocationStatus drops
+// v1alpha6 fields that do not exist in v1alpha5; they are preserved via MarshalData on ConvertFrom.
+func Convert_v1alpha6_VirtualMachineMemoryAllocationStatus_To_v1alpha5_VirtualMachineMemoryAllocationStatus(
+	in *vmopv1.VirtualMachineMemoryAllocationStatus, out *VirtualMachineMemoryAllocationStatus, s apiconversion.Scope) error {
+
+	return autoConvert_v1alpha6_VirtualMachineMemoryAllocationStatus_To_v1alpha5_VirtualMachineMemoryAllocationStatus(in, out, s)
+}
+
 func Convert_v1alpha6_VirtualMachineBootstrapSpec_To_v1alpha5_VirtualMachineBootstrapSpec(
 	in *vmopv1.VirtualMachineBootstrapSpec, out *VirtualMachineBootstrapSpec, s apiconversion.Scope) error {
 
@@ -127,6 +143,18 @@ func restore_v1alpha6_VirtualMachineNetworkVLANs(dst, src *vmopv1.VirtualMachine
 	dst.Spec.Network.VLANs = src.Spec.Network.VLANs
 }
 
+func restore_v1alpha6_VirtualMachineResources(dst, src *vmopv1.VirtualMachine) {
+	dst.Spec.Resources = src.Spec.Resources
+}
+
+func restore_v1alpha6_VirtualMachineCPUAdvanced(dst, src *vmopv1.VirtualMachine) {
+	dst.Spec.CPUAdvanced = src.Spec.CPUAdvanced
+}
+
+func restore_v1alpha6_VirtualMachineMemoryAdvanced(dst, src *vmopv1.VirtualMachine) {
+	dst.Spec.MemoryAdvanced = src.Spec.MemoryAdvanced
+}
+
 // ConvertTo converts this VirtualMachine to the Hub version.
 func (src *VirtualMachine) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	dst := dstRaw.(*vmopv1.VirtualMachine)
@@ -147,6 +175,9 @@ func (src *VirtualMachine) ConvertTo(dstRaw ctrlconversion.Hub) error {
 	restore_v1alpha6_VirtualMachineNetworkVLANs(dst, restored)
 	restore_v1alpha6_VirtualMachineAdvanced(dst, restored)
 	restore_v1alpha6_VirtualMachineNetworkInterfaces(dst, restored)
+	restore_v1alpha6_VirtualMachineResources(dst, restored)
+	restore_v1alpha6_VirtualMachineCPUAdvanced(dst, restored)
+	restore_v1alpha6_VirtualMachineMemoryAdvanced(dst, restored)
 
 	// END RESTORE
 

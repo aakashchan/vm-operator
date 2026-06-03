@@ -14,15 +14,13 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/vmware-tanzu/vm-operator/pkg/util/ptr"
-	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/object"
-	govc "github.com/vmware/govmomi/vapi/vcenter"
 	"github.com/vmware/govmomi/vim25"
 	"github.com/vmware/govmomi/vim25/mo"
 	vimtypes "github.com/vmware/govmomi/vim25/types"
 	"gopkg.in/yaml.v3"
 	corev1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	storagev1 "k8s.io/api/storage/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -32,7 +30,6 @@ import (
 
 	vmopv1a5 "github.com/vmware-tanzu/vm-operator/api/v1alpha5"
 	mopv1a2 "github.com/vmware-tanzu/vm-operator/external/mobility-operator/api/v1alpha2"
-	topologyv1 "github.com/vmware-tanzu/vm-operator/external/tanzu-topology/api/v1alpha1"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/framework"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/infrastructure/vsphere/testbed"
 	"github.com/vmware-tanzu/vm-operator/test/e2e/infrastructure/vsphere/vcenter"
@@ -232,6 +229,80 @@ func verifyCreatedControllersCount(
 		Should(BeTrue(), "Timed out waiting for VirtualMachines %s to be updated", vmName)
 }
 
+// addSharedMultiWriterDisk cold-adds a ParaVirtual SCSI controller with
+// physical bus sharing (bus 1) and a 10 MB multi-writer shared disk backed by
+// storagePolicyID to vm. The VM must be powered off; multi-writer shared disks
+// require a cold reconfigure to avoid "Incompatible device backing" errors.
+func addSharedMultiWriterDisk(ctx context.Context, vm *object.VirtualMachine, storagePolicyID string) error {
+	var moVM mo.VirtualMachine
+	if err := vm.Properties(ctx, vm.Reference(), []string{"config.hardware.device", "datastore"}, &moVM); err != nil {
+		return err
+	}
+
+	Expect(moVM.Datastore).ToNot(BeEmpty(), "VM has no datastores")
+	datastoreRef := moVM.Datastore[0]
+
+	sharedScsiController := &vimtypes.ParaVirtualSCSIController{
+		VirtualSCSIController: vimtypes.VirtualSCSIController{
+			SharedBus: vimtypes.VirtualSCSISharingPhysicalSharing,
+			VirtualController: vimtypes.VirtualController{
+				BusNumber: 1,
+				VirtualDevice: vimtypes.VirtualDevice{
+					Key: -1,
+				},
+			},
+		},
+	}
+
+	sharedDisk := &vimtypes.VirtualDisk{
+		VirtualDevice: vimtypes.VirtualDevice{
+			Backing: &vimtypes.VirtualDiskFlatVer2BackingInfo{
+				DiskMode: string(vimtypes.VirtualDiskModePersistent),
+				Sharing:  string(vimtypes.VirtualDiskSharingSharingMultiWriter),
+				VirtualDeviceFileBackingInfo: vimtypes.VirtualDeviceFileBackingInfo{
+					Datastore: &datastoreRef,
+				},
+			},
+			ControllerKey: sharedScsiController.Key,
+			UnitNumber:    vimtypes.NewInt32(0),
+		},
+		CapacityInBytes: 10 * 1024 * 1024,
+	}
+
+	configSpec := vimtypes.VirtualMachineConfigSpec{
+		DeviceChange: []vimtypes.BaseVirtualDeviceConfigSpec{
+			&vimtypes.VirtualDeviceConfigSpec{
+				Operation: vimtypes.VirtualDeviceConfigSpecOperationAdd,
+				Device:    sharedScsiController,
+			},
+			// EZT (Eager Zeroed Thick) allocation avoids "Incompatible device backing"
+			// errors that occur with thin provisioning on multi-writer shared disks.
+			&vimtypes.VirtualDeviceConfigSpec{
+				Operation:     vimtypes.VirtualDeviceConfigSpecOperationAdd,
+				FileOperation: vimtypes.VirtualDeviceConfigSpecFileOperationCreate,
+				Device:        sharedDisk,
+				Profile: []vimtypes.BaseVirtualMachineProfileSpec{
+					&vimtypes.VirtualMachineDefinedProfileSpec{
+						ProfileId: storagePolicyID,
+					},
+				},
+			},
+		},
+		ExtraConfig: []vimtypes.BaseOptionValue{
+			&vimtypes.OptionValue{
+				Key:   "test.shared.disk.import",
+				Value: "true",
+			},
+		},
+	}
+
+	task, err := vm.Reconfigure(ctx, configSpec)
+	if err != nil {
+		return err
+	}
+	return task.Wait(ctx)
+}
+
 func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput) {
 	const (
 		specName              = "vm-hardware"
@@ -248,11 +319,13 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 		clusterResources               *e2eConfig.Resources
 		vCenterClient                  *vim25.Client
 		vmYamls                        [][]byte
+		pvcsYamls                      [][]byte
 		vmName                         string
 		isoSupportFSSEnabled           bool
 		allDisksArePVCapabilityEnabled bool
 		linuxImageDisplayName          string
 		linuxVMIName                   string
+		eztStoragePolicyID             string
 	)
 
 	Context("VMs with attached hardware", Ordered, func() {
@@ -282,20 +355,20 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 			wcpClient = input.WCPClient
 			kubeconfigPath := input.ClusterProxy.GetKubeconfigPath()
 
-		clusterProxy = input.ClusterProxy.(*common.VMServiceClusterProxy)
-		svClusterClient = clusterProxy.GetClient()
-		svClientSet := clusterProxy.GetClientSet()
+			clusterProxy = input.ClusterProxy.(*common.VMServiceClusterProxy)
+			svClusterClient = clusterProxy.GetClient()
+			svClientSet := clusterProxy.GetClientSet()
 
-		cancelPodWatches := framework.WatchPodLogsAndEventsInNamespaces(ctx, []string{config.GetVariable("VMOPNamespace")}, svClientSet, filepath.Join(input.ArtifactFolder, specName))
-		DeferCleanup(cancelPodWatches)
+			cancelPodWatches := framework.WatchPodLogsAndEventsInNamespaces(ctx, []string{config.GetVariable("VMOPNamespace")}, svClientSet, filepath.Join(input.ArtifactFolder, specName))
+			DeferCleanup(cancelPodWatches)
 
-		linuxImageDisplayName = vmservice.GetDefaultImageDisplayName(clusterResources)
+			linuxImageDisplayName = vmservice.GetDefaultImageDisplayName(clusterResources)
 
-		var vmiErr error
-		linuxVMIName, vmiErr = vmoperator.WaitForVirtualMachineImageName(ctx, &config.Config, svClusterClient, vmSvcNamespace, linuxImageDisplayName)
-		Expect(vmiErr).NotTo(HaveOccurred(), "failed to get VMI name for display name %q in namespace %q", linuxImageDisplayName, vmSvcNamespace)
+			var vmiErr error
+			linuxVMIName, vmiErr = vmoperator.WaitForVirtualMachineImageName(ctx, &config.Config, svClusterClient, vmSvcNamespace, linuxImageDisplayName)
+			Expect(vmiErr).NotTo(HaveOccurred(), "failed to get VMI name for display name %q in namespace %q", linuxImageDisplayName, vmSvcNamespace)
 
-		isoSupportFSSEnabled = utils.IsFssEnabled(ctx,
+			isoSupportFSSEnabled = utils.IsFssEnabled(ctx,
 				svClusterClient,
 				config.GetVariable("VMOPNamespace"),
 				config.GetVariable("VMOPDeploymentName"),
@@ -327,7 +400,7 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 				clusterResources.StorageClassName)
 
 			// Create or get the EZT storage policy.
-			eztStoragePolicyID, err := vcenter.GetOrCreateEZTStoragePolicy(ctx, vCenterClient, eztStorageProfileName,
+			eztStoragePolicyID, err = vcenter.GetOrCreateEZTStoragePolicy(ctx, vCenterClient, eztStorageProfileName,
 				basePolicyID)
 			Expect(err).ShouldNot(HaveOccurred(), "Failed to create EZT storage policy")
 			Expect(eztStoragePolicyID).ShouldNot(BeEmpty(), "EZT storage policy ID is empty")
@@ -373,6 +446,7 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 
 		BeforeEach(func() {
 			vmYamls = [][]byte{}
+			pvcsYamls = [][]byte{}
 			vmName = fmt.Sprintf("%s-%s", specName, capiutil.RandomString(4))
 		})
 
@@ -425,6 +499,10 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 
 			for _, vmYaml := range vmYamls {
 				_ = clusterProxy.DeleteWithArgs(ctx, vmYaml)
+			}
+
+			for _, pvcYaml := range pvcsYamls {
+				_ = clusterProxy.DeleteWithArgs(ctx, pvcYaml)
 			}
 		})
 
@@ -1812,329 +1890,136 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 				vCenterAdminClient, err = vcenter.NewVimClient(vCenterHostname, testbed.AdminUsername, testbed.AdminPassword)
 				Expect(err).ToNot(HaveOccurred(), "Failed to create vCenter client")
 
-				// Get the WCP cluster MoID and find resources.
-				zones := &topologyv1.ZoneList{}
-				listOpts := &ctrlclient.ListOptions{Namespace: vmSvcNamespace}
-				err = svClusterClient.List(ctx, zones, listOpts)
-				Expect(err).ToNot(HaveOccurred(), "failed to list zones bound with namespace %s", vmSvcNamespace)
-				Expect(len(zones.Items)).
-					To(BeNumerically(">", 0), "Expected to have at least one zone bound with namespace %s", vmSvcNamespace)
-				azName := zones.Items[0].Spec.Zone.Name
-				az := &topologyv1.AvailabilityZone{}
-				err = svClusterClient.Get(ctx, ctrlclient.ObjectKey{Name: azName}, az)
-				Expect(err).ToNot(HaveOccurred())
-
-				clusterMoID = az.Spec.ClusterComputeResourceMoId
-				if clusterMoID == "" && len(az.Spec.ClusterComputeResourceMoIDs) > 0 {
-					clusterMoID = az.Spec.ClusterComputeResourceMoIDs[0]
-				}
-
-				Expect(clusterMoID).ToNot(BeEmpty(), "Expected to have at least one cluster MoID in AvailabilityZone %s", azName)
-				e2eframework.Logf("WCP cluster MoID: %s", clusterMoID)
-
+				clusterMoID = GetClusterMoIDForNamespace(ctx, svClusterClient, vmSvcNamespace)
 				brownfieldVMName = fmt.Sprintf("brownfield-vm-hardware-%s", capiutil.RandomString(4))
 			})
 
 			AfterEach(func() {
-				if brownfieldVMMoID != "" {
-					By(fmt.Sprintf("Cleaning up brownfield VM %s (%s) in vCenter", brownfieldVMName, brownfieldVMMoID))
-					vm := object.NewVirtualMachine(vCenterAdminClient, vimtypes.ManagedObjectReference{
-						Type:  "VirtualMachine",
-						Value: brownfieldVMMoID,
-					})
-
-					e2eframework.Logf("Found brownfield VM %s (MoID: %s), deleting it", brownfieldVMName, brownfieldVMMoID)
-
-					powerState, err := vm.PowerState(ctx)
-					if err == nil && powerState == vimtypes.VirtualMachinePowerStatePoweredOn {
-						task, err := vm.PowerOff(ctx)
-						if err != nil {
-							e2eframework.Logf("Failed to power off VM %s: %v", brownfieldVMName, err)
-						} else {
-							err := task.Wait(ctx)
-							if err != nil {
-								e2eframework.Logf("Failed to wait for VM %s power off: %v", brownfieldVMName, err)
-							}
-						}
-					}
-
-					destroyTask, err := vm.Destroy(ctx)
-					if err == nil {
-						err := destroyTask.Wait(ctx)
-						if err != nil {
-							e2eframework.Logf("Failed to wait for VM %s destruction: %v", brownfieldVMName, err)
-						} else {
-							e2eframework.Logf("Deleted brownfield VM %s", brownfieldVMName)
-						}
-					} else {
-						e2eframework.Logf("Failed to destroy VM %s: %v", brownfieldVMName, err)
-					}
-				}
-
-				if importOperation != nil {
-					err := svClusterClient.Delete(ctx, importOperation)
-					if err != nil && !apierrors.IsNotFound(err) {
-						Expect(err).ToNot(HaveOccurred(), "Failed to delete ImportOperation")
-					}
-				}
-
+				CleanupBrownfieldVM(ctx, BrownfieldVMCleanupInput{
+					VCenterAdminClient: vCenterAdminClient,
+					BrownfieldVMName:   brownfieldVMName,
+					BrownfieldVMMoID:   brownfieldVMMoID,
+					ImportOperation:    importOperation,
+					SVClusterClient:    svClusterClient,
+				})
 				vcenter.LogoutVimClient(vCenterAdminClient)
 			})
 
 			It("Import brownfield VM with hardware should succeed", func() {
 				By("Creating a brownfield VM by deploying from content library template using govmomi")
-				// Create REST client for content library operations.
-				restClient, err := vcenter.NewRestClient(ctx, vCenterAdminClient, testbed.AdminUsername, testbed.AdminPassword)
-				Expect(err).ToNot(HaveOccurred(), "Failed to create REST client")
 
-				// Find the photon image in the VirtualMachineImage CRs.
-				By("Finding photon template in content library")
+				result := ImportBrownfieldVM(ImportBrownfieldVMInput{
+					Ctx:                ctx,
+					Config:             config,
+					VCenterAdminClient: vCenterAdminClient,
+					SVClusterClient:    svClusterClient,
+					Namespace:          vmSvcNamespace,
+					ClusterMoID:        clusterMoID,
+					BrownfieldVMName:   brownfieldVMName,
+					StorageClassName:   clusterResources.StorageClassName,
+					VMClassName:        clusterResources.VMClassName,
+					ImportOpName:       fmt.Sprintf("import-%s", vmName),
+					BeforePowerOn: func(ctx context.Context, brownfieldVM *object.VirtualMachine) error {
+						By("Adding additional hardware to the brownfield VM before power-on and import")
 
-				photonImageDisplayName := "photon-5.0"
-				photonImageName, err := vmoperator.WaitForVirtualMachineImageName(ctx, &config.Config, svClusterClient, input.WCPNamespaceName, photonImageDisplayName)
-				Expect(err).ToNot(HaveOccurred(), "Failed to find photon image")
-
-				photonImage := vmopv1a5.VirtualMachineImage{}
-				err = svClusterClient.Get(ctx, ctrlclient.ObjectKey{
-					Name:      photonImageName,
-					Namespace: input.WCPNamespaceName,
-				}, &photonImage)
-				Expect(err).ToNot(HaveOccurred(), "Failed to get photon image")
-
-				libraryItemID := photonImage.Status.ProviderItemID
-				Expect(libraryItemID).ToNot(BeEmpty(), "Photon image has no ProviderItemID")
-				e2eframework.Logf("Found photon image %s with library item ID: %s", photonImageName, libraryItemID)
-
-				// Setup finder to get cluster and resources.
-				finder := find.NewFinder(vCenterAdminClient, false)
-				ccr, err := finder.ClusterComputeResource(ctx, clusterMoID)
-				Expect(err).ToNot(HaveOccurred(), "Failed to get cluster compute resource")
-				datastores, err := ccr.Datastores(ctx)
-				Expect(err).ToNot(HaveOccurred(), "Failed to get datastores")
-				Expect(len(datastores)).To(BeNumerically(">", 0), "Expected to have at least one datastore")
-
-				// Filter for shared datastores by checking the summary.
-				var datastore *object.Datastore
-
-				for _, ds := range datastores {
-					var dsMO mo.Datastore
-
-					err := ds.Properties(ctx, ds.Reference(), []string{"summary"}, &dsMO)
-					if err != nil {
-						continue
-					}
-
-					// Check if datastore is shared (accessible by multiple hosts)
-					// MultipleHostAccess indicates a shared datastore
-					if dsMO.Summary.MultipleHostAccess != nil && *dsMO.Summary.MultipleHostAccess {
-						datastore = ds
-
-						e2eframework.Logf("Found shared datastore: %s (type: %s)", dsMO.Summary.Name, dsMO.Summary.Type)
-
-						break
-					}
-				}
-
-				// Fallback to first datastore if no shared datastore found.
-				if datastore == nil {
-					datastore = datastores[0]
-					e2eframework.Logf("No shared datastore found, using first datastore: %s", datastore.Name())
-				}
-
-				// Get cluster resource pool.
-				resourcePool, err := ccr.ResourcePool(ctx)
-				Expect(err).ToNot(HaveOccurred(), "Failed to get cluster resource pool")
-
-				// Deploy VM from content library using govmomi's vcenter library.
-				By(fmt.Sprintf("Deploying VM %s from content library item %s", brownfieldVMName, libraryItemID))
-
-				// Create vcenter manager for deployment.
-				vcenterManager := govc.NewManager(restClient)
-
-				// Create deployment spec
-				deploySpec := govc.Deploy{
-					DeploymentSpec: govc.DeploymentSpec{
-						Name:               brownfieldVMName,
-						DefaultDatastoreID: datastore.Reference().Value,
-						AcceptAllEULA:      true,
-					},
-					Target: govc.Target{
-						ResourcePoolID: resourcePool.Reference().Value,
-					},
-				}
-
-				// Deploy the VM from the library item.
-				deployedVMRef, err := vcenterManager.DeployLibraryItem(ctx, libraryItemID, deploySpec)
-				Expect(err).ToNot(HaveOccurred(), "Failed to deploy VM from content library")
-				Expect(deployedVMRef).ToNot(BeNil(), "Deployed VM reference is nil")
-
-				brownfieldVMMoID = deployedVMRef.Value
-				e2eframework.Logf("Deployed brownfield VM %s with MoID: %s", brownfieldVMName, brownfieldVMMoID)
-
-				// Get the deployed VM object.
-				brownfieldVM := object.NewVirtualMachine(vCenterAdminClient, vimtypes.ManagedObjectReference{
-					Type:  "VirtualMachine",
-					Value: brownfieldVMMoID,
-				})
-
-				// Power on the VM.
-				By("Powering on the brownfield VM")
-
-				powerOnTask, err := brownfieldVM.PowerOn(ctx)
-				Expect(err).ToNot(HaveOccurred(), "Failed to power on VM")
-				err = powerOnTask.Wait(ctx)
-				Expect(err).ToNot(HaveOccurred(), "Failed to wait for VM power on")
-				e2eframework.Logf("Brownfield VM powered on")
-
-				By("Adding additional hardware to the brownfield VM using govmomi")
-				// We'll add various hardware components to test the import properly detects them:
-				// - Additional SCSI controller (ParaVirtual)
-				// - SATA controller
-				// - Additional disk on the new SCSI controller
-
-				// Get current VM devices
-				var moVM mo.VirtualMachine
-
-				err = brownfieldVM.Properties(ctx, brownfieldVM.Reference(), []string{"config.hardware.device", "datastore"}, &moVM)
-				Expect(err).ToNot(HaveOccurred(), "Failed to get VM properties")
-
-				var deviceChanges []vimtypes.BaseVirtualDeviceConfigSpec
-
-				// Add a ParaVirtual SCSI controller (bus 1).
-				// Use negative key so vCenter assigns it automatically.
-				pvscsiController := &vimtypes.ParaVirtualSCSIController{
-					VirtualSCSIController: vimtypes.VirtualSCSIController{
-						SharedBus: vimtypes.VirtualSCSISharingNoSharing,
-						VirtualController: vimtypes.VirtualController{
-							BusNumber: 1,
-							VirtualDevice: vimtypes.VirtualDevice{
-								Key: -1,
-							},
-						},
-					},
-				}
-
-				deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
-					Operation: vimtypes.VirtualDeviceConfigSpecOperationAdd,
-					Device:    pvscsiController,
-				})
-
-				e2eframework.Logf("Adding ParaVirtual SCSI controller (bus 1)")
-
-				// Add a SATA controller (bus 0).
-				// Use negative key so vCenter assigns it automatically.
-				sataController := &vimtypes.VirtualAHCIController{
-					VirtualSATAController: vimtypes.VirtualSATAController{
-						VirtualController: vimtypes.VirtualController{
-							BusNumber: 0,
-							VirtualDevice: vimtypes.VirtualDevice{
-								Key: -2,
-							},
-						},
-					},
-				}
-
-				deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
-					Operation: vimtypes.VirtualDeviceConfigSpecOperationAdd,
-					Device:    sataController,
-				})
-
-				e2eframework.Logf("Adding SATA controller (bus 0)")
-
-				// Add a small disk (5MB) attached to the new SCSI controller.
-				// Get the datastore for the disk
-				Expect(moVM.Datastore).ToNot(BeEmpty(), "VM has no datastores")
-				datastoreRef := moVM.Datastore[0]
-
-				disk := &vimtypes.VirtualDisk{
-					VirtualDevice: vimtypes.VirtualDevice{
-						Backing: &vimtypes.VirtualDiskFlatVer2BackingInfo{
-							DiskMode:        string(vimtypes.VirtualDiskModePersistent),
-							ThinProvisioned: new(true),
-							VirtualDeviceFileBackingInfo: vimtypes.VirtualDeviceFileBackingInfo{
-								Datastore: &datastoreRef,
-							},
-						},
-						ControllerKey: pvscsiController.Key,
-						UnitNumber:    vimtypes.NewInt32(0),
-					},
-					CapacityInBytes: 5 * 1024 * 1024, // 5MB
-				}
-
-				deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
-					Operation:     vimtypes.VirtualDeviceConfigSpecOperationAdd,
-					FileOperation: vimtypes.VirtualDeviceConfigSpecFileOperationCreate,
-					Device:        disk,
-				})
-
-				e2eframework.Logf("Adding 5MB disk on new SCSI controller")
-
-				// Reconfigure the VM with the new devices.
-				configSpec := vimtypes.VirtualMachineConfigSpec{
-					DeviceChange: deviceChanges,
-					ExtraConfig: []vimtypes.BaseOptionValue{
-						&vimtypes.OptionValue{
-							Key:   "test.brownfield.import",
-							Value: "true",
-						},
-					},
-				}
-
-				reconfigTask, err := brownfieldVM.Reconfigure(ctx, configSpec)
-				Expect(err).ToNot(HaveOccurred(), "Failed to reconfigure VM with new hardware")
-				err = reconfigTask.Wait(ctx)
-				Expect(err).ToNot(HaveOccurred(), "Failed to wait for VM reconfiguration")
-				e2eframework.Logf("Successfully added hardware to brownfield VM")
-
-				// Now import the brownfield VM using ImportOperation.
-				By("Creating ImportOperation to import the brownfield VM")
-
-				importOpName := fmt.Sprintf("import-%s", vmName)
-				importOperation = &mopv1a2.ImportOperation{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      importOpName,
-						Namespace: vmSvcNamespace,
-					},
-					Spec: mopv1a2.ImportOperationSpec{
-						VirtualMachineID: brownfieldVMMoID,
-						StorageClass:     clusterResources.StorageClassName,
-					},
-				}
-
-				Expect(svClusterClient.Create(ctx, importOperation)).To(Succeed(), "Failed to create ImportOperation")
-				e2eframework.Logf("Created ImportOperation: %s", importOpName)
-
-				// Wait for ImportOperation to complete.
-				By("Waiting for ImportOperation to complete")
-
-				var importedVMName string
-
-				Eventually(func(g Gomega) {
-					err := svClusterClient.Get(ctx, ctrlclient.ObjectKey{
-						Namespace: vmSvcNamespace,
-						Name:      importOpName,
-					}, importOperation)
-					g.Expect(err).ToNot(HaveOccurred(), "Failed to get ImportOperation")
-
-					// Check if operation completed.
-					for _, cond := range importOperation.Status.Conditions {
-						if cond.Type == "VirtualMachineCreated" && cond.Status == metav1.ConditionTrue {
-							importedVMName = importOperation.Status.VirtualMachineName
-							g.Expect(importedVMName).ToNot(BeEmpty(), "ImportOperation completed but VirtualMachineName is empty")
-
-							return
+						var moVM mo.VirtualMachine
+						if err := brownfieldVM.Properties(ctx, brownfieldVM.Reference(),
+							[]string{"config.hardware.device", "datastore"}, &moVM); err != nil {
+							return fmt.Errorf("failed to get VM properties: %w", err)
 						}
 
-						if cond.Type == "Failed" && cond.Status == metav1.ConditionTrue {
-							Fail(fmt.Sprintf("ImportOperation failed: %s", cond.Message))
+						var deviceChanges []vimtypes.BaseVirtualDeviceConfigSpec
+
+						// Add a ParaVirtual SCSI controller (bus 1).
+						pvscsiController := &vimtypes.ParaVirtualSCSIController{
+							VirtualSCSIController: vimtypes.VirtualSCSIController{
+								SharedBus: vimtypes.VirtualSCSISharingNoSharing,
+								VirtualController: vimtypes.VirtualController{
+									BusNumber: 1,
+									VirtualDevice: vimtypes.VirtualDevice{
+										Key: -1,
+									},
+								},
+							},
 						}
-					}
+						deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
+							Operation: vimtypes.VirtualDeviceConfigSpecOperationAdd,
+							Device:    pvscsiController,
+						})
+						e2eframework.Logf("Adding ParaVirtual SCSI controller (bus 1)")
 
-					g.Expect(false).To(BeTrue(), "ImportOperation not yet complete")
-				}, config.GetIntervals("default", "wait-virtual-machine-creation")...).
-					Should(Succeed(), "Timed out waiting for ImportOperation to complete")
+						// Add a SATA controller (bus 0).
+						sataController := &vimtypes.VirtualAHCIController{
+							VirtualSATAController: vimtypes.VirtualSATAController{
+								VirtualController: vimtypes.VirtualController{
+									BusNumber: 0,
+									VirtualDevice: vimtypes.VirtualDevice{
+										Key: -2,
+									},
+								},
+							},
+						}
+						deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
+							Operation: vimtypes.VirtualDeviceConfigSpecOperationAdd,
+							Device:    sataController,
+						})
+						e2eframework.Logf("Adding SATA controller (bus 0)")
 
-				e2eframework.Logf("ImportOperation completed, imported VM name: %s", importedVMName)
+						// Add a 5MB disk attached to the new SCSI controller.
+						if len(moVM.Datastore) == 0 {
+							return fmt.Errorf("VM has no datastores")
+						}
+						datastoreRef := moVM.Datastore[0]
+						disk := &vimtypes.VirtualDisk{
+							VirtualDevice: vimtypes.VirtualDevice{
+								Backing: &vimtypes.VirtualDiskFlatVer2BackingInfo{
+									DiskMode:        string(vimtypes.VirtualDiskModePersistent),
+									ThinProvisioned: new(true),
+									VirtualDeviceFileBackingInfo: vimtypes.VirtualDeviceFileBackingInfo{
+										Datastore: &datastoreRef,
+									},
+								},
+								ControllerKey: pvscsiController.Key,
+								UnitNumber:    vimtypes.NewInt32(0),
+							},
+							CapacityInBytes: 5 * 1024 * 1024, // 5MB
+						}
+						deviceChanges = append(deviceChanges, &vimtypes.VirtualDeviceConfigSpec{
+							Operation:     vimtypes.VirtualDeviceConfigSpecOperationAdd,
+							FileOperation: vimtypes.VirtualDeviceConfigSpecFileOperationCreate,
+							Device:        disk,
+						})
+						e2eframework.Logf("Adding 5MB disk on new SCSI controller")
+
+						configSpec := vimtypes.VirtualMachineConfigSpec{
+							DeviceChange: deviceChanges,
+							ExtraConfig: []vimtypes.BaseOptionValue{
+								&vimtypes.OptionValue{
+									Key:   "test.brownfield.import",
+									Value: "true",
+								},
+							},
+						}
+						reconfigTask, err := brownfieldVM.Reconfigure(ctx, configSpec)
+						if err != nil {
+							return fmt.Errorf("failed to reconfigure VM with new hardware: %w", err)
+						}
+						if err := reconfigTask.Wait(ctx); err != nil {
+							return fmt.Errorf("failed to wait for VM reconfiguration: %w", err)
+						}
+						e2eframework.Logf("Successfully added hardware to brownfield VM")
+						return nil
+					},
+				})
+				brownfieldVMMoID = result.BrownfieldVMMoID
+				importedVMName := result.ImportedVMName
+
+				// Retrieve the ImportOperation CR for cleanup.
+				importOperation = &mopv1a2.ImportOperation{}
+				_ = svClusterClient.Get(ctx, ctrlclient.ObjectKey{
+					Namespace: vmSvcNamespace,
+					Name:      fmt.Sprintf("import-%s", vmName),
+				}, importOperation)
 
 				vmYamls = append(vmYamls, manifestbuilders.GetVirtualMachineYamlA5(manifestbuilders.VirtualMachineYaml{
 					Namespace: vmSvcNamespace,
@@ -2219,6 +2104,138 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 							"Expected PVC %s to be bound", volName)
 					}
 				}
+			})
+
+			It("Import brownfield VM with shared SCSI controller and shared disk should succeed", Label("experimental"), func() {
+				skipper.SkipUnlessSupervisorCapabilityEnabled(ctx, clusterProxy, consts.MultiWriterDiskVMotionCapabilityName)
+
+				importOpName := fmt.Sprintf("import-shared-disk-%s", capiutil.RandomString(4))
+
+				result := ImportBrownfieldVM(ImportBrownfieldVMInput{
+					Ctx:                ctx,
+					Config:             config,
+					VCenterAdminClient: vCenterAdminClient,
+					SVClusterClient:    svClusterClient,
+					Namespace:          vmSvcNamespace,
+					ClusterMoID:        clusterMoID,
+					BrownfieldVMName:   brownfieldVMName,
+					StorageClassName:   eztStorageProfileName,
+					ImportOpName:       importOpName,
+					BeforePowerOn: func(ctx context.Context, vm *object.VirtualMachine) error {
+						By("Adding shared SCSI controller with physical sharing mode and shared disk")
+						if err := addSharedMultiWriterDisk(ctx, vm, eztStoragePolicyID); err != nil {
+							return err
+						}
+						e2eframework.Logf("Successfully added shared SCSI controller and shared disk to brownfield VM")
+						return nil
+					},
+				})
+
+				brownfieldVMMoID = result.BrownfieldVMMoID
+				importedVMName := result.ImportedVMName
+
+				// Retrieve the ImportOperation CR so AfterEach can clean it up.
+				importOperation = &mopv1a2.ImportOperation{}
+				_ = svClusterClient.Get(ctx, ctrlclient.ObjectKey{
+					Namespace: vmSvcNamespace,
+					Name:      importOpName,
+				}, importOperation)
+
+				vmYamls = append(vmYamls, manifestbuilders.GetVirtualMachineYamlA5(manifestbuilders.VirtualMachineYaml{
+					Namespace: vmSvcNamespace,
+					Name:      importedVMName,
+				}))
+
+				By("Verifying VM is imported and powered on")
+				vmoperator.WaitForVirtualMachinePowerState(ctx, config, svClusterClient, vmSvcNamespace, importedVMName, "PoweredOn")
+				e2eframework.Logf("Imported VM %s is powered on", importedVMName)
+
+				By("Verifying shared SCSI controller in VM status")
+				verifyCreatedControllersCount(ctx, config, svClusterClient, vmSvcNamespace, importedVMName, map[vmopv1a5.VirtualControllerType]int{
+					vmopv1a5.VirtualControllerTypeIDE:  2,
+					vmopv1a5.VirtualControllerTypeSCSI: 2,
+				})
+
+				Eventually(func(g Gomega) {
+					vm, err := utils.GetVirtualMachineA5(ctx, svClusterClient, vmSvcNamespace, importedVMName)
+					g.Expect(err).ToNot(HaveOccurred())
+
+					idx := slices.IndexFunc(vm.Spec.Hardware.SCSIControllers, func(c vmopv1a5.SCSIControllerSpec) bool {
+						return c.BusNumber == 1 && c.SharingMode == vmopv1a5.VirtualControllerSharingModePhysical
+					})
+					g.Expect(idx).To(BeNumerically(">=", 0), "Expected to find shared SCSI controller with physical sharing mode")
+					if idx >= 0 {
+						c := vm.Spec.Hardware.SCSIControllers[idx]
+						e2eframework.Logf("Found shared SCSI controller: bus=%d, sharingMode=%s", c.BusNumber, c.SharingMode)
+					}
+				}, config.GetIntervals("default", "wait-virtual-machine-condition-update")...).
+					Should(Succeed(), "Timed out waiting for shared controller verification")
+
+				conditions := []metav1.Condition{
+					{
+						Type:   "VirtualMachineUnmanagedVolumesBackfilled",
+						Status: metav1.ConditionTrue,
+					},
+					{
+						Type:   "VirtualMachineUnmanagedVolumesRegistered",
+						Status: metav1.ConditionTrue,
+					},
+				}
+				for _, condition := range conditions {
+					vmoperator.WaitOnVirtualMachineCondition(ctx, config, svClusterClient, vmSvcNamespace, importedVMName, condition)
+				}
+
+				By("Verifying shared disk volume has MultiWriter sharing mode")
+				Eventually(func(g Gomega) {
+					vm, err := utils.GetVirtualMachineA5(ctx, svClusterClient, vmSvcNamespace, importedVMName)
+					g.Expect(err).ToNot(HaveOccurred())
+
+					idx := slices.IndexFunc(vm.Status.Volumes, func(v vmopv1a5.VirtualMachineVolumeStatus) bool {
+						return v.ControllerType == vmopv1a5.VirtualControllerTypeSCSI &&
+							*v.ControllerBusNumber == 1 &&
+							*v.UnitNumber == 0
+					})
+					g.Expect(idx).To(BeNumerically(">=", 0), "Expected to find shared disk on SCSI bus 1 unit 0")
+					if idx >= 0 {
+						vol := vm.Status.Volumes[idx]
+						e2eframework.Logf("Found shared disk volume: name=%s, sharingMode=%s, controllerBus=%d, unit=%d",
+							vol.Name, vol.SharingMode, *vol.ControllerBusNumber, *vol.UnitNumber)
+						g.Expect(vol.SharingMode).To(Equal(vmopv1a5.VolumeSharingModeMultiWriter),
+							"Expected shared disk to have sharingMode=MultiWriter")
+					}
+				}, config.GetIntervals("default", "wait-virtual-machine-condition-update")...).
+					Should(Succeed(), "Timed out waiting for shared disk volume verification")
+
+				By("Verifying PVC for shared disk is created and bound")
+				Eventually(func(g Gomega) {
+					vm, err := utils.GetVirtualMachineA5(ctx, svClusterClient, vmSvcNamespace, importedVMName)
+					g.Expect(err).ToNot(HaveOccurred())
+
+					idx := slices.IndexFunc(vm.Status.Volumes, func(v vmopv1a5.VirtualMachineVolumeStatus) bool {
+						return v.ControllerType == vmopv1a5.VirtualControllerTypeSCSI &&
+							*v.ControllerBusNumber == 1 &&
+							*v.UnitNumber == 0
+					})
+					g.Expect(idx).To(BeNumerically(">=", 0), "Expected to find shared disk volume for PVC verification")
+					if idx >= 0 {
+						vol := vm.Status.Volumes[idx]
+						pvc := &corev1.PersistentVolumeClaim{}
+						g.Expect(svClusterClient.Get(ctx, ctrlclient.ObjectKey{
+							Namespace: vmSvcNamespace,
+							Name:      vol.Name,
+						}, pvc)).To(Succeed(), "Failed to get PVC %s", vol.Name)
+
+						e2eframework.Logf("PVC %s annotations: %v", vol.Name, pvc.Annotations)
+						e2eframework.Logf("PVC %s spec: storageClass=%s, volumeMode=%v, accessModes=%v",
+							vol.Name, *pvc.Spec.StorageClassName, *pvc.Spec.VolumeMode, pvc.Spec.AccessModes)
+
+						g.Expect(pvc.Status.Phase).To(Equal(corev1.ClaimBound),
+							"Expected PVC %s to be bound", vol.Name)
+					}
+				}, config.GetIntervals("default", "wait-virtual-machine-condition-update")...).
+					Should(Succeed(), "Timed out waiting for PVC verification")
+
+				e2eframework.Logf("Successfully verified shared disk import with MultiWriter sharing mode")
 			})
 		})
 
@@ -2404,6 +2421,111 @@ func VMHardwareSpec(ctx context.Context, inputGetter func() VMHardwareSpecInput)
 						vmopv1a5.VirtualControllerTypeIDE:  2,
 					},
 				)
+			})
+		})
+
+		Describe("VM with late-binding PVC powers on", Label("experimental", "core-functional"), func() {
+			const wffcSpecName = "wffc-poweron"
+
+			var (
+				wffcPVC    manifestbuilders.PVC
+				wffcVMName string
+				wffcSCName string
+			)
+
+			BeforeAll(func() {
+				skipper.SkipUnlessInfraIs(config.InfraConfig.InfraName, consts.WCP)
+
+				wffcSCName = clusterResources.StorageClassName + "-latebinding"
+
+				By("Verifying the late-binding storage class exists and uses WaitForFirstConsumer mode")
+				svClientSet := clusterProxy.GetClientSet()
+				sc, err := svClientSet.StorageV1().StorageClasses().
+					Get(ctx, wffcSCName, metav1.GetOptions{})
+				if err != nil {
+					Skip(fmt.Sprintf("storage class %q not found — skipping WFFC late-binding test: %v",
+						wffcSCName, err))
+				}
+				if sc.VolumeBindingMode == nil ||
+					*sc.VolumeBindingMode != storagev1.VolumeBindingWaitForFirstConsumer {
+					Skip(fmt.Sprintf(
+						"storage class %q has binding mode %v (not WaitForFirstConsumer) — skipping WFFC test",
+						wffcSCName, sc.VolumeBindingMode))
+				}
+
+				By("Ensuring the WFFC storage class is associated with the test namespace")
+				podVMOnStretchedSupervisorEnabled := utils.IsFssEnabled(ctx, svClusterClient,
+					config.GetVariable("VMOPNamespace"),
+					config.GetVariable("VMOPDeploymentName"),
+					config.GetVariable("VMOPManagerCommand"),
+					config.GetVariable("EnvFSSPodVMOnStretchedSupervisor"))
+				utils.EnsureStorageClassInNamespace(ctx, svClusterClient, vmSvcNamespace,
+					wffcSCName, podVMOnStretchedSupervisorEnabled, *config)
+			})
+
+			BeforeEach(func() {
+				wffcVMName = fmt.Sprintf("%s-%s", wffcSpecName, capiutil.RandomString(4))
+
+				volumePrefix := fmt.Sprintf("%s-pvc-%s", wffcVMName, capiutil.RandomString(4))
+				wffcPVC = manifestbuilders.PVC{
+					Namespace:        vmSvcNamespace,
+					VolumeName:       fmt.Sprintf("%s-volume", volumePrefix),
+					ClaimName:        fmt.Sprintf("%s-claim", volumePrefix),
+					StorageClassName: wffcSCName,
+					RequestSize:      "1Mi",
+				}
+			})
+
+			It("should bind the PVC and power on the VM within a reasonable timeout", func() {
+				By("Pre-creating a standalone PVC backed by the WFFC storage class")
+				pvcYaml := manifestbuilders.GetPersistentVolumeClaimYaml(wffcPVC)
+				Expect(clusterProxy.ApplyWithArgs(ctx, pvcYaml)).To(Succeed(),
+					"failed to pre-create WFFC PVC %q", wffcPVC.ClaimName)
+				pvcsYamls = append(pvcsYamls, pvcYaml)
+
+				By("Verifying the PVC remains Pending before any consumer is created")
+				Consistently(func(g Gomega) {
+					pvc := &corev1.PersistentVolumeClaim{}
+					g.Expect(svClusterClient.Get(ctx, types.NamespacedName{
+						Namespace: vmSvcNamespace,
+						Name:      wffcPVC.ClaimName,
+					}, pvc)).To(Succeed(), "failed to get PVC %q", wffcPVC.ClaimName)
+					g.Expect(pvc.Status.Phase).To(Equal(corev1.ClaimPending),
+						"WFFC PVC %q should remain Pending until a consumer is created, but got phase: %s",
+						wffcPVC.ClaimName, pvc.Status.Phase)
+				}, config.GetIntervals("default", "consistent-virtual-machine-condition")...).
+					Should(Succeed(), "WFFC PVC %q unexpectedly bound before VM was created", wffcPVC.ClaimName)
+
+				By("Creating a VirtualMachine that references the WFFC PVC")
+				wffcVMYaml := manifestbuilders.GetVirtualMachineYamlA5(manifestbuilders.VirtualMachineYaml{
+					Namespace:        vmSvcNamespace,
+					Name:             wffcVMName,
+					ImageName:        linuxVMIName,
+					VMClassName:      clusterResources.VMClassName,
+					StorageClassName: clusterResources.StorageClassName,
+					PVCs:             []manifestbuilders.PVC{wffcPVC},
+				})
+				vmYamls = append(vmYamls, wffcVMYaml)
+				Expect(clusterProxy.ApplyWithArgs(ctx, wffcVMYaml)).To(Succeed(),
+					"failed to create VirtualMachine %q with WFFC PVC", wffcVMName)
+
+				backfilledVolumes := getBackfilledVolumes(ctx, config,
+					svClusterClient, vmSvcNamespace, wffcVMName,
+					allDisksArePVCapabilityEnabled)
+				expectedVolumes := append([]string{wffcPVC.VolumeName}, backfilledVolumes...)
+				waitForVMAndBatchAttach(ctx, config, svClusterClient, vmSvcNamespace, wffcVMName, expectedVolumes)
+
+				By("Verifying the WFFC PVC is bound after the VM powers on")
+				pvc := &corev1.PersistentVolumeClaim{}
+				err := svClusterClient.Get(ctx, types.NamespacedName{
+					Namespace: vmSvcNamespace,
+					Name:      wffcPVC.ClaimName,
+				}, pvc)
+				Expect(err).ToNot(HaveOccurred(), "failed to get PVC %q", wffcPVC.ClaimName)
+				// This assertion should not fail if the VM has powered on with late-binding PVCs.
+				Expect(pvc.Status.Phase).To(Equal(corev1.ClaimBound),
+					"expected PVC %q to be bound, but got phase: %s",
+					wffcPVC.ClaimName, pvc.Status.Phase)
 			})
 		})
 	})
