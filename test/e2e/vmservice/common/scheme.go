@@ -19,6 +19,7 @@ import (
 	imageregistryv1alpha1 "github.com/vmware-tanzu/vm-operator/external/image-registry-operator/api/v1alpha1"
 	imageregistryv1alpha2 "github.com/vmware-tanzu/vm-operator/external/image-registry-operator/api/v1alpha2"
 	mopv1alpha2 "github.com/vmware-tanzu/vm-operator/external/mobility-operator/api/v1alpha2"
+	mopv1alpha4 "github.com/vmware-tanzu/vm-operator/external/mobility-operator/api/v1alpha4"
 	ncpv1alpha1 "github.com/vmware-tanzu/vm-operator/external/ncp/api/v1alpha1"
 	vpcv1alpha1 "github.com/vmware-tanzu/vm-operator/external/nsx-operator/api/vpc/v1alpha1"
 	spqv1 "github.com/vmware-tanzu/vm-operator/external/storage-policy-quota/api/v1alpha1"
@@ -79,6 +80,11 @@ func addSchemes(sc *runtime.Scheme) {
 	err = mopv1alpha2.AddToScheme(sc)
 	if err != nil {
 		e2eframework.Failf("unable add v1alpha2 Mobility Operator APIs to scheme: %v", err)
+	}
+
+	err = mopv1alpha4.AddToScheme(sc)
+	if err != nil {
+		e2eframework.Failf("unable add v1alpha4 Mobility Operator APIs to scheme: %v", err)
 	}
 
 	err = imageregistryv1alpha1.AddToScheme(sc)

@@ -807,6 +807,29 @@ func decodeGzipBase64(encoded string) (string, error) {
 	return string(decompressed), nil
 }
 
+// EncodeGzipBase64 gzip-compresses and base64-encodes a string, matching the
+// format written by VM Operator to ExtraConfig backup keys.
+func EncodeGzipBase64(data string) (string, error) {
+	var buf bytes.Buffer
+
+	w := gzip.NewWriter(&buf)
+	if _, err := w.Write([]byte(data)); err != nil {
+		return "", fmt.Errorf("failed to gzip data: %w", err)
+	}
+
+	if err := w.Close(); err != nil {
+		return "", fmt.Errorf("failed to close gzip writer: %w", err)
+	}
+
+	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
+}
+
+// DecodeGzipBase64 base64-decodes and gzip-decompresses a string, matching
+// the format read from VM Operator ExtraConfig backup keys.
+func DecodeGzipBase64(encoded string) (string, error) {
+	return decodeGzipBase64(encoded)
+}
+
 // WaitForBackupToComplete waits for the VM backup process to complete by verifying
 // that all PVCs in the VM spec have corresponding entries in the backup data stored
 // in the VM's ExtraConfig. This is exported for use in tests that perform in-place restores.
